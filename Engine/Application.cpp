@@ -19,6 +19,7 @@ App::Application::Application(HINSTANCE hInstance,std::tstring& tsWindowName,int
 	m_wcex.lpszMenuName = _T("MENU");
 	m_wcex.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
+
 	m_hInstance = hInstance;
 	m_tsWindowName = tsWindowName;
 	m_windowPosition.x = nX;
