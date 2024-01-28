@@ -4,6 +4,28 @@
 #include <windows.h>
 // C 런타임 헤더 파일입니다.
 #include <stdlib.h>
-#include <malloc.h>
 #include <memory.h>
+#include <malloc.h>
 #include <tchar.h>
+
+// C++ 런타임 헤더 파일입니다.
+#include <string>
+#include <memory>
+
+namespace std {
+#if defined(UNICODE)
+	using tstring = wstring;
+#else 
+	using tstring = string;
+#endif // !defined(UNICODE)
+}
+
+namespace App {
+	constexpr int DEFAULT_WIDTH = 860;
+	constexpr int DEFAULT_HEIGHT = 600;
+	struct WindowInfo {
+		HWND* hWnd{ nullptr };
+		int Width{ 0 };
+		int Height{ 0 };
+	};
+}
