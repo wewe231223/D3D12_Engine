@@ -438,3 +438,6 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio
 Output/Engine.idb
 *.idb
+Output/Engine.idb
+Output/Engine.idb
+*.idb
