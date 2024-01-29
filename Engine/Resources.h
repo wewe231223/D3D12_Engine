@@ -1,10 +1,9 @@
 #pragma once
-#include "Engine.h"
-
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++에서 생성한 포함 파일입니다.
 // 다음에서 사용 Client.rc
 
+#ifndef IDS_APP_TITLE
 #define IDS_APP_TITLE			103
 
 #define IDR_MAINFRAME			128
@@ -19,6 +18,7 @@
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
 #endif
+#endif 
 // 다음은 새 개체에 사용할 기본값입니다.
 //
 #ifdef APSTUDIO_INVOKED
@@ -31,3 +31,4 @@
 #define _APS_NEXT_SYMED_VALUE		110
 #endif
 #endif
+

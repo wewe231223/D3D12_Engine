@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "EnginePch.h"
 #include "Application.h"
 App::Application* App::Application::pMainApplication = nullptr;
 
@@ -12,12 +12,12 @@ App::Application::Application(HINSTANCE hInstance,std::tstring& tsWindowName,int
 	m_wcex.cbClsExtra = 0;
 	m_wcex.cbWndExtra = 0;
 	m_wcex.hInstance = hInstance;
-	m_wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
+	m_wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 	m_wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	m_wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	m_wcex.lpszClassName = _T("APPLICATION");
 	m_wcex.lpszMenuName = _T("MENU");
-	m_wcex.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	m_wcex.hIconSm = LoadIcon(hInstance,MAKEINTRESOURCE(IDI_SMALL));
 
 
 	m_hInstance = hInstance;
@@ -68,8 +68,9 @@ LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPA
 
 void App::Application::Loop(){
 	HACCEL hAccelTable = LoadAccelerators(m_hInstance, MAKEINTRESOURCE(IDC_CLIENT));
+	
 	MSG msg;
-
+	OutputDebugString(_T("Application Loop!"));
 	while (true) {
 		if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) break;
