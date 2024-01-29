@@ -16,22 +16,28 @@
     <Filter Include="헤더 파일\Resources">
       <UniqueIdentifier>{c33231c8-95aa-4026-968e-bfc5582b460c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\System">
+      <UniqueIdentifier>{101afb0b-9b8f-4c43-ae6d-9587ad0aea19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Pch">
+      <UniqueIdentifier>{f6150e77-0646-4e1b-bcce-bf04bbb055b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global\Engine.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnginePch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="System\Application.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>헤더 파일\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\Engine.h">
+      <Filter>헤더 파일\Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="EnginePch.h">
+      <Filter>헤더 파일\Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Application.h">
+      <Filter>헤더 파일\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
