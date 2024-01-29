@@ -23,11 +23,13 @@
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="System\Application.h" />
+    <ClInclude Include="System\Input.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />
+    <ClCompile Include="System\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Client.ico" />
