@@ -1,5 +1,6 @@
 #include "EnginePch.h"
 #include "Application.h"
+#include "Input.h"
 App::Application* App::Application::pMainApplication = nullptr;
 
 
@@ -39,6 +40,8 @@ void App::Application::Init(){
 
 		::ShowWindow(m_windowInfo.hWnd, SW_SHOW);
 		::UpdateWindow(m_windowInfo.hWnd);
+
+		INPUT->Init(m_windowInfo.hWnd, m_hInstance);
 
 	} catch (const System::Exeption& e){
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
@@ -88,6 +91,7 @@ void App::Application::Loop(){
 					DispatchMessage(&msg);
 				}
 			}
+			INPUT->Update();
 		}
 	}
 	catch (const System::Exeption& e) {

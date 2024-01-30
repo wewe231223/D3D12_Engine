@@ -46,7 +46,7 @@ namespace System {
 		KEY_STATE* m_mouseState{ nullptr };
 		
 		
-		IDirectInput* m_pDirectInput{ nullptr };
+		IDirectInput8* m_pDirectInput{ nullptr };
 		IDirectInputDevice8* m_pKeyBoardDevice{ nullptr };
 		IDirectInputDevice8* m_pMouseDevice{ nullptr };
 
@@ -66,5 +66,5 @@ namespace System {
 
 	};
 
-#define INPUT Input::GetInstance()
 }
+#define INPUT System::Input::GetInstance()
