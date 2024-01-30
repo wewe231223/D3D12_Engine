@@ -57,6 +57,9 @@
     <ClInclude Include="System\Exeption.h">
       <Filter>헤더 파일\System</Filter>
     </ClInclude>
+    <ClInclude Include="System\Timer.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -69,6 +72,9 @@
       <Filter>소스 파일\System</Filter>
     </ClCompile>
     <ClCompile Include="System\Exeption.cpp">
+      <Filter>소스 파일\System</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Timer.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
   </ItemGroup>

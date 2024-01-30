@@ -26,6 +26,7 @@
     <ClInclude Include="System\Application.h" />
     <ClInclude Include="System\Exeption.h" />
     <ClInclude Include="System\Input.h" />
+    <ClInclude Include="System\Timer.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +34,7 @@
     <ClCompile Include="System\Application.cpp" />
     <ClCompile Include="System\Exeption.cpp" />
     <ClCompile Include="System\Input.cpp" />
+    <ClCompile Include="System\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Client.ico" />
