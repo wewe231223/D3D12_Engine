@@ -28,6 +28,9 @@
     <Filter Include="소스 파일\Pch">
       <UniqueIdentifier>{a9764363-858e-4551-929b-60d1e576b97a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\External">
+      <UniqueIdentifier>{eaa94987-d149-4635-b0e3-4806df486f38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -48,6 +51,12 @@
     <ClInclude Include="System\Input.h">
       <Filter>헤더 파일\System</Filter>
     </ClInclude>
+    <ClInclude Include="External\d3dx12.h">
+      <Filter>헤더 파일\External</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Exeption.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -57,6 +66,9 @@
       <Filter>소스 파일\Pch</Filter>
     </ClCompile>
     <ClCompile Include="System\Input.cpp">
+      <Filter>소스 파일\System</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Exeption.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
   </ItemGroup>

@@ -19,16 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="External\d3dx12.h" />
     <ClInclude Include="Global\Engine.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="System\Application.h" />
+    <ClInclude Include="System\Exeption.h" />
     <ClInclude Include="System\Input.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />
+    <ClCompile Include="System\Exeption.cpp" />
     <ClCompile Include="System\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +139,9 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Enginepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>/Ylsymbol %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

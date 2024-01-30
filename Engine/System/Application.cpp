@@ -29,40 +29,48 @@ App::Application::Application(HINSTANCE hInstance,std::tstring& tsWindowName,int
 }
 
 void App::Application::Init(){
-	RegisterClassExW(&m_wcex);
+	try{
+		RegisterClassExW(&m_wcex);
 
+		m_windowInfo.hWnd = CreateWindowW(_T("APPLICATION"), m_tsWindowName.c_str(), WS_OVERLAPPEDWINDOW,
+			m_windowPosition.x, m_windowPosition.y, m_windowInfo.Width, m_windowInfo.Height, nullptr, nullptr, m_hInstance, nullptr);
 
-	HWND WindowHandle = CreateWindowW(_T("APPLICATION"), m_tsWindowName.c_str() , WS_OVERLAPPEDWINDOW,
-		m_windowPosition.x, m_windowPosition.y,m_windowInfo.Width, m_windowInfo.Height, nullptr, nullptr, m_hInstance, nullptr);
+		if (!m_windowInfo.hWnd) exit(EXIT_FAILURE);
 
-	if (!WindowHandle) exit(EXIT_FAILURE);
+		::ShowWindow(m_windowInfo.hWnd, SW_SHOW);
+		::UpdateWindow(m_windowInfo.hWnd);
 
-	::ShowWindow(WindowHandle, SW_SHOW);
-	::UpdateWindow(WindowHandle);
+	} catch (const System::Exeption& e){
+		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
+	}
 
-	m_windowInfo.hWnd = &WindowHandle;
 }
 
 LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam){
-	switch (nMessage){
-	case WM_COMMAND:
-	{
-		int wmId = LOWORD(wParam);
-		switch (wmId) {
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
+	try {
+		switch (nMessage) {
+		case WM_COMMAND:
+		{
+			int wmId = LOWORD(wParam);
+			switch (wmId) {
+			case IDM_EXIT:
+				DestroyWindow(hWnd);
+				break;
+			default:
+				return DefWindowProc(hWnd, nMessage, wParam, lParam);
+			}
+		}
+		break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
 			break;
 		default:
 			return DefWindowProc(hWnd, nMessage, wParam, lParam);
 		}
+	} catch (const System::Exeption& e) {
+		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
 	}
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, nMessage, wParam, lParam);
-	}
+
 	return 0;
 }
 
@@ -71,14 +79,19 @@ void App::Application::Loop(){
 	
 	MSG msg;
 	OutputDebugString(_T("Application Loop!"));
-	while (true) {
-		if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-			if (msg.message == WM_QUIT) break;
-			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
+	try {
+		while (true) {
+			if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+				if (msg.message == WM_QUIT) break;
+				if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
 			}
 		}
+	}
+	catch (const System::Exeption& e) {
+		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
 	}
 }
 

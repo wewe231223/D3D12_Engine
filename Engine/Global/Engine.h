@@ -1,16 +1,37 @@
 #pragma once
-#define WIN32_LEAN_AND_MEAN             // °ÅÀÇ »ç¿ëµÇÁö ¾Ê´Â ³»¿ëÀ» Windows Çì´õ¿¡¼­ Á¦¿ÜÇÕ´Ï´Ù.
-// Windows Çì´õ ÆÄÀÏ
+#define WIN32_LEAN_AND_MEAN             // ê±°ì˜ ì‚¬ìš©ë˜ì§€ ì•ŠëŠ” ë‚´ìš©ì„ Windows í—¤ë”ì—ì„œ ì œì™¸í•©ë‹ˆë‹¤.
+// Windows í—¤ë” íŒŒì¼
 #include <windows.h>
-// C ·±Å¸ÀÓ Çì´õ ÆÄÀÏÀÔ´Ï´Ù.
+// C ëŸ°íƒ€ì„ í—¤ë” íŒŒì¼ì…ë‹ˆë‹¤.
 #include <stdlib.h>
 #include <memory.h>
 #include <malloc.h>
 #include <tchar.h>
 
-// C++ ·±Å¸ÀÓ Çì´õ ÆÄÀÏÀÔ´Ï´Ù.
+// C++ ëŸ°íƒ€ì„ í—¤ë” íŒŒì¼ì…ë‹ˆë‹¤.
 #include <string>
 #include <memory>
+
+// DirectX ëŸ°íƒ€ì„ í—¤ë” íŒŒì¼ì…ë‹ˆë‹¤.
+#include <wrl.h>
+#include <d3d12.h>
+#include "External/d3dx12.h"
+#include <dxgi1_4.h>
+#include <D3Dcompiler.h>
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXColors.h>
+#include <DirectXCollision.h>
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
+#include "comdef.h"
+
+// DirectX ë¼ì´ë¸ŒëŸ¬ë¦¬ ë§í¬ 
+#pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
 
 namespace std {
 #if defined(UNICODE)
@@ -24,8 +45,10 @@ namespace App {
 	constexpr int DEFAULT_WIDTH = 860;
 	constexpr int DEFAULT_HEIGHT = 600;
 	struct WindowInfo {
-		HWND* hWnd{ nullptr };
+		HWND hWnd{ nullptr };
 		int Width{ 0 };
 		int Height{ 0 };
 	};
 }
+
+#include "System/Exeption.h"
