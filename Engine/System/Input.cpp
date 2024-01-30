@@ -73,11 +73,7 @@ namespace System {
 			while(m_pMouseDevice->Acquire() == DIERR_INPUTLOST);
 		}
 
-		if (KeyState[DIK_ESCAPE] & 0x80) {
-			PostQuitMessage(0);
-		}
 		
-
 		for (UINT i = 0; i < 256; ++i) {
 			if (KeyState[i] & 0x80) {
 				if (m_keyboardState[i] == KEY_STATE::NONE or m_keyboardState[i] == KEY_STATE::RELEASE) {
@@ -106,17 +102,14 @@ namespace System {
 			if (MouseState.rgbButtons[i] & 0x80) {
 				if (m_mouseState[i] == KEY_STATE::NONE or m_mouseState[i] == KEY_STATE::RELEASE) {
 					m_mouseState[i] = KEY_STATE::DOWN;
-					printf("%d = DOWN\n", i);
 				}
 				else if (m_mouseState[i] == KEY_STATE::DOWN) {
 					m_mouseState[i] = KEY_STATE::PRESS;
-					printf("%d = PRESS\n", i);
 				}
 			}
 			else {
 				if (m_mouseState[i] == KEY_STATE::PRESS or m_mouseState[i] == KEY_STATE::DOWN) {
 					m_mouseState[i] = KEY_STATE::RELEASE;
-					printf("%d = RELEASE\n", i);
 				}
 				else if (m_mouseState[i] == KEY_STATE::RELEASE) {
 					m_mouseState[i] = KEY_STATE::NONE;
@@ -160,7 +153,7 @@ namespace System {
 			m_pDirectInput->Release();
 			m_pDirectInput = NULL;
 		}
-		delete Input::GetInstance();
+		delete Input::m_pInstance;
 	}
 
 

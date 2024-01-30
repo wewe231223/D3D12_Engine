@@ -4,7 +4,7 @@
 App::Application* App::Application::pMainApplication = nullptr;
 
 
-App::Application::Application(HINSTANCE hInstance,std::tstring& tsWindowName,int nWidth, int nHeight, int nX, int nY) {
+App::Application::Application(HINSTANCE hInstance,LPCTSTR lpctsWindowName,int nWidth, int nHeight, int nX, int nY) {
 	::ZeroMemory(&m_wcex, sizeof(WNDCLASSEXW));
 
 	m_wcex.cbSize = sizeof(WNDCLASSEXW);
@@ -22,11 +22,15 @@ App::Application::Application(HINSTANCE hInstance,std::tstring& tsWindowName,int
 
 
 	m_hInstance = hInstance;
-	m_tsWindowName = tsWindowName;
+	m_tsWindowName = lpctsWindowName;
 	m_windowPosition.x = nX;
 	m_windowPosition.y = nY;
 	m_windowInfo.Width = nWidth;
 	m_windowInfo.Height = nHeight;
+}
+
+App::Application::~Application(){
+
 }
 
 void App::Application::Init(){
@@ -81,7 +85,6 @@ void App::Application::Loop(){
 	HACCEL hAccelTable = LoadAccelerators(m_hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 	
 	MSG msg;
-	OutputDebugString(_T("Application Loop!"));
 	try {
 		while (true) {
 			if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -97,6 +100,8 @@ void App::Application::Loop(){
 	catch (const System::Exeption& e) {
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
 	}
+
+	return INPUT->Terminate();
 }
 
 LRESULT App::MainProcedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam){

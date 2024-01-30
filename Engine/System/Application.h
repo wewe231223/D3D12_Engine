@@ -7,10 +7,11 @@ namespace App {
 		Application() = default;
 		Application(
 			HINSTANCE hInstance,
-			std::tstring& tsWindowName,
+			LPCTSTR lpctsWindowName,
 			int nWidth = DEFAULT_WIDTH,
 			int nHeight = DEFAULT_HEIGHT,
 			int nX =  0,int nY = 0);
+		~Application();
 	private:
 		HINSTANCE m_hInstance{};
 		WNDCLASSEXW m_wcex{};
