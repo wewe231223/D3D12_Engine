@@ -1,6 +1,7 @@
 #include "EnginePch.h"
 #include "Application.h"
 #include "Input.h"
+#include "Timer.h"
 App::Application* App::Application::pMainApplication = nullptr;
 
 
@@ -46,6 +47,8 @@ void App::Application::Init(){
 		::UpdateWindow(m_windowInfo.hWnd);
 
 		INPUT->Init(m_windowInfo.hWnd, m_hInstance);
+		m_timer = std::make_unique<System::Timer>(m_windowInfo.hWnd);
+		m_timer->Reset();
 
 	} catch (const System::Exeption& e){
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
@@ -83,8 +86,9 @@ LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPA
 
 void App::Application::Loop(){
 	HACCEL hAccelTable = LoadAccelerators(m_hInstance, MAKEINTRESOURCE(IDC_CLIENT));
-	
-	MSG msg;
+	MSG msg{};
+	m_timer->Start();
+
 	try {
 		while (true) {
 			if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -95,6 +99,7 @@ void App::Application::Loop(){
 				}
 			}
 			INPUT->Update();
+			m_timer->Update();
 		}
 	}
 	catch (const System::Exeption& e) {
@@ -113,4 +118,5 @@ void App::SetMainApplication(Application* pApp){
 	if (App::Application::pMainApplication) return;
 	App::Application::pMainApplication = pApp;
 }
+
 

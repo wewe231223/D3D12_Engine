@@ -1,7 +1,7 @@
 #include "EnginePch.h"
 #include "Timer.h"
 namespace System {
-	Timer::Timer() {
+	Timer::Timer(HWND hWnd) : m_hWnd(hWnd){
 		INT64 CountsPerSecond{};
 		::QueryPerformanceFrequency((LARGE_INTEGER*)&CountsPerSecond);
 		m_fSecondsPerCount = 1.f / static_cast<float>(CountsPerSecond);
@@ -59,14 +59,34 @@ namespace System {
 			return;
 		}
 
+		m_nFrameCount++;
+		
+
 		INT64 CurrentTime{};
 		::QueryPerformanceCounter((LARGE_INTEGER*)&CurrentTime);
 		m_nCurrentTime = CurrentTime;
 		m_fDeltaTime = (m_nCurrentTime - m_nPrevTime) * m_fSecondsPerCount;
 		m_nPrevTime = CurrentTime;
-
+																											
 		if (m_fDeltaTime < 0.f) {
 			m_fDeltaTime = 0.f;
+		}
+
+
+		if (GetTimeElapsed() - m_fFpsTimeElapsed >= 1.f) {
+			float fps = static_cast<float>(m_nFrameCount);
+
+			m_nFrameCount = 0;
+			m_fFpsTimeElapsed += 1.f;
+
+			std::tstring FpsStr = _T("FPS : ");
+#if defined(UNICODE) 
+			FpsStr += std::to_wstring(fps);
+#else 
+			FpsStr += std::to_string(fps);
+#endif // !defined(UNICODE) 
+
+			::SetWindowText(m_hWnd, FpsStr.c_str());		
 		}
 	}
 }

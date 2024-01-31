@@ -1,4 +1,8 @@
 #pragma once
+namespace System {
+	class Timer;
+}
+
 namespace App {
 	class Application {
 		friend LRESULT CALLBACK MainProcedure(HWND,UINT,WPARAM,LPARAM);
@@ -18,6 +22,8 @@ namespace App {
 		WindowInfo m_windowInfo{};
 		POINT m_windowPosition{};
 		std::tstring m_tsWindowName{};
+	private:
+		std::unique_ptr<System::Timer> m_timer{ nullptr };
 	private:
 		static Application* pMainApplication;
 	public:

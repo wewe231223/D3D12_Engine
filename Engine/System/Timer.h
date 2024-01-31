@@ -2,8 +2,10 @@
 namespace System {
 	class Timer {
 	public:
-		Timer();
+		Timer(HWND hWnd);
 	private:
+		HWND m_hWnd{};
+
 		float m_fSecondsPerCount{};
 		float m_fDeltaTime{ -1.f };
 
@@ -18,9 +20,11 @@ namespace System {
 		float m_fFpsTimeElapsed{ 0.f };
 		int m_nFrameCount{ 0 };
 
+
 	public:
 		float GetTimeElapsed() const;
 		float GetDeltaTime() const;
+
 
 		void Reset();
 		void Start();
