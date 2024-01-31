@@ -119,4 +119,18 @@ void App::SetMainApplication(Application* pApp){
 	App::Application::pMainApplication = pApp;
 }
 
+App::DirectXApplication::DirectXApplication(HINSTANCE hInstance, LPCTSTR lpctsWindowName, int nWidth, int nHeight, int nX, int nY) : Application(hInstance, lpctsWindowName, nWidth, nHeight, nX, nY) {
+	
+}
 
+App::DirectXApplication::~DirectXApplication(){
+
+}
+
+void App::DirectXApplication::Init(){
+	Application::Init();
+}
+
+void App::DirectXApplication::Loop(){
+	Application::Loop();
+}

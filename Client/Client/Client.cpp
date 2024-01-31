@@ -4,7 +4,7 @@
 #include "ClientPch.h"
 #include "System/Application.h"
 
-std::unique_ptr<App::Application> m_app{};
+std::unique_ptr<App::DirectXApplication> m_app{};
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -15,7 +15,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #endif // !defined(DEBUG) | defined(_DEBUG)
     
  
-    m_app = std::make_unique<App::Application>(hInstance,_T("Client"));
+    m_app = std::make_unique<App::DirectXApplication>(hInstance,_T("Client"));
     App::SetMainApplication(m_app.get());
 
     m_app->Init();
