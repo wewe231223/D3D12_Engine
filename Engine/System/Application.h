@@ -1,10 +1,10 @@
 #pragma once
 namespace System {
 	class Timer;
+	class Engine;
 }
 
 namespace App {
-	//////////////////////////////////////////////////Default Application/////////////////////////////////////////////////////
 	class Application {
 		friend LRESULT CALLBACK MainProcedure(HWND,UINT,WPARAM,LPARAM);
 		friend void SetMainApplication(Application*);
@@ -24,41 +24,19 @@ namespace App {
 		POINT m_windowPosition{};
 		std::tstring m_tsWindowName{};
 	protected:
+		std::unique_ptr<System::Engine> m_engine{ nullptr };
 		std::unique_ptr<System::Timer> m_timer{ nullptr };
 	protected:
 		static Application* pMainApplication;
 	public:
 		 LRESULT Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam);
 	public:
-		virtual void Init();
+		virtual void Init(System::Engine* pEngine);
 		virtual void Loop();
 
 	};
 	LRESULT CALLBACK MainProcedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam);
 	void SetMainApplication(Application* pApp);
-	//////////////////////////////////////////////////Default Application/////////////////////////////////////////////////////
-	//////////////////////////////////////////////////DirectX Application/////////////////////////////////////////////////////
-
-	class DirectXApplication : public Application { 
-		friend LRESULT CALLBACK MainProcedure(HWND, UINT, WPARAM, LPARAM);
-		friend void SetMainApplication(Application*);
-	public:
-		DirectXApplication() = default;
-		DirectXApplication(
-			HINSTANCE hInstance,
-			LPCTSTR lpctsWindowName,
-			int nWidth = DEFAULT_WIDTH,
-			int nHeight = DEFAULT_HEIGHT,
-			int nX = 0, int nY = 0
-		);
-		~DirectXApplication();
-	public:
-		virtual void Init() override;
-		virtual void Loop() override;
-
-	};
-
-
-
+	
 }
 

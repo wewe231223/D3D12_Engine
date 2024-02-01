@@ -1,5 +1,6 @@
 #include "EnginePch.h"
 #include "Application.h"
+#include "Engine/Engine.h"
 #include "Input.h"
 #include "Timer.h"
 App::Application* App::Application::pMainApplication = nullptr;
@@ -34,7 +35,7 @@ App::Application::~Application(){
 
 }
 
-void App::Application::Init(){
+void App::Application::Init(System::Engine* pEngine){
 	try{
 		RegisterClassExW(&m_wcex);
 
@@ -45,6 +46,8 @@ void App::Application::Init(){
 
 		::ShowWindow(m_windowInfo.hWnd, SW_SHOW);
 		::UpdateWindow(m_windowInfo.hWnd);
+
+		m_engine = std::make_unique<System::Engine>(pEngine);
 
 		INPUT->Init(m_windowInfo.hWnd, m_hInstance);
 		m_timer = std::make_unique<System::Timer>(m_windowInfo.hWnd);
@@ -58,25 +61,28 @@ void App::Application::Init(){
 
 LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam){
 	try {
-		switch (nMessage) {
-		case WM_COMMAND:
-		{
-			int wmId = LOWORD(wParam);
-			switch (wmId) {
-			case IDM_EXIT:
-				DestroyWindow(hWnd);
-				break;
-			default:
-				return DefWindowProc(hWnd, nMessage, wParam, lParam);
+		
+		switch (nMessage){
+		case WM_ACTIVATE:
+			if (LOWORD(wParam) == WA_INACTIVE) {
+				m_windowInfo.Paused = true;
+				m_timer->Stop();
 			}
-		}
-		break;
-		case WM_DESTROY:
-			PostQuitMessage(0);
+			else {
+				m_windowInfo.Paused = false;
+				m_timer->Start();
+			}
 			break;
+		case WM_SIZE:
+			m_windowInfo.Resized = true;
+			m_windowInfo.Width = LOWORD(lParam);
+			m_windowInfo.Height = HIWORD(lParam);
+			
 		default:
-			return DefWindowProc(hWnd, nMessage, wParam, lParam);
+			break;
 		}
+
+
 	} catch (const System::Exeption& e) {
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
 	}
@@ -117,20 +123,4 @@ LRESULT App::MainProcedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lPara
 void App::SetMainApplication(Application* pApp){
 	if (App::Application::pMainApplication) return;
 	App::Application::pMainApplication = pApp;
-}
-
-App::DirectXApplication::DirectXApplication(HINSTANCE hInstance, LPCTSTR lpctsWindowName, int nWidth, int nHeight, int nX, int nY) : Application(hInstance, lpctsWindowName, nWidth, nHeight, nX, nY) {
-	
-}
-
-App::DirectXApplication::~DirectXApplication(){
-
-}
-
-void App::DirectXApplication::Init(){
-	Application::Init();
-}
-
-void App::DirectXApplication::Loop(){
-	Application::Loop();
 }
