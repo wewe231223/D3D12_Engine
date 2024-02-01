@@ -48,8 +48,6 @@ namespace App {
 		HWND hWnd{ nullptr };
 		int Width{ 0 };
 		int Height{ 0 };
-		bool Paused{ false };
-		bool Resized{ false };
 	};
 }
 
