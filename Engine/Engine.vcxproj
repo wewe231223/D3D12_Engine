@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\d3dx12.h" />
-    <ClInclude Include="Global\Engine.h" />
+    <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="System\Application.h" />

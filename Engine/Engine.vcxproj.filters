@@ -39,7 +39,7 @@
     <ClInclude Include="Resources.h">
       <Filter>헤더 파일\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Global\Engine.h">
+    <ClInclude Include="Global\EngineHeader.h">
       <Filter>헤더 파일\Pch</Filter>
     </ClInclude>
     <ClInclude Include="EnginePch.h">
