@@ -1,5 +1,6 @@
 #include "EnginePch.h"
 #include "Application.h"
+#include "EngineCore/Engine.h"
 #include "Input.h"
 #include "Timer.h"
 App::Application* App::Application::pMainApplication = nullptr;
@@ -34,7 +35,7 @@ App::Application::~Application(){
 
 }
 
-void App::Application::Init(){
+void App::Application::Init(std::shared_ptr<System::Engine> pEngine) {
 	try{
 		RegisterClassExW(&m_wcex);
 
@@ -49,6 +50,8 @@ void App::Application::Init(){
 		INPUT->Init(m_windowInfo.hWnd, m_hInstance);
 		m_timer = std::make_unique<System::Timer>(m_windowInfo.hWnd);
 		m_timer->Reset();
+
+		m_engine = pEngine;
 
 	} catch (const System::Exeption& e){
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);

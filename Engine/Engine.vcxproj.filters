@@ -66,7 +66,7 @@
     <ClInclude Include="System\Timer.h">
       <Filter>헤더 파일\System</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\EngineCore.h">
+    <ClInclude Include="EngineCore\Engine.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClCompile Include="System\Timer.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\EngineCore.cpp">
+    <ClCompile Include="EngineCore\Engine.cpp">
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
   </ItemGroup>
