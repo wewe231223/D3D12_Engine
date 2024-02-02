@@ -35,7 +35,7 @@ App::Application::~Application(){
 
 }
 
-void App::Application::Init(std::shared_ptr<System::Engine> pEngine) {
+void App::Application::Init(std::shared_ptr<Engine::Engine> pEngine) {
 	try{
 		RegisterClassExW(&m_wcex);
 

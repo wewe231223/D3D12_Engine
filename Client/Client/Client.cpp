@@ -19,7 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     m_app = std::make_unique<App::Application>(hInstance,_T("Client"));
     App::SetMainApplication(m_app.get());
 
-    m_app->Init(std::make_shared<System::Engine>());
+    m_app->Init(std::make_shared<Engine::DirectXEngine>());
     m_app->Loop();
 
     m_app.reset();

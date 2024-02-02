@@ -11,6 +11,7 @@
 // C++ 런타임 헤더 파일입니다.
 #include <string>
 #include <memory>
+#include <vector>
 
 // DirectX 런타임 헤더 파일입니다.
 #include <wrl.h>
@@ -25,6 +26,8 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include "comdef.h"
+
+using Microsoft::WRL::ComPtr;
 
 // DirectX 라이브러리 링크 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -51,6 +54,13 @@ namespace App {
 	};
 }
 
+#define ReleaseCom(x)	\
+	if(x){				\
+		x->Release();	\
+		x = 0;			\
+	}
+
+
 #if defined(_DEBUG) || defined(DEBUG)
 #include <crtdbg.h>
 #define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
@@ -58,3 +68,4 @@ namespace App {
 #endif // !defined(_DEBUG) || defined(DEBUG)
 
 #include "System/Exeption.h"
+

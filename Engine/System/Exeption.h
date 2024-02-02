@@ -21,3 +21,5 @@ namespace System {
 	HRESULT hr_ = (hr);															\
 	if (FAILED(hr_)) { throw System::Exeption(hr_, L#hr, _T(__FILE__), __LINE__); }	\
 }
+
+

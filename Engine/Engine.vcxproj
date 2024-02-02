@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EngineCore\CommandQueue.h" />
+    <ClInclude Include="EngineCore\Device.h" />
     <ClInclude Include="EngineCore\Engine.h" />
     <ClInclude Include="External\d3dx12.h" />
     <ClInclude Include="Global\EngineHeader.h" />
@@ -31,6 +33,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineCore\CommandQueue.cpp" />
+    <ClCompile Include="EngineCore\Device.cpp" />
     <ClCompile Include="EngineCore\Engine.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />

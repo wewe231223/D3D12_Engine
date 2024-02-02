@@ -1,19 +1,34 @@
 #include "EnginePch.h"
 #include "Engine.h"
 
-namespace System {
-	Engine::Engine(){
-	}
+namespace Engine {
+
 	Engine::~Engine(){
-	}
-	void Engine::Initialize(){
-	}
-	void Engine::Render(){
-	}
-	void Engine::Update(){
-	}
-	void Engine::Resize(){
+
 	}
 
+	DirectXEngine::DirectXEngine()
+	{
+	}
+
+	DirectXEngine::~DirectXEngine()
+	{
+	}
+
+	void DirectXEngine::Initialize()
+	{
+	}
+
+	void DirectXEngine::Render()
+	{
+	}
+
+	void DirectXEngine::Update()
+	{
+	}
+
+	void DirectXEngine::Resize()
+	{
+	}
 
 }

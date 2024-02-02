@@ -69,6 +69,12 @@
     <ClInclude Include="EngineCore\Engine.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
+    <ClInclude Include="EngineCore\Device.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCore\CommandQueue.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -87,6 +93,12 @@
       <Filter>소스 파일\System</Filter>
     </ClCompile>
     <ClCompile Include="EngineCore\Engine.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\Device.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\CommandQueue.cpp">
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
   </ItemGroup>
