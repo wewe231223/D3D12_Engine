@@ -1,4 +1,4 @@
-namespace Engine {
+namespace EngineFramework {
 	class Device {
 	public:
 		Device() = default;

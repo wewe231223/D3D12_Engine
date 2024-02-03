@@ -2,7 +2,7 @@
 namespace System {
 	class Timer;
 }
-namespace Engine {
+namespace EngineFramework {
 	class Engine;
 }
 namespace App {
@@ -26,13 +26,13 @@ namespace App {
 		std::tstring m_tsWindowName{};
 	protected:
 		std::unique_ptr<System::Timer> m_timer{ nullptr };
-		std::shared_ptr<Engine::Engine> m_engine{ nullptr };
+		std::shared_ptr<EngineFramework::Engine> m_engine{ nullptr };
 	protected:
 		static Application* pMainApplication;
 	public:
 		 LRESULT Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam);
 	public:
-		virtual void Init(std::shared_ptr<Engine::Engine> pEngine);
+		virtual void Init(std::shared_ptr<EngineFramework::Engine> pEngine);
 		virtual void Loop();
 
 	};

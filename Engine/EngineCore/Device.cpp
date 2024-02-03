@@ -1,7 +1,7 @@
 #include "EnginePch.h"
 #include "Device.h"
 
-namespace Engine {
+namespace EngineFramework {
 	Device::~Device(){
 
 	}

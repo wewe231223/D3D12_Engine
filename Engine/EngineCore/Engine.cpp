@@ -1,7 +1,7 @@
 #include "EnginePch.h"
 #include "Engine.h"
 
-namespace Engine {
+namespace EngineFramework {
 
 	Engine::~Engine(){
 

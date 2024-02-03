@@ -1,7 +1,7 @@
 #include "EnginePch.h"
 #include "CommandQueue.h"
 
-namespace Engine {
+namespace EngineFramework {
 	CommandQueue::~CommandQueue(){
 
 	}

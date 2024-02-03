@@ -1,4 +1,4 @@
-namespace Engine {
+namespace EngineFramework {
 	class Engine abstract{
 	public:
 		Engine() = default;
