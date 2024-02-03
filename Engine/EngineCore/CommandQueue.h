@@ -11,7 +11,7 @@ namespace Engine {
 		ComPtr<ID3D12Fence> m_d3dFence{ nullptr };
 
 	public:
-		void Initialize();
+		void Initialize(ComPtr<ID3D12Device> pd3dDevice);
 
 	};
 }
