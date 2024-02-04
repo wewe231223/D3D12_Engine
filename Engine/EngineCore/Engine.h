@@ -15,7 +15,8 @@ namespace EngineFramework {
 		DirectXEngine();
 		virtual ~DirectXEngine() override;
 	private:
-		ComPtr<ID3D12Device> m_d3dDevice{ nullptr };
+		std::unique_ptr<class Device> m_pDevice{ nullptr };
+		std::unique_ptr<class CommandQueue> m_pCommandQueue{ nullptr };
 	public:
 		virtual void Initialize() override;
 		virtual void Render() override;

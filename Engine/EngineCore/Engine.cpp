@@ -1,5 +1,7 @@
 #include "EnginePch.h"
 #include "Engine.h"
+#include "Device.h"
+#include "CommandQueue.h"
 
 namespace EngineFramework {
 

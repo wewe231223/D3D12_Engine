@@ -9,9 +9,11 @@ namespace EngineFramework {
 		ComPtr<ID3D12GraphicsCommandList> m_d3dGraphicsCommandList{ nullptr };
 
 		ComPtr<ID3D12Fence> m_d3dFence{ nullptr };
-
+		HANDLE m_hEventHandle{ nullptr };
+		UINT64 m_nFenceValue{ 0 };
+		
 	public:
 		void Initialize(ComPtr<ID3D12Device> pd3dDevice);
-
+		void FlushCommandQueue();
 	};
 }
