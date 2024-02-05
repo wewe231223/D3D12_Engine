@@ -52,6 +52,7 @@ void App::Application::Init(std::shared_ptr<EngineFramework::Engine> pEngine) {
 		m_timer->Reset();
 
 		m_engine = pEngine;
+		m_engine->Initialize();
 
 	} catch (const System::Exeption& e){
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
@@ -103,6 +104,7 @@ void App::Application::Loop(){
 			}
 			INPUT->Update();
 			m_timer->Update();
+			m_engine->Render();
 		}
 	}
 	catch (const System::Exeption& e) {

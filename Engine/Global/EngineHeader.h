@@ -49,8 +49,19 @@ namespace App {
 	constexpr int DEFAULT_HEIGHT = 600;
 	struct WindowInfo {
 		HWND hWnd{ nullptr };
-		int Width{ 0 };
-		int Height{ 0 };
+		int Width{ DEFAULT_WIDTH };
+		int Height{ DEFAULT_HEIGHT };
+	};
+}
+
+namespace EngineFramework {
+	enum {
+		SWAP_CHAIN_BUFFER_COUNT = 2
+	};
+
+	struct MsaaState {
+		bool Msaa4xBool{ false };
+		UINT Msaa4XQualityLevel{ 0 };
 	};
 }
 
@@ -68,4 +79,5 @@ namespace App {
 #endif // !defined(_DEBUG) || defined(DEBUG)
 
 #include "System/Exeption.h"
+#include "EngineCore/EngineInterface.h"
 

@@ -1,7 +1,8 @@
+#pragma once
 namespace EngineFramework {
-	class CommandQueue {
+	class CommandQueue : public ICommandQueue {
 	public:
-		CommandQueue() = default;
+		CommandQueue();
 		~CommandQueue();
 	private:
 		ComPtr<ID3D12CommandQueue> m_d3dCommandQueue{ nullptr };
@@ -10,10 +11,20 @@ namespace EngineFramework {
 
 		ComPtr<ID3D12Fence> m_d3dFence{ nullptr };
 		HANDLE m_hEventHandle{ nullptr };
-		UINT64 m_nFenceValue{ 0 };
+		mutable UINT64 m_nFenceValue{ 0 };
 		
 	public:
-		void Initialize(ComPtr<ID3D12Device> pd3dDevice);
-		void FlushCommandQueue();
+		void Initialize(const IDevice* pDevice);
+		void Resize();
+
+	public:
+		void Reset() const;
+		void RenderReady(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor);
+		void RenderFinish(const ISwapChain* pSwapChain);
+	public: // Interface 
+		virtual ComPtr<ID3D12CommandQueue> GetCommandQueue() const override { return m_d3dCommandQueue; }
+		virtual ComPtr<ID3D12CommandAllocator> GetCommandAllocator() const override { return m_d3dCommandAllocator; }
+		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const override { return m_d3dGraphicsCommandList; }
+		virtual void FlushCommandQueue() const override;
 	};
 }

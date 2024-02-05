@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Device.h"
 #include "CommandQueue.h"
+#include "SwapChain.h"
 
 namespace EngineFramework {
 
@@ -13,24 +14,36 @@ namespace EngineFramework {
 	{
 	}
 
-	DirectXEngine::~DirectXEngine()
-	{
+	DirectXEngine::DirectXEngine(const App::WindowInfo* cpWindowInfo, bool bMsaa4xState) : m_cpWindowInfo(cpWindowInfo), m_bMsaa4xState(bMsaa4xState){
+		m_pDevice = std::make_unique<Device>();
+		m_pCommandQueue = std::make_unique<CommandQueue>();
+		m_pSwapChain = std::make_unique<SwapChain>();
 	}
 
-	void DirectXEngine::Initialize()
-	{
+	DirectXEngine::~DirectXEngine(){
+
 	}
 
-	void DirectXEngine::Render()
-	{
+	void DirectXEngine::Initialize(){		
+		m_pDevice->Initialize();
+		m_pCommandQueue->Initialize(m_pDevice.get());
+		m_pSwapChain->Initialize(m_pDevice.get(), m_pCommandQueue.get(), m_cpWindowInfo, m_bMsaa4xState);
+		
+		Resize();
 	}
 
-	void DirectXEngine::Update()
-	{
+	void DirectXEngine::Render(){
+		m_pCommandQueue->RenderReady(m_pSwapChain.get(), DirectX::Colors::SteelBlue);
+		m_pCommandQueue->RenderFinish(m_pSwapChain.get());
 	}
 
-	void DirectXEngine::Resize()
-	{
+	void DirectXEngine::Update(){
+
+	}
+
+	void DirectXEngine::Resize(){
+		m_pCommandQueue->Resize();
+		m_pSwapChain->Resize(m_pDevice.get(), m_pCommandQueue.get());
 	}
 
 }

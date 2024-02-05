@@ -22,6 +22,8 @@
     <ClInclude Include="EngineCore\CommandQueue.h" />
     <ClInclude Include="EngineCore\Device.h" />
     <ClInclude Include="EngineCore\Engine.h" />
+    <ClInclude Include="EngineCore\EngineInterface.h" />
+    <ClInclude Include="EngineCore\SwapChain.h" />
     <ClInclude Include="External\d3dx12.h" />
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
@@ -36,6 +38,8 @@
     <ClCompile Include="EngineCore\CommandQueue.cpp" />
     <ClCompile Include="EngineCore\Device.cpp" />
     <ClCompile Include="EngineCore\Engine.cpp" />
+    <ClCompile Include="EngineCore\EngineInterface.cpp" />
+    <ClCompile Include="EngineCore\SwapChain.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />
     <ClCompile Include="System\Exeption.cpp" />
@@ -142,12 +146,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Enginepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalOptions>/Ylsymbol %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>

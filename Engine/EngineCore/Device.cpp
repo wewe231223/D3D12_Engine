@@ -2,7 +2,10 @@
 #include "Device.h"
 
 namespace EngineFramework {
-	Device::~Device(){
+    Device::Device(){
+
+    }
+    Device::~Device(){
 
 	}
 
@@ -61,10 +64,14 @@ namespace EngineFramework {
 
 	void Device::Initialize(){
 #if defined(DEBUG) || defined(_DEBUG)
-		CheckFailed(::D3D12GetDebugInterface(IID_PPV_ARGS(m_d3dDebugController.GetAddressOf())));
-		m_d3dDebugController->EnableDebugLayer();
+        {
+            ComPtr<ID3D12Debug> DC{};
+            CheckFailed(::D3D12GetDebugInterface(IID_PPV_ARGS(DC.GetAddressOf())));
+            DC->EnableDebugLayer();
+            OutputDebugString(_T("\nDebugLayerEnabled\n"));
+        }
 #endif // !defined(DEBUG) || defined(_DEBUG)
-		CheckFailed(::CreateDXGIFactory1(IID_PPV_ARGS(m_dxgiFactory.GetAddressOf())));
+		CheckFailed(::CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG,IID_PPV_ARGS(m_dxgiFactory.GetAddressOf())));
 		HRESULT HardwareResult = ::D3D12CreateDevice(nullptr, m_d3dDirectXFeatureLevel, IID_PPV_ARGS(m_d3dDevice.GetAddressOf()));
 
 		if (FAILED(HardwareResult)) {
@@ -72,14 +79,6 @@ namespace EngineFramework {
 			CheckFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&WarpAdapter)));
 			CheckFailed(::D3D12CreateDevice(WarpAdapter.Get(), m_d3dDirectXFeatureLevel, IID_PPV_ARGS(m_d3dDevice.GetAddressOf())));
 		}
-		
-		D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS MsaaQualityLevels{};
-		MsaaQualityLevels.Format = m_dxgiFormat;
-		MsaaQualityLevels.SampleCount = 4;
-		MsaaQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
-		MsaaQualityLevels.NumQualityLevels = 0;
-		CheckFailed(m_d3dDevice->CheckFeatureSupport(D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS, &MsaaQualityLevels, sizeof(MsaaQualityLevels)));
-		m_n4xMsaaQualityLevel = MsaaQualityLevels.NumQualityLevels;
 #if defined(DEBUG) || defined(_DEBUG)
         LogAdapters();
 #endif // !defined(DEBUG) || defined(_DEBUG)

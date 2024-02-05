@@ -1,7 +1,7 @@
 namespace EngineFramework {
-	class Device {
+	class Device : public IDevice{
 	public:
-		Device() = default;
+		Device();
 		~Device();
 	private:
 		// Device and Factory
@@ -18,9 +18,8 @@ namespace EngineFramework {
 		void LogAdapters();
 	public:
 		void Initialize();
-		ComPtr<ID3D12Device> GetDevice() const { return m_d3dDevice; }
-		ComPtr<IDXGIFactory> GetDxgiFactory() const { return m_dxgiFactory; }
-		UINT Get4xMsaaQuality() const { return m_n4xMsaaQualityLevel; }
+		virtual ComPtr<ID3D12Device> GetDevice() const override { return m_d3dDevice; }
+		virtual ComPtr<IDXGIFactory4> GetDxgiFactory() const override{ return m_dxgiFactory; }
 	};
 
 }

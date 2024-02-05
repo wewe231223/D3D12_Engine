@@ -1,3 +1,4 @@
+#pragma once
 namespace EngineFramework {
 	class Engine abstract{
 	public:
@@ -13,10 +14,15 @@ namespace EngineFramework {
 	class DirectXEngine : public Engine {
 	public:
 		DirectXEngine();
+		DirectXEngine(const App::WindowInfo* cpWindowInfo,bool bMsaa4xState);
 		virtual ~DirectXEngine() override;
 	private:
 		std::unique_ptr<class Device> m_pDevice{ nullptr };
 		std::unique_ptr<class CommandQueue> m_pCommandQueue{ nullptr };
+		std::unique_ptr<class SwapChain> m_pSwapChain{ nullptr };
+
+		const App::WindowInfo* m_cpWindowInfo{ nullptr };
+		bool m_bMsaa4xState{ false };
 	public:
 		virtual void Initialize() override;
 		virtual void Render() override;

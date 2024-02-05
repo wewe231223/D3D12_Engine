@@ -34,7 +34,8 @@ namespace App {
 	public:
 		virtual void Init(std::shared_ptr<EngineFramework::Engine> pEngine);
 		virtual void Loop();
-
+	public: 
+		const WindowInfo* GetWindowInfo() const { return &m_windowInfo; }
 	};
 	LRESULT CALLBACK MainProcedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam);
 	void SetMainApplication(Application* pApp);
