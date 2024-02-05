@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore\CommandQueue.h" />
+    <ClInclude Include="EngineCore\DepthStencil.h" />
     <ClInclude Include="EngineCore\Device.h" />
     <ClInclude Include="EngineCore\Engine.h" />
     <ClInclude Include="EngineCore\EngineInterface.h" />
+    <ClInclude Include="EngineCore\RenderTarget.h" />
     <ClInclude Include="EngineCore\SwapChain.h" />
     <ClInclude Include="External\d3dx12.h" />
     <ClInclude Include="Global\EngineHeader.h" />
@@ -36,9 +38,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore\CommandQueue.cpp" />
+    <ClCompile Include="EngineCore\DepthStencil.cpp" />
     <ClCompile Include="EngineCore\Device.cpp" />
     <ClCompile Include="EngineCore\Engine.cpp" />
     <ClCompile Include="EngineCore\EngineInterface.cpp" />
+    <ClCompile Include="EngineCore\RenderTarget.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />

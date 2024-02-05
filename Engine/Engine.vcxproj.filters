@@ -81,6 +81,12 @@
     <ClInclude Include="EngineCore\EngineInterface.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
+    <ClInclude Include="EngineCore\DepthStencil.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCore\RenderTarget.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -111,6 +117,12 @@
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
     <ClCompile Include="EngineCore\EngineInterface.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\DepthStencil.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\RenderTarget.cpp">
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
   </ItemGroup>

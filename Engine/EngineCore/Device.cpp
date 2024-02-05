@@ -65,10 +65,9 @@ namespace EngineFramework {
 	void Device::Initialize(){
 #if defined(DEBUG) || defined(_DEBUG)
         {
-            ComPtr<ID3D12Debug> DC{};
-            CheckFailed(::D3D12GetDebugInterface(IID_PPV_ARGS(DC.GetAddressOf())));
-            DC->EnableDebugLayer();
-            OutputDebugString(_T("\nDebugLayerEnabled\n"));
+            CheckFailed(::D3D12GetDebugInterface(IID_PPV_ARGS(m_d3dDebugController.GetAddressOf())));
+            m_d3dDebugController->EnableDebugLayer();
+            OutputDebugString(_T("DebugLayer Enabled\n"));
         }
 #endif // !defined(DEBUG) || defined(_DEBUG)
 		CheckFailed(::CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG,IID_PPV_ARGS(m_dxgiFactory.GetAddressOf())));

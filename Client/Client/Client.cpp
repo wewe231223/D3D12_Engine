@@ -22,7 +22,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     m_app->Init(DxEngine);
     m_app->Loop();
 
-    m_app.reset();
+    m_app = nullptr;
+    DxEngine = nullptr;
 
     _CrtDumpMemoryLeaks();
     return 0xff;

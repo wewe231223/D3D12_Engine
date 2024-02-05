@@ -7,16 +7,9 @@ namespace EngineFramework {
 	private:
 		ComPtr<IDXGISwapChain> m_dxgiSwapChain{ nullptr };
 		ComPtr<ID3D12Resource> m_d3dSwapChainBuffer[SWAP_CHAIN_BUFFER_COUNT]{};
-		ComPtr<ID3D12Resource> m_d3dDepthStencilBuffer{ nullptr };
-		ComPtr<ID3D12DescriptorHeap> m_d3dRenderTargetDescriptorHeap{ nullptr };
-		ComPtr<ID3D12DescriptorHeap> m_d3dDepthStencilDescriptorHeap{ nullptr };
-
 		D3D12_VIEWPORT m_d3dScreenViewPort{};
 		D3D12_RECT m_d3dSissorRect{};
 
-		UINT m_nRenderTargetViewDescriptorHeapSize{ 0 };
-		UINT m_nDepthStencilViewDescriptorHeapSize{ 0 };
-		
 		DXGI_FORMAT m_dxgiBackBufferFormat{ DXGI_FORMAT_R8G8B8A8_UNORM };
 		DXGI_FORMAT m_dxgiDepthStencilFormat{ DXGI_FORMAT_D24_UNORM_S8_UINT };
 
@@ -25,8 +18,8 @@ namespace EngineFramework {
 		const App::WindowInfo* m_cpWindowInfo{ nullptr };
 		MsaaState m_msaa4xState{ false,0 };
 
-		D3D12_CLEAR_VALUE m_d3dDepthStencilClearValue{};
-		CD3DX12_HEAP_PROPERTIES m_d3dDefaultHeapProperties{ D3D12_HEAP_TYPE_DEFAULT };
+		std::unique_ptr<class RenderTarget> m_pRenderTarget{ nullptr };
+		std::unique_ptr<class DepthStencil> m_pDepthStencil{ nullptr };
 	public:
 		void Initialize(const IDevice* pDevice,const ICommandQueue* pCommandQueue,const App::WindowInfo* cpWindowInfo,bool bMsaa4xState,DXGI_FORMAT dxgiBackBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT dxgiDepthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT);
 		void Resize(const IDevice* pDevice,const ICommandQueue* pCommandQueue);
