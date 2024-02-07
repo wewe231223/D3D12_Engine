@@ -29,6 +29,7 @@
     <ClInclude Include="External\d3dx12.h" />
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
+    <ClInclude Include="Graphics\Resources\Mesh.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="System\Application.h" />
     <ClInclude Include="System\Exeption.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="EngineCore\EngineInterface.cpp" />
     <ClCompile Include="EngineCore\RenderTarget.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
+    <ClCompile Include="Graphics\Resources\Mesh.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />
     <ClCompile Include="System\Exeption.cpp" />

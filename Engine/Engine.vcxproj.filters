@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="헤더 파일\Resources">
-      <UniqueIdentifier>{c33231c8-95aa-4026-968e-bfc5582b460c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\System">
       <UniqueIdentifier>{101afb0b-9b8f-4c43-ae6d-9587ad0aea19}</UniqueIdentifier>
     </Filter>
@@ -37,14 +34,20 @@
     <Filter Include="헤더 파일\EngineCore">
       <UniqueIdentifier>{cf6fecea-1528-42fe-83c4-db0b9ab97cca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Graphics">
+      <UniqueIdentifier>{a4e9be15-38e4-4bfa-af66-d9ef405b8b5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Graphics">
+      <UniqueIdentifier>{5f8f5dc6-f083-4d72-b045-9b507166536c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\Resources">
+      <UniqueIdentifier>{95e8b1c5-13b6-4f60-97b2-28cb9aebe32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Graphics\Resources">
+      <UniqueIdentifier>{28e3d7cd-6844-4c77-8910-b990add13ef2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>헤더 파일\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Global\EngineHeader.h">
       <Filter>헤더 파일\Pch</Filter>
     </ClInclude>
@@ -87,6 +90,15 @@
     <ClInclude Include="EngineCore\RenderTarget.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Resources\Mesh.h">
+      <Filter>헤더 파일\Graphics\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -124,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="EngineCore\RenderTarget.cpp">
       <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Resources\Mesh.cpp">
+      <Filter>소스 파일\Graphics\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

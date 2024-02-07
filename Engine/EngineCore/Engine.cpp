@@ -33,8 +33,8 @@ namespace EngineFramework {
 	}
 
 	void DirectXEngine::Render(){
-		m_pCommandQueue->RenderReady(m_pSwapChain.get(), DirectX::Colors::SteelBlue);
-		m_pCommandQueue->RenderFinish(m_pSwapChain.get());
+		m_pCommandQueue->PrepareRender(m_pSwapChain.get(), DirectX::Colors::SteelBlue);
+		m_pCommandQueue->FinishRender(m_pSwapChain.get());
 	}
 
 	void DirectXEngine::Update(){

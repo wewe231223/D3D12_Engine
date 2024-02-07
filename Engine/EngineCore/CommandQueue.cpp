@@ -31,6 +31,12 @@ namespace EngineFramework {
 		}
 
 	}
+
+	void CommandQueue::SubmitCommandList(){
+		CheckFailed(m_d3dGraphicsCommandList->Close());
+		ID3D12CommandList* CommandLists[] = { m_d3dGraphicsCommandList.Get() };
+		m_d3dCommandQueue->ExecuteCommandLists(_countof(CommandLists), CommandLists);
+	}
 	void CommandQueue::Resize(){
 		FlushCommandQueue();
 		CheckFailed(m_d3dGraphicsCommandList->Reset(m_d3dCommandAllocator.Get(), nullptr));
@@ -39,29 +45,28 @@ namespace EngineFramework {
 		CheckFailed(m_d3dCommandAllocator->Reset());
 		CheckFailed(m_d3dGraphicsCommandList->Reset(m_d3dCommandAllocator.Get(), nullptr));
 	}
-	void CommandQueue::RenderReady(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor){
+	void CommandQueue::PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor){
 		Reset();
 		m_d3dGraphicsCommandList->RSSetViewports(1, pSwapChain->GetViewPort());
 		m_d3dGraphicsCommandList->RSSetScissorRects(1, pSwapChain->GetSissorRect());
 
 		CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(pSwapChain->GetCurrentBackBuffer().Get(),D3D12_RESOURCE_STATE_PRESENT ,D3D12_RESOURCE_STATE_RENDER_TARGET) };
+		m_d3dGraphicsCommandList->ResourceBarrier(1, &ResourceBarrier);
 
 		D3D12_CPU_DESCRIPTOR_HANDLE BackBufferView{ pSwapChain->GetCurrentBackBufferView() };
 		D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView{ pSwapChain->GetDepthStencilView() };
 
-		m_d3dGraphicsCommandList->ResourceBarrier(1, &ResourceBarrier);
 		m_d3dGraphicsCommandList->ClearRenderTargetView(BackBufferView, dxClearColor, 0, nullptr);
 		m_d3dGraphicsCommandList->ClearDepthStencilView(DepthStencilView, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.f, NULL, NULL, nullptr);
 
 		m_d3dGraphicsCommandList->OMSetRenderTargets(1, &BackBufferView, true, &DepthStencilView);
 	}
-	void CommandQueue::RenderFinish(const ISwapChain* pSwapChain){
+	void CommandQueue::FinishRender(const ISwapChain* pSwapChain){
+
 		CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(pSwapChain->GetCurrentBackBuffer().Get(),D3D12_RESOURCE_STATE_RENDER_TARGET ,D3D12_RESOURCE_STATE_PRESENT) };
 		m_d3dGraphicsCommandList->ResourceBarrier(1, &ResourceBarrier);
-		CheckFailed(m_d3dGraphicsCommandList->Close());
-		ID3D12CommandList* CommandLists[] = { m_d3dGraphicsCommandList.Get() };
-		m_d3dCommandQueue->ExecuteCommandLists(_countof(CommandLists), CommandLists);
-
+		
+		SubmitCommandList();
 		CheckFailed(pSwapChain->GetDxgiSwapChain()->Present(NULL, NULL));
 		pSwapChain->SwapBuffer();
 		FlushCommandQueue();

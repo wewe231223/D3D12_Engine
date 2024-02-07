@@ -31,6 +31,7 @@ namespace EngineFramework {
 		virtual D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView() const override;
 		virtual D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView() const override;
 		virtual void SwapBuffer() const override;
+		
 
 	};
 }

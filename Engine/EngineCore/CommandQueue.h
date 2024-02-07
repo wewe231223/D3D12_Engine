@@ -19,12 +19,14 @@ namespace EngineFramework {
 
 	public:
 		void Reset() const;
-		void RenderReady(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor);
-		void RenderFinish(const ISwapChain* pSwapChain);
+		void PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor);
+		void FinishRender(const ISwapChain* pSwapChain);
 	public: // Interface 
 		virtual ComPtr<ID3D12CommandQueue> GetCommandQueue() const override { return m_d3dCommandQueue; }
 		virtual ComPtr<ID3D12CommandAllocator> GetCommandAllocator() const override { return m_d3dCommandAllocator; }
 		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const override { return m_d3dGraphicsCommandList; }
 		virtual void FlushCommandQueue() const override;
+	private:
+		void SubmitCommandList();
 	};
 }
