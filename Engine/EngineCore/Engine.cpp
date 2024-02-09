@@ -34,6 +34,7 @@ namespace EngineFramework {
 
 	void DirectXEngine::Render(){
 		m_pCommandQueue->PrepareRender(m_pSwapChain.get(), DirectX::Colors::SteelBlue);
+
 		m_pCommandQueue->FinishRender(m_pSwapChain.get());
 	}
 

@@ -12,6 +12,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <array>
 
 // DirectX 런타임 헤더 파일입니다.
 #include <wrl.h>
