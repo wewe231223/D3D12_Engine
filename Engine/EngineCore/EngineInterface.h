@@ -21,4 +21,8 @@ namespace EngineFramework {
 		virtual D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView() const PURE;
 		virtual void SwapBuffer() const PURE;
 	};
+
+	__interface IShader {
+		virtual D3D12_SHADER_BYTECODE GetShaderByteCode(ShaderType ShaderType) const PURE;
+	};
 }

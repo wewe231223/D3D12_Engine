@@ -64,6 +64,11 @@ namespace EngineFramework {
 		bool Msaa4xBool{ false };
 		UINT Msaa4XQualityLevel{ 0 };
 	};
+
+	enum ShaderType {
+		VertexShader,
+		PixelShader
+	};
 }
 
 struct Vertex {

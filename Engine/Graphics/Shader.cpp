@@ -39,7 +39,7 @@ namespace EngineFramework {
 		}
 	}
 
-	D3D12_SHADER_BYTECODE Shader::GetShaderByteCode(ShaderType ShaderType){
+	D3D12_SHADER_BYTECODE Shader::GetShaderByteCode(ShaderType ShaderType) const{
 		switch (ShaderType) {
 		case EngineFramework::VertexShader:
 			return D3D12_SHADER_BYTECODE{ reinterpret_cast<BYTE*>(m_d3dVertexShaderBlob->GetBufferPointer(),m_d3dVertexShaderBlob->GetBufferSize()) };
