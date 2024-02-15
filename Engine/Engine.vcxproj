@@ -25,14 +25,16 @@
     <ClInclude Include="EngineCore\Engine.h" />
     <ClInclude Include="EngineCore\EngineInterface.h" />
     <ClInclude Include="EngineCore\RenderTarget.h" />
-    <ClInclude Include="EngineCore\Scene.h" />
     <ClInclude Include="EngineCore\SwapChain.h" />
     <ClInclude Include="External\d3dx12.h" />
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
+    <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\ConstantBuffer.h" />
     <ClInclude Include="Graphics\PipeLineStateObject.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
     <ClInclude Include="Graphics\RootSignature.h" />
+    <ClInclude Include="Graphics\Scene.h" />
     <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="System\Application.h" />
@@ -48,11 +50,13 @@
     <ClCompile Include="EngineCore\Engine.cpp" />
     <ClCompile Include="EngineCore\EngineInterface.cpp" />
     <ClCompile Include="EngineCore\RenderTarget.cpp" />
-    <ClCompile Include="EngineCore\Scene.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
+    <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\ConstantBuffer.cpp" />
     <ClCompile Include="Graphics\PipeLineStateObject.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
     <ClCompile Include="Graphics\RootSignature.cpp" />
+    <ClCompile Include="Graphics\Scene.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />
@@ -66,6 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\DefaultShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -46,6 +46,9 @@
     <Filter Include="헤더 파일\Graphics\Resources">
       <UniqueIdentifier>{28e3d7cd-6844-4c77-8910-b990add13ef2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{59906dba-ed94-4903-a71b-cd1e00419b86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\EngineHeader.h">
@@ -99,9 +102,6 @@
     <ClInclude Include="Graphics\Resources\Mesh.h">
       <Filter>헤더 파일\Graphics\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\Scene.h">
-      <Filter>헤더 파일\EngineCore</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Shader.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
@@ -109,6 +109,15 @@
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\PipeLineStateObject.h">
+      <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Scene.h">
+      <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Camera.h">
+      <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ConstantBuffer.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,9 +161,6 @@
     <ClCompile Include="Graphics\Resources\Mesh.cpp">
       <Filter>소스 파일\Graphics\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\Scene.cpp">
-      <Filter>소스 파일\EngineCore</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Shader.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
@@ -162,6 +168,15 @@
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\PipeLineStateObject.cpp">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Scene.cpp">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Camera.cpp">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ConstantBuffer.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -177,5 +192,10 @@
     <ResourceCompile Include="Resources\Client.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\DefaultShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

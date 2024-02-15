@@ -25,4 +25,8 @@ namespace EngineFramework {
 	__interface IShader {
 		virtual D3D12_SHADER_BYTECODE GetShaderByteCode(ShaderType ShaderType) const PURE;
 	};
+
+	__interface IRootSignature {
+		virtual ComPtr<ID3D12RootSignature> GetRootSignature() const PURE;
+	};
 }

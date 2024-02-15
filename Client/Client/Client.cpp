@@ -20,6 +20,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     App::SetMainApplication(m_app.get());
     std::shared_ptr<EngineFramework::DirectXEngine> DxEngine = std::make_shared<EngineFramework::DirectXEngine>(m_app->GetWindowInfo(),false);
     m_app->Init(DxEngine);
+    
+    
+
+    
+    
     m_app->Loop();
 
     m_app = nullptr;

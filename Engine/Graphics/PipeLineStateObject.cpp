@@ -8,7 +8,7 @@ namespace EngineFramework{
 	PipelineStateObject::~PipelineStateObject()
 	{
 	}
-	void PipelineStateObject::Initialize(const IShader* pShader){
+	void PipelineStateObject::Initialize(){
 		::ZeroMemory(&m_d3dPipelineStateDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 		m_d3dInputLayout = {
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
@@ -22,8 +22,6 @@ namespace EngineFramework{
 		CD3DX12_DEPTH_STENCIL_DESC DepthStencilDesc{ D3D12_DEFAULT };
 
 		m_d3dPipelineStateDesc.InputLayout = { m_d3dInputLayout.data(),static_cast<UINT>(m_d3dInputLayout.size()) };
-		m_d3dPipelineStateDesc.VS = pShader->GetShaderByteCode(VertexShader);
-		m_d3dPipelineStateDesc.PS = pShader->GetShaderByteCode(PixelShader);
 		m_d3dPipelineStateDesc.RasterizerState = RasterizerDesc;
 		m_d3dPipelineStateDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 		m_d3dPipelineStateDesc.BlendState = BlendDesc;
@@ -36,6 +34,16 @@ namespace EngineFramework{
 		m_d3dPipelineStateDesc.SampleDesc.Count = 1;
 		m_d3dPipelineStateDesc.SampleDesc.Quality = 0;
 		m_d3dPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	}
+	void PipelineStateObject::SetShader(const IShader* pShader){
+		m_d3dPipelineStateDesc.VS = pShader->GetShaderByteCode(VertexShader);
+		m_d3dPipelineStateDesc.PS = pShader->GetShaderByteCode(PixelShader);
+		m_d3dPipelineStateDesc.HS = pShader->GetShaderByteCode(HullShader);
+		m_d3dPipelineStateDesc.GS = pShader->GetShaderByteCode(GeometryShader);
+		m_d3dPipelineStateDesc.DS = pShader->GetShaderByteCode(DomainShader);
+	}
+	void PipelineStateObject::SetRootSignature(const IRootSignature* pRootSignature){
+		m_d3dPipelineStateDesc.pRootSignature = pRootSignature->GetRootSignature().Get();
 	}
 	void PipelineStateObject::Create(const IDevice* pDevice){
 		pDevice->GetDevice()->CreateGraphicsPipelineState(&m_d3dPipelineStateDesc, IID_PPV_ARGS(m_d3dPipelineState.GetAddressOf()));

@@ -8,11 +8,11 @@ namespace EngineFramework {
 	Shader::~Shader(){
 
 	}
-	void Shader::Initialize(){
-
+	void Shader::Initialize(const std::tstring& ctsShaderPath){
+		m_tsPath = ctsShaderPath;
 	}
 
-	void Shader::CompileShader(ShaderType ShaderType, const std::tstring& ctsPath, const D3D_SHADER_MACRO* d3dShaderDefines, const std::string& csEntryPoint, const std::string& csShaderTarget){
+	void Shader::CompileShader(ShaderType ShaderType, const D3D_SHADER_MACRO* d3dShaderDefines, const std::string& csEntryPoint, const std::string& csShaderTarget){
 		UINT CompileFlags{ 0 };
 #if defined(DEBUG) || defined(_DEBUG)
 		CompileFlags = D3DCOMPILE_DEBUG bitor D3DCOMPILE_SKIP_OPTIMIZATION;
@@ -23,7 +23,7 @@ namespace EngineFramework {
 
 		HRESULT hr = S_OK;
 
-		hr = ::D3DCompileFromFile(ctsPath.c_str(), d3dShaderDefines, D3D_COMPILE_STANDARD_FILE_INCLUDE, csEntryPoint.c_str(), csShaderTarget.c_str(), CompileFlags, 0, ByteCode.GetAddressOf(), ErrorBlob.GetAddressOf());
+		hr = ::D3DCompileFromFile(m_tsPath.c_str(), d3dShaderDefines, D3D_COMPILE_STANDARD_FILE_INCLUDE, csEntryPoint.c_str(), csShaderTarget.c_str(), CompileFlags, 0, ByteCode.GetAddressOf(), ErrorBlob.GetAddressOf());
 		if (ErrorBlob != nullptr) ::OutputDebugStringA((char*)ErrorBlob->GetBufferPointer());
 		if (FAILED(hr)) throw System::Exeption(hr, _T("D3DCompileFromFile"), _T("Shader.cpp"), 0);
 
@@ -41,13 +41,29 @@ namespace EngineFramework {
 
 	D3D12_SHADER_BYTECODE Shader::GetShaderByteCode(ShaderType ShaderType) const{
 		switch (ShaderType) {
-		case EngineFramework::VertexShader:
-			return D3D12_SHADER_BYTECODE{ reinterpret_cast<BYTE*>(m_d3dVertexShaderBlob->GetBufferPointer(),m_d3dVertexShaderBlob->GetBufferSize()) };
-		case EngineFramework::PixelShader:
-			return D3D12_SHADER_BYTECODE{ reinterpret_cast<BYTE*>(m_d3dPixelShaderBlob->GetBufferPointer(),m_d3dPixelShaderBlob->GetBufferSize()) };
+		case VertexShader:
+			return GetByteCode(m_d3dVertexShaderBlob);
+		case PixelShader:
+			return GetByteCode(m_d3dPixelShaderBlob);
+		case HullShader:
+			return GetByteCode(m_d3dHullShaderBlob);
+		case DomainShader:
+			return GetByteCode(m_d3dDomainShaderBlob);
+		case GeometryShader:
+			return GetByteCode(m_d3dGeometryShaderBlob);
 		default:
 			return D3D12_SHADER_BYTECODE{ nullptr,0 };
 		}
+	}
+
+	D3D12_SHADER_BYTECODE Shader::GetByteCode(ComPtr<ID3D10Blob> d3dBlob) const{
+		if (d3dBlob != nullptr) {
+			return D3D12_SHADER_BYTECODE{ reinterpret_cast<BYTE*>(d3dBlob->GetBufferPointer()), d3dBlob->GetBufferSize() };
+		}
+		else {
+			return D3D12_SHADER_BYTECODE{};
+		}
+		
 	}
 
 

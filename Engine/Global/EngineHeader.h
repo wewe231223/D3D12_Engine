@@ -67,7 +67,10 @@ namespace EngineFramework {
 
 	enum ShaderType {
 		VertexShader,
-		PixelShader
+		HullShader,
+		DomainShader,
+		GeometryShader,
+		PixelShader,
 	};
 }
 
