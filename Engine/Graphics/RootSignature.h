@@ -8,6 +8,7 @@ namespace EngineFramework {
 		ComPtr<ID3D10Blob> m_d3dSerializedRootSignature{ nullptr };
 		ComPtr<ID3D12RootSignature> m_d3dRootSignature{ nullptr };
 		ComPtr<ID3D12DescriptorHeap> m_d3dResourceDescriptorHeap{ nullptr };
+		mutable UINT m_nCBuffer{ 0 };
 	public:
 		void Initialize(const IDevice* pDevice);
 		void Create(const IDevice* pDevice);
@@ -15,5 +16,7 @@ namespace EngineFramework {
 		void SetResourceDescriptorHeap(const ICommandQueue* pCommandQueue);
 	public:
 		ComPtr<ID3D12RootSignature> GetRootSignature() const override;
+		UINT GetBufferIndex() const override;
+
 	};
 }

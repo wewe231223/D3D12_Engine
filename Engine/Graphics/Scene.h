@@ -18,10 +18,10 @@ namespace EngineFramework {
 		std::unique_ptr<class PipelineStateObject> m_pso{ nullptr };
 		std::unique_ptr<class RootSignature> m_rootSignature{ nullptr };
 	private:
-		std::unique_ptr<class Resource::MeshManager> m_meshManager{ nullptr };
-		std::unique_ptr<class Resource::Mesh> testmesh{ nullptr };
+		std::unique_ptr<Resource::MeshManager> m_meshManager{ nullptr };
+		std::shared_ptr<Resource::Mesh> testmesh{ nullptr };
 	public:
-		void Initialize(const IDevice* pDevice);
+		void Initialize(const IDevice* pDevice, const ICommandQueue* pCommandQueue);
 		void Render(const ICommandQueue* pCommandQueue);
 	};
 }

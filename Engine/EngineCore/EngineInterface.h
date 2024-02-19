@@ -28,5 +28,6 @@ namespace EngineFramework {
 
 	__interface IRootSignature {
 		virtual ComPtr<ID3D12RootSignature> GetRootSignature() const PURE;
+		virtual UINT GetBufferIndex() const PURE;
 	};
 }

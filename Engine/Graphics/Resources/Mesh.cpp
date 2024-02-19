@@ -40,12 +40,28 @@ namespace EngineFramework {
 			if (m_d3dIndexUploadBuffer) m_d3dIndexUploadBuffer = nullptr;
 		}
 
-		Mesh MeshManager::CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices){
-			Mesh Result{};
-			Result.m_tsMeshName = tcsMeshName;
-			Result.m_nIndexCount = static_cast<UINT>(indices.size());
-			Result.m_nVertexStartLocation = static_cast<UINT>(vertices.size() - 1);
-			Result.m_nIndexStartLocation = static_cast<UINT>(indices.size() - 1);
+		std::shared_ptr<Mesh>MeshManager::CreateMesh(const std::tstring& tcsMeshName, const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) {
+			std::shared_ptr<Mesh> Result = std::make_shared<Mesh>();
+			Result->m_tsMeshName = tcsMeshName;
+			Result->m_nIndexCount = static_cast<UINT>(indices.size());
+
+			if (m_vertices.size() == 0) {
+				Result->m_nVertexStartLocation = 0;
+			}
+			else {
+				Result->m_nVertexStartLocation = static_cast<UINT>(m_vertices.size() - 1);
+			}
+
+			if (m_indices.size() == 0) {
+				Result->m_nIndexStartLocation = 0;
+			}
+			else {
+				Result->m_nIndexStartLocation = static_cast<UINT>(m_indices.size() - 1);
+			}
+
+			m_vertices.insert(m_vertices.begin(), vertices.begin(), vertices.end());
+			m_indices.insert(m_indices.begin(), indices.begin(), indices.end());
+
 			return Result;
 		}
 

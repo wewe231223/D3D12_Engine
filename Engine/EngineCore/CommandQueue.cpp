@@ -68,7 +68,7 @@ namespace EngineFramework {
 		
 		SubmitCommandList();
 		CheckFailed(pSwapChain->GetDxgiSwapChain()->Present(NULL, NULL));
-		pSwapChain->SwapBuffer();
 		FlushCommandQueue();
+		pSwapChain->SwapBuffer();
 	}
-}
+	}

@@ -20,6 +20,7 @@ namespace EngineFramework {
 		std::unique_ptr<class Device> m_pDevice{ nullptr };
 		std::unique_ptr<class CommandQueue> m_pCommandQueue{ nullptr };
 		std::unique_ptr<class SwapChain> m_pSwapChain{ nullptr };
+		std::unique_ptr<class Scene> m_scene{ nullptr };
 
 		const App::WindowInfo* m_cpWindowInfo{ nullptr };
 		bool m_bMsaa4xState{ false };

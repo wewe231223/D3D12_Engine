@@ -31,7 +31,7 @@ namespace EngineFramework {
 			UINT m_nVertexByteStride{ 0 };
 			UINT m_nVertexByteSize{ 0 };
 			UINT m_nIndexBufferByteSize{ 0 };
-			DXGI_FORMAT m_dxgiIndexFormat{};
+			DXGI_FORMAT m_dxgiIndexFormat{DXGI_FORMAT_R32_UINT};
 
 			D3D12_VERTEX_BUFFER_VIEW m_d3dVertexBufferView{};
 			D3D12_INDEX_BUFFER_VIEW m_d3dIndexBufferView{};
@@ -39,7 +39,7 @@ namespace EngineFramework {
 			std::vector<Vertex> m_vertices{};
 			std::vector<UINT> m_indices{};
 		public:
-			Mesh CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices);
+			std::shared_ptr<Mesh> CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices);
 			void Upload(const IDevice* pDevice,const ICommandQueue* pCommandQueue);
 			void BindBuffer(const ICommandQueue* pCommandQueue, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology);
 		private:

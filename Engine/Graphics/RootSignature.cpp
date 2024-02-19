@@ -17,7 +17,7 @@ namespace EngineFramework {
 		CheckFailed(pDevice->GetDevice()->CreateDescriptorHeap(&ResourceDescriptorHeapDesc, IID_PPV_ARGS(m_d3dResourceDescriptorHeap.GetAddressOf())));
 	}
 	void RootSignature::Create(const IDevice* pDevice){
-		CD3DX12_ROOT_SIGNATURE_DESC RootSignatureDesc{ 2,m_d3dRootParameter.data(),0,nullptr,D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT };
+		CD3DX12_ROOT_SIGNATURE_DESC RootSignatureDesc{ m_nCBuffer,m_d3dRootParameter.data(),0,nullptr,D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT };
 
 		ComPtr<ID3D10Blob> ErrorBlob{ nullptr };
 		CheckFailed(D3D12SerializeRootSignature(&RootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, m_d3dSerializedRootSignature.GetAddressOf(), ErrorBlob.GetAddressOf()));
@@ -32,5 +32,8 @@ namespace EngineFramework {
 	}
 	ComPtr<ID3D12RootSignature> RootSignature::GetRootSignature() const {
 		return m_d3dRootSignature;
+	}
+	UINT RootSignature::GetBufferIndex() const {
+		return ++m_nCBuffer;
 	}
 }
