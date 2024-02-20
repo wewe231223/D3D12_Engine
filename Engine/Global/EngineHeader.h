@@ -13,6 +13,8 @@
 #include <memory>
 #include <vector>
 #include <array>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 // DirectX 런타임 헤더 파일입니다.
 #include <wrl.h>
