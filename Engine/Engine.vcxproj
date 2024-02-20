@@ -26,13 +26,15 @@
     <ClInclude Include="EngineCore\EngineInterface.h" />
     <ClInclude Include="EngineCore\RenderTarget.h" />
     <ClInclude Include="EngineCore\SwapChain.h" />
-    <ClInclude Include="External\d3dx12.h" />
+    <ClInclude Include="External\Include\d3dx12.h" />
+    <ClInclude Include="External\Include\DirectXTex.h" />
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\ConstantBuffer.h" />
     <ClInclude Include="Graphics\PipeLineStateObject.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
+    <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Graphics\RootSignature.h" />
     <ClInclude Include="Graphics\Scene.h" />
     <ClInclude Include="Graphics\Shader.h" />
@@ -55,6 +57,7 @@
     <ClCompile Include="Graphics\ConstantBuffer.cpp" />
     <ClCompile Include="Graphics\PipeLineStateObject.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
+    <ClCompile Include="Graphics\Resources\Texture.cpp" />
     <ClCompile Include="Graphics\RootSignature.cpp" />
     <ClCompile Include="Graphics\Scene.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
@@ -75,6 +78,9 @@
     <FxCompile Include="Graphics\DefaultShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="External\Include\DirectXTex.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

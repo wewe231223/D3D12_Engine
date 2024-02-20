@@ -33,8 +33,6 @@ namespace EngineFramework {
 		m_pso->SetShader(m_shader.get());
 
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
-
-
 		std::vector<Vertex> vec(4);
 		vec[0].Position = DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f);
 		vec[0].Color = DirectX::XMFLOAT4(1.f, 0.f, 0.f, 1.f);

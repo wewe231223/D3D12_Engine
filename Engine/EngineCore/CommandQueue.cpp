@@ -32,7 +32,7 @@ namespace EngineFramework {
 
 	}
 
-	void CommandQueue::SubmitCommandList(){
+	void CommandQueue::SubmitCommandList() const{
 		CheckFailed(m_d3dGraphicsCommandList->Close());
 		ID3D12CommandList* CommandLists[] = { m_d3dGraphicsCommandList.Get() };
 		m_d3dCommandQueue->ExecuteCommandLists(_countof(CommandLists), CommandLists);
@@ -41,12 +41,12 @@ namespace EngineFramework {
 		FlushCommandQueue();
 		CheckFailed(m_d3dGraphicsCommandList->Reset(m_d3dCommandAllocator.Get(), nullptr));
 	}
-	void CommandQueue::Reset() const {
+	void CommandQueue::OpenCommandList() const {
 		CheckFailed(m_d3dCommandAllocator->Reset());
 		CheckFailed(m_d3dGraphicsCommandList->Reset(m_d3dCommandAllocator.Get(), nullptr));
 	}
 	void CommandQueue::PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor){
-		Reset();
+		OpenCommandList();
 		m_d3dGraphicsCommandList->RSSetViewports(1, pSwapChain->GetViewPort());
 		m_d3dGraphicsCommandList->RSSetScissorRects(1, pSwapChain->GetSissorRect());
 

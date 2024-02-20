@@ -38,14 +38,13 @@ namespace EngineFramework {
 		// Default - Upload 버퍼를 사용하면 이를 CommandList에 업로드해야하는데 이때 커맨드리스트를 열고, 
 		// 정점을 제출한뒤 닫는 과정이 필요함
 		// ==> 그렇게 할정도로 효율적인가? 
+		// 하지만 여기서 커맨드 리스트를 열었기 때문에 텍스쳐를 별도 커맨드 리스트 없이 삽입 가능
 		// 1. 닫혀있는 ( 커맨드리스트를 생성할때 바로 닫는다 - 원치않는 명령입력을 피하기 위해) 
-		m_pCommandQueue->GetCommandList()->Reset(m_pCommandQueue->GetCommandAllocator().Get(), nullptr);
+		m_pCommandQueue->OpenCommandList();
 		// 2. Scene 을 Init 한다. ( 이때 정점, 인덱스를 업로드 버퍼에 제출하고 업로드한다 )
 		m_scene->Initialize(m_pDevice.get(),m_pCommandQueue.get());
 		// 3. 앞 과정에서 업로드 했으므로, 다시 닫아줘야 한다.( 닫고 업로드한 정점 제출 )
-		m_pCommandQueue->GetCommandList()->Close();
-		ID3D12CommandList* CommandList[] = { m_pCommandQueue->GetCommandList().Get() };
-		m_pCommandQueue->GetCommandQueue()->ExecuteCommandLists(_countof(CommandList), CommandList);
+		m_pCommandQueue->SubmitCommandList();
 		m_pCommandQueue->FlushCommandQueue();
 
 	}

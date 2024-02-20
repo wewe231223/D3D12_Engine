@@ -17,7 +17,9 @@
 // DirectX 런타임 헤더 파일입니다.
 #include <wrl.h>
 #include <d3d12.h>
-#include "External/d3dx12.h"
+#include "External/Include/d3dx12.h"
+#include "External/Include/DirectXTex.h"
+#include "External/Include/DirectXTex.inl"
 #include <dxgi1_4.h>
 #include <D3Dcompiler.h>
 #include <DirectXMath.h>
@@ -36,6 +38,11 @@ using Microsoft::WRL::ComPtr;
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
+#if defined(DEBUG) || defined(_DEBUG)
+#pragma comment(lib, "External/Lib/DirectXTex_debug.lib")
+#else 
+#pragma comment(lib, "External/Lib/DirectXTex.lib")
+#endif // !defined(DEBUG) || defined(_DEBUG)
 
 namespace std {
 #if defined(UNICODE)

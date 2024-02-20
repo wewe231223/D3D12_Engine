@@ -18,7 +18,8 @@ namespace EngineFramework {
 		void Resize();
 
 	public:
-		void Reset() const;
+		void OpenCommandList() const;
+		void SubmitCommandList() const;
 		void PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor);
 		void FinishRender(const ISwapChain* pSwapChain);
 	public: // Interface 
@@ -26,7 +27,5 @@ namespace EngineFramework {
 		virtual ComPtr<ID3D12CommandAllocator> GetCommandAllocator() const override { return m_d3dCommandAllocator; }
 		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const override { return m_d3dGraphicsCommandList; }
 		virtual void FlushCommandQueue() const override;
-	private:
-		void SubmitCommandList();
 	};
 }
