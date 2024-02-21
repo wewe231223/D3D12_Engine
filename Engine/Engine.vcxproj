@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EngineCore\CommandList.h" />
     <ClInclude Include="EngineCore\CommandQueue.h" />
     <ClInclude Include="EngineCore\DepthStencil.h" />
     <ClInclude Include="EngineCore\Device.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineCore\CommandList.cpp" />
     <ClCompile Include="EngineCore\CommandQueue.cpp" />
     <ClCompile Include="EngineCore\DepthStencil.cpp" />
     <ClCompile Include="EngineCore\Device.cpp" />

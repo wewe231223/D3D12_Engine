@@ -131,6 +131,8 @@ namespace EngineFramework {
 			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
 			pCommandQueue->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
+			//m_d3dVertexUploadBuffer = nullptr;
+
 			return DefaultBuffer;
 		}
 
