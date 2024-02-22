@@ -48,8 +48,8 @@ namespace EngineFramework{
 	void PipelineStateObject::Create(const IDevice* pDevice){
 		pDevice->GetDevice()->CreateGraphicsPipelineState(&m_d3dPipelineStateDesc, IID_PPV_ARGS(m_d3dPipelineState.GetAddressOf()));
 	}
-	void PipelineStateObject::SetPipelineState(const ICommandQueue* pCommandQueue){
-		pCommandQueue->GetCommandList()->SetPipelineState(m_d3dPipelineState.Get());
+	void PipelineStateObject::SetPipelineState(const ICommandList* pCommandList){
+		pCommandList->GetCommandList()->SetPipelineState(m_d3dPipelineState.Get());
 	}
 }
 

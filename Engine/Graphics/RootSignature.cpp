@@ -23,12 +23,13 @@ namespace EngineFramework {
 		CheckFailed(D3D12SerializeRootSignature(&RootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, m_d3dSerializedRootSignature.GetAddressOf(), ErrorBlob.GetAddressOf()));
 		CheckFailed(pDevice->GetDevice()->CreateRootSignature(0, m_d3dSerializedRootSignature->GetBufferPointer(), m_d3dSerializedRootSignature->GetBufferSize(), IID_PPV_ARGS(m_d3dRootSignature.GetAddressOf())));
 	}
-	void RootSignature::SetRootSignature(const ICommandQueue* pCommandQueue){
-		pCommandQueue->GetCommandList()->SetGraphicsRootSignature(m_d3dRootSignature.Get());
+	void RootSignature::SetRootSignature(const ICommandList* pCommandList){
+		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_d3dRootSignature.Get());
+		
 	}
-	void RootSignature::SetResourceDescriptorHeap(const ICommandQueue* pCommandQueue){
+	void RootSignature::SetResourceDescriptorHeap(const ICommandList* pCommandList){
 		ID3D12DescriptorHeap* DescriptorHeap[] = { m_d3dResourceDescriptorHeap.Get() };
-		pCommandQueue->GetCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
+		pCommandList->GetCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
 	}
 	ComPtr<ID3D12RootSignature> RootSignature::GetRootSignature() const {
 		return m_d3dRootSignature;

@@ -12,8 +12,8 @@ namespace EngineFramework {
 	public:
 		void Initialize(const IDevice* pDevice);
 		void Create(const IDevice* pDevice);
-		void SetRootSignature(const ICommandQueue* pCommandQueue);
-		void SetResourceDescriptorHeap(const ICommandQueue* pCommandQueue);
+		void SetRootSignature(const ICommandList* pCommandList);
+		void SetResourceDescriptorHeap(const ICommandList* pCommandList);
 	public:
 		ComPtr<ID3D12RootSignature> GetRootSignature() const override;
 		UINT GetBufferIndex() const override;

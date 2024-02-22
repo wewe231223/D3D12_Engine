@@ -72,7 +72,7 @@ namespace EngineFramework {
         ID3D12CommandList* CommandLists[] = { pCommandQueue->GetCommandList().Get()};
         pCommandQueue->GetCommandQueue()->ExecuteCommandLists(_countof(CommandLists), CommandLists);
 
-        pCommandQueue->FlushCommandQueue();
+        pCommandQueue->Sync();
         
 
         m_d3dScreenViewPort.TopLeftX = 0;
@@ -95,6 +95,11 @@ namespace EngineFramework {
 
     void SwapChain::SwapBuffer() const{
         m_nCurrentBackBuffer = (m_nCurrentBackBuffer + 1) % SWAP_CHAIN_BUFFER_COUNT;
+    }
+
+    void SwapChain::Present() const {
+        m_dxgiSwapChain->Present(NULL, NULL);
+        SwapBuffer();
     }
 
 }

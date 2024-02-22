@@ -7,9 +7,14 @@ namespace EngineFramework {
 
 	__interface ICommandQueue {
 		virtual ComPtr<ID3D12CommandQueue> GetCommandQueue() const PURE;
-		virtual ComPtr<ID3D12CommandAllocator> GetCommandAllocator() const PURE;
-		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const PURE;
-		virtual void FlushCommandQueue() const PURE;
+		virtual void Sync() const PURE;
+	};
+
+	__interface ICommandList {
+		virtual void Open() const PURE;
+		virtual void Execute(const ICommandQueue* pCommandQueue) const PURE;
+		virtual void Close() const PURE;
+		virtual ComPtr< ID3D12GraphicsCommandList> GetCommandList() const PURE;
 	};
 
 	__interface ISwapChain {
@@ -20,6 +25,7 @@ namespace EngineFramework {
 		virtual D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView() const PURE;
 		virtual D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView() const PURE;
 		virtual void SwapBuffer() const PURE;
+		virtual void Present() const PURE;
 	};
 
 	__interface IShader {

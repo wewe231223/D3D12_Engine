@@ -12,6 +12,6 @@ namespace EngineFramework {
 		void SetShader(const IShader* pShader);
 		void SetRootSignature(const IRootSignature* pRootSignature);
 		void Create(const IDevice* pDevice);
-		void SetPipelineState(const ICommandQueue* pCommandQueue);
+		void SetPipelineState(const ICommandList* pCommandList);
 	};
 }
