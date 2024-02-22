@@ -19,7 +19,8 @@ namespace EngineFramework {
 	private:
 		std::unique_ptr<class Device> m_pDevice{ nullptr };
 		std::unique_ptr<class CommandQueue> m_pCommandQueue{ nullptr };
-		std::unique_ptr<class CommandList> m_pCommandList{ nullptr };
+		std::unique_ptr<class CommandList> m_pMainCommandList{ nullptr };
+		std::unique_ptr<class CommandList> m_pResourceCommandList{ nullptr };
 		std::unique_ptr<class SwapChain> m_pSwapChain{ nullptr };
 		std::unique_ptr<class Scene> m_scene{ nullptr };
 

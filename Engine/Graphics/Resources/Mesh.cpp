@@ -26,9 +26,9 @@ namespace EngineFramework {
 			return *this;
 		}
 
-		void Mesh::Render(const ICommandQueue* pCommandQueue) const {
+		void Mesh::Render(const ICommandList* pCommandList) const {
 			// 그리기 연산 인스턴싱에 대한 지원은 오버로딩으로 구현 
-			pCommandQueue->GetCommandList()->DrawIndexedInstanced(m_nIndexCount, 1, m_nIndexStartLocation, m_nVertexStartLocation, 0);
+			pCommandList->GetCommandList()->DrawIndexedInstanced(m_nIndexCount, 1, m_nIndexStartLocation, m_nVertexStartLocation, 0);
 		}
 
 		MeshManager::MeshManager(){
@@ -65,14 +65,14 @@ namespace EngineFramework {
 			return Result;
 		}
 
-		void MeshManager::Upload(const IDevice* pDevice, const ICommandQueue* pCommandQueue){
+		void MeshManager::Upload(const IDevice* pDevice, const ICommandList* pCommandList){
 			if (m_d3dVertexDefaultBuffer) m_d3dVertexDefaultBuffer = nullptr;
 			if (m_d3dVertexUploadBuffer) m_d3dVertexUploadBuffer = nullptr;
 			if (m_d3dIndexUploadBuffer) m_d3dIndexUploadBuffer = nullptr;
 			if (m_d3dIndexDefaultBuffer) m_d3dIndexDefaultBuffer = nullptr;
 
-			m_d3dVertexDefaultBuffer = CreateBuffer(pDevice, pCommandQueue, m_d3dVertexUploadBuffer, m_vertices.data(), static_cast<UINT64>(m_vertices.size() * sizeof(Vertex)));
-			m_d3dIndexDefaultBuffer = CreateBuffer(pDevice, pCommandQueue, m_d3dIndexUploadBuffer, m_indices.data(), static_cast<UINT64>(m_indices.size() * sizeof(UINT)));
+			m_d3dVertexDefaultBuffer = CreateBuffer(pDevice, pCommandList, m_d3dVertexUploadBuffer, m_vertices.data(), static_cast<UINT64>(m_vertices.size() * sizeof(Vertex)));
+			m_d3dIndexDefaultBuffer = CreateBuffer(pDevice, pCommandList, m_d3dIndexUploadBuffer, m_indices.data(), static_cast<UINT64>(m_indices.size() * sizeof(UINT)));
 		
 			UINT VertexByteSize{ static_cast<UINT>(m_vertices.size() * sizeof(Vertex)) };
 			UINT IndexByteSize{ static_cast<UINT>(m_indices.size() * sizeof(UINT)) };
@@ -86,13 +86,13 @@ namespace EngineFramework {
 			m_d3dIndexBufferView.SizeInBytes = IndexByteSize;
 		}
 
-		void MeshManager::BindBuffer(const ICommandQueue* pCommandQueue,D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology){
-			pCommandQueue->GetCommandList()->IASetVertexBuffers(0, 1, &m_d3dVertexBufferView);
-			pCommandQueue->GetCommandList()->IASetIndexBuffer(&m_d3dIndexBufferView);
-			pCommandQueue->GetCommandList()->IASetPrimitiveTopology(d3dMeshTopology);
+		void MeshManager::BindBuffer(const ICommandList* pCommandList,D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology){
+			pCommandList->GetCommandList()->IASetVertexBuffers(0, 1, &m_d3dVertexBufferView);
+			pCommandList->GetCommandList()->IASetIndexBuffer(&m_d3dIndexBufferView);
+			pCommandList->GetCommandList()->IASetPrimitiveTopology(d3dMeshTopology);
 		}
 
-		ComPtr<ID3D12Resource> MeshManager::CreateBuffer(const IDevice* pDevice,const ICommandQueue* pCommandQueue, ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize){
+		ComPtr<ID3D12Resource> MeshManager::CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList, ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize){
 			CD3DX12_HEAP_PROPERTIES HeapProperties{ D3D12_HEAP_TYPE_DEFAULT };
 			CD3DX12_RESOURCE_DESC BufferDesc{ CD3DX12_RESOURCE_DESC::Buffer(nByteSize) };
 
@@ -125,11 +125,11 @@ namespace EngineFramework {
 
 			CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(),D3D12_RESOURCE_STATE_COMMON,D3D12_RESOURCE_STATE_COPY_DEST) };
 
-			pCommandQueue->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
-			UpdateSubresources<1>(pCommandQueue->GetCommandList().Get(), DefaultBuffer.Get(), d3dUploadBuffer.Get(), 0, 0, 1, &ResourceData);
+			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
+			UpdateSubresources<1>(pCommandList->GetCommandList().Get(), DefaultBuffer.Get(), d3dUploadBuffer.Get(), 0, 0, 1, &ResourceData);
 
 			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
-			pCommandQueue->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
+			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
 			//m_d3dVertexUploadBuffer = nullptr;
 

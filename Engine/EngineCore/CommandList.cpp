@@ -25,6 +25,7 @@ namespace EngineFramework {
 	}
 
 	void CommandList::PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor){
+		
 		CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(pSwapChain->GetCurrentBackBuffer().Get(),D3D12_RESOURCE_STATE_PRESENT,D3D12_RESOURCE_STATE_RENDER_TARGET) };
 		m_d3dGraphicsCommandList->ResourceBarrier(1, &ResourceBarrier);
 		D3D12_CPU_DESCRIPTOR_HANDLE BackBufferView{ pSwapChain->GetCurrentBackBufferView() };
@@ -49,11 +50,9 @@ namespace EngineFramework {
 	}
 
 	void CommandList::Execute(const ICommandQueue* pCommandQueue) const {
-		Close();
 		ID3D12CommandList* CommandLists[] = { m_d3dGraphicsCommandList.Get() };
 		pCommandQueue->GetCommandQueue()->ExecuteCommandLists(_countof(CommandLists), CommandLists);
 		pCommandQueue->Sync();
-		Open();
 	}
 
 	void CommandList::Close() const {

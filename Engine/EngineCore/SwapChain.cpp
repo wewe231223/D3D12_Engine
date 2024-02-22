@@ -51,7 +51,7 @@ namespace EngineFramework {
         m_pDepthStencil->Initialize(pDevice, m_cpWindowInfo, m_dxgiDepthStencilFormat);
 
     }
-    void SwapChain::Resize(const IDevice* pDevice,const ICommandQueue* pCommandQueue) {
+    void SwapChain::Resize(const IDevice* pDevice,const ICommandList* pCommandList) {
         for (UINT i = 0; i < SWAP_CHAIN_BUFFER_COUNT; ++i) {
             m_d3dSwapChainBuffer[i].Reset();
         }
@@ -66,14 +66,7 @@ namespace EngineFramework {
             RenderTargetViewHeapHandle.Offset(1, m_pRenderTarget->GetRenderTargetDescriptorHeapIncreasement());
         }
 
-        m_pDepthStencil->Resize(pDevice, pCommandQueue, &m_msaa4xState);
-
-        CheckFailed(pCommandQueue->GetCommandList()->Close());
-        ID3D12CommandList* CommandLists[] = { pCommandQueue->GetCommandList().Get()};
-        pCommandQueue->GetCommandQueue()->ExecuteCommandLists(_countof(CommandLists), CommandLists);
-
-        pCommandQueue->Sync();
-        
+        m_pDepthStencil->Resize(pDevice, pCommandList, &m_msaa4xState);
 
         m_d3dScreenViewPort.TopLeftX = 0;
         m_d3dScreenViewPort.TopLeftY = 0;

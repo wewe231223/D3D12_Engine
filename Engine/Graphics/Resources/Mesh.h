@@ -14,7 +14,7 @@ namespace EngineFramework {
 			UINT m_nIndexStartLocation{};
 			UINT m_nIndexCount{};
 		public:
-			void Render(const ICommandQueue* pCommandQueue) const;
+			void Render(const ICommandList* pCommandList) const;
 		};
 
 		class MeshManager {
@@ -40,10 +40,10 @@ namespace EngineFramework {
 			std::vector<UINT> m_indices{};
 		public:
 			std::shared_ptr<Mesh> CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices);
-			void Upload(const IDevice* pDevice,const ICommandQueue* pCommandQueue);
-			void BindBuffer(const ICommandQueue* pCommandQueue, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology);
+			void Upload(const IDevice* pDevice,const ICommandList* pCommandList);
+			void BindBuffer(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology);
 		private:
-			ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice, const ICommandQueue* pCommandQueue,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize);
+			ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize);
 
 		};
 

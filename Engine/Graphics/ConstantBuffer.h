@@ -16,7 +16,7 @@ namespace EngineFramework {
 		public:
 			void Initialize(const IDevice* pDevice,const IRootSignature* pRootSignature);
 			void CommitData(const Ty& Data);
-			void BindCommandList(const ICommandQueue* pCommandQueue);
+			void BindCommandList(const ICommandList* pCommandList);
 		};
 		template<typename Ty>
 		inline RootDescriptor<Ty>::RootDescriptor(){
@@ -57,8 +57,8 @@ namespace EngineFramework {
 		}
 
 		template<typename Ty>
-		inline void RootDescriptor<Ty>::BindCommandList(const ICommandQueue* pCommandQueue){
-			pCommandQueue->GetCommandList()->SetGraphicsRootConstantBufferView(m_nRootSigantureIndex, m_d3dBuffer->GetGPUVirtualAddress());
+		inline void RootDescriptor<Ty>::BindCommandList(const ICommandList* pCommandList){
+			pCommandList->GetCommandList()->SetGraphicsRootConstantBufferView(m_nRootSigantureIndex, m_d3dBuffer->GetGPUVirtualAddress());
 		}
 
 	}

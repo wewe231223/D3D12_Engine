@@ -15,7 +15,7 @@ namespace EngineFramework {
 		DXGI_FORMAT m_dxgiDepthStencilFormat{};
 	public:
 		void Initialize(const IDevice* pDevice,const App::WindowInfo* cpWindowInfo,DXGI_FORMAT dxgiDepthStencilFormat);
-		void Resize(const IDevice* pDevice, const ICommandQueue* pCommandQueue, const MsaaState* cpMsaa4xState);
+		void Resize(const IDevice* pDevice, const ICommandList* pCommandList, const MsaaState* cpMsaa4xState);
 	public:
 		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle() const;
 	};

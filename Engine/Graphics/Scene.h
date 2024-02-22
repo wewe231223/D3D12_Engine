@@ -21,7 +21,7 @@ namespace EngineFramework {
 		std::unique_ptr<Resource::MeshManager> m_meshManager{ nullptr };
 		std::shared_ptr<Resource::Mesh> testmesh{ nullptr };
 	public:
-		void Initialize(const IDevice* pDevice, const ICommandQueue* pCommandQueue);
-		void Render(const ICommandQueue* pCommandQueue);
+		void Initialize(const IDevice* pDevice, const ICommandList* pCommandList);
+		void Render(const ICommandList* pCommandList);
 	};
 }

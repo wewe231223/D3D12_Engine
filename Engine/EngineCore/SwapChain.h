@@ -22,7 +22,7 @@ namespace EngineFramework {
 		std::unique_ptr<class DepthStencil> m_pDepthStencil{ nullptr };
 	public:
 		void Initialize(const IDevice* pDevice,const ICommandQueue* pCommandQueue,const App::WindowInfo* cpWindowInfo,bool bMsaa4xState,DXGI_FORMAT dxgiBackBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT dxgiDepthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT);
-		void Resize(const IDevice* pDevice,const ICommandQueue* pCommandQueue);
+		void Resize(const IDevice* pDevice, const ICommandList* pCommandList);
 	public:
 		virtual ComPtr<IDXGISwapChain> GetDxgiSwapChain() const override { return m_dxgiSwapChain; }
 		virtual const D3D12_VIEWPORT* GetViewPort() const override { return &m_d3dScreenViewPort; }

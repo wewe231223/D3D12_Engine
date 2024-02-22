@@ -18,7 +18,7 @@ namespace EngineFramework {
 
 	}
 
-	void Scene::Initialize(const IDevice* pDevice,const ICommandQueue* pCommandQueue){
+	void Scene::Initialize(const IDevice* pDevice, const ICommandList* pCommandList){
 
 		m_shader = std::make_unique<Shader>();
 		m_rootSignature = std::make_unique<RootSignature>();
@@ -69,14 +69,14 @@ namespace EngineFramework {
 		m_pso->SetRootSignature(m_rootSignature.get());
 		m_pso->Create(pDevice);
 
-		m_meshManager->Upload(pDevice, pCommandQueue);
+		m_meshManager->Upload(pDevice, pCommandList);
 	}
 
-	void Scene::Render(const ICommandQueue* pCommandQueue){
-		m_pso->SetPipelineState(pCommandQueue);
-		pCommandQueue->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
-		m_meshManager->BindBuffer(pCommandQueue, D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		testmesh->Render(pCommandQueue);
+	void Scene::Render(const ICommandList* pCommandList){
+		m_pso->SetPipelineState(pCommandList);
+		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
+		m_meshManager->BindBuffer(pCommandList, D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		testmesh->Render(pCommandList);
 	}
 
 

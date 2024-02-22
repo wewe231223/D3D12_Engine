@@ -24,7 +24,7 @@ namespace EngineFramework {
 		m_cpWindowInfo = cpWindowInfo;
 		m_dxgiDepthStencilFormat = dxgiDepthStencilFormat;
 	}
-	void DepthStencil::Resize(const IDevice* pDevice,const ICommandQueue* pCommandQueue,const MsaaState* cpMsaa4xState){
+	void DepthStencil::Resize(const IDevice* pDevice,const ICommandList* pCommandList,const MsaaState* cpMsaa4xState){
 		m_d3dDepthStencilBuffer.Reset();
 		D3D12_RESOURCE_DESC DepthStencilDesc;
 		DepthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -50,7 +50,7 @@ namespace EngineFramework {
 
 		pDevice->GetDevice()->CreateDepthStencilView(m_d3dDepthStencilBuffer.Get(), nullptr, m_d3dDepthStencilDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
 		CD3DX12_RESOURCE_BARRIER ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(m_d3dDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
-		pCommandQueue->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
+		pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 	}
 	D3D12_CPU_DESCRIPTOR_HANDLE DepthStencil::GetCPUDescriptorHandle() const {
 		return m_d3dDepthStencilDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
