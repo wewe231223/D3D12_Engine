@@ -36,8 +36,8 @@ namespace EngineFramework {
 		m_pResourceCommandList->Initialize(m_pDevice.get());
 		m_pSwapChain->Initialize(m_pDevice.get(), m_pCommandQueue.get(), m_cpWindowInfo, m_bMsaa4xState);
 
-		Resize();
 
+		Resize();
 
 		// 이부분은 좀 손봐야할듯
 		// Default - Upload 버퍼를 사용하면 이를 CommandList에 업로드해야하는데 이때 커맨드리스트를 열고, 
@@ -51,17 +51,26 @@ namespace EngineFramework {
 		// 3. 앞 과정에서 업로드 했으므로, 다시 닫아줘야 한다.( 닫고 업로드한 정점 제출 )
 		m_pResourceCommandList->Close();
 		m_pResourceCommandList->Execute(m_pCommandQueue.get());
+		m_pCommandQueue->Sync();
+		m_pResourceCommandList->Open();
 	}
 
 	void DirectXEngine::Render(){
 		m_pMainCommandList->Open();
-		m_pMainCommandList->PrepareRender(m_pSwapChain.get(), DirectX::Colors::LightSteelBlue);
+		m_pMainCommandList->TransformState(m_pSwapChain->GetCurrentBackBuffer(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		m_pMainCommandList->SetViewPort(m_pSwapChain->GetViewPort());
+		m_pMainCommandList->SetSissorRect(m_pSwapChain->GetSissorRect());
+		m_pMainCommandList->ClearBackBuffer(m_pSwapChain.get(), DirectX::Colors::LightSteelBlue);
 
 
 		m_scene->Render(m_pMainCommandList.get());
 
+		
+		m_pMainCommandList->TransformState(m_pSwapChain->GetCurrentBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 		m_pMainCommandList->Close();
-		m_pMainCommandList->FinishRender(m_pSwapChain.get(),m_pCommandQueue.get());
+		m_pMainCommandList->Execute(m_pCommandQueue.get());
+		m_pSwapChain->Present();
+		m_pCommandQueue->Sync();
 	}
 
 	void DirectXEngine::Update(){
@@ -73,6 +82,7 @@ namespace EngineFramework {
 		m_pSwapChain->Resize(m_pDevice.get(), m_pMainCommandList.get());
 		m_pMainCommandList->Close();
 		m_pMainCommandList->Execute(m_pCommandQueue.get());
+		m_pCommandQueue->Sync();
 	}
 
 }

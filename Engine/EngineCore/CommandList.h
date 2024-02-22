@@ -12,8 +12,8 @@ namespace EngineFramework {
 		void Initialize(const IDevice* pDevice);
 		void SetViewPort(const D3D12_VIEWPORT* cpViewport);
 		void SetSissorRect(const D3D12_RECT* cpRect);
-		void PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor);
-		void FinishRender(const ISwapChain* pSwapChain, const ICommandQueue* pCommandQueue);
+		void ClearBackBuffer(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor);
+		void TransformState(ComPtr<ID3D12Resource> d3dResource,D3D12_RESOURCE_STATES d3dPrevState, D3D12_RESOURCE_STATES d3dTarState);
 	public: // Interface 
 		virtual void Open() const override;
 		virtual void Execute(const ICommandQueue* pCommandQueue) const override;

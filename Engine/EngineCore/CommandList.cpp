@@ -24,10 +24,7 @@ namespace EngineFramework {
 		m_d3dGraphicsCommandList->RSSetScissorRects(1, cpRect);
 	}
 
-	void CommandList::PrepareRender(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor){
-		
-		CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(pSwapChain->GetCurrentBackBuffer().Get(),D3D12_RESOURCE_STATE_PRESENT,D3D12_RESOURCE_STATE_RENDER_TARGET) };
-		m_d3dGraphicsCommandList->ResourceBarrier(1, &ResourceBarrier);
+	void CommandList::ClearBackBuffer(const ISwapChain* pSwapChain,const DirectX::XMVECTORF32 dxClearColor){
 		D3D12_CPU_DESCRIPTOR_HANDLE BackBufferView{ pSwapChain->GetCurrentBackBufferView() };
 		D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView{ pSwapChain->GetDepthStencilView() };
 
@@ -37,11 +34,9 @@ namespace EngineFramework {
 		m_d3dGraphicsCommandList->OMSetRenderTargets(1, &BackBufferView, true, &DepthStencilView);
 	}
 
-	void CommandList::FinishRender(const ISwapChain* pSwapChain,const ICommandQueue* pCommandQueue){
-		CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(pSwapChain->GetCurrentBackBuffer().Get(),D3D12_RESOURCE_STATE_PRESENT,D3D12_RESOURCE_STATE_RENDER_TARGET) };
+	void CommandList::TransformState(ComPtr<ID3D12Resource> d3dResource,D3D12_RESOURCE_STATES d3dPrevState, D3D12_RESOURCE_STATES d3dTarState){
+		CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(d3dResource.Get(),d3dPrevState,d3dTarState) };
 		m_d3dGraphicsCommandList->ResourceBarrier(1, &ResourceBarrier);
-		Execute(pCommandQueue);
-		pSwapChain->Present();
 	}
 
 	void CommandList::Open() const {
@@ -52,7 +47,6 @@ namespace EngineFramework {
 	void CommandList::Execute(const ICommandQueue* pCommandQueue) const {
 		ID3D12CommandList* CommandLists[] = { m_d3dGraphicsCommandList.Get() };
 		pCommandQueue->GetCommandQueue()->ExecuteCommandLists(_countof(CommandLists), CommandLists);
-		pCommandQueue->Sync();
 	}
 
 	void CommandList::Close() const {
