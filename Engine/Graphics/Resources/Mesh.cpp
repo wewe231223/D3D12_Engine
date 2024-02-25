@@ -66,14 +66,9 @@ namespace EngineFramework {
 		}
 
 		void MeshManager::Upload(const IDevice* pDevice, const ICommandList* pCommandList){
-			if (m_d3dVertexDefaultBuffer) m_d3dVertexDefaultBuffer = nullptr;
-			if (m_d3dVertexUploadBuffer) m_d3dVertexUploadBuffer = nullptr;
-			if (m_d3dIndexUploadBuffer) m_d3dIndexUploadBuffer = nullptr;
-			if (m_d3dIndexDefaultBuffer) m_d3dIndexDefaultBuffer = nullptr;
-
 			m_d3dVertexDefaultBuffer = CreateBuffer(pDevice, pCommandList, m_d3dVertexUploadBuffer, m_vertices.data(), static_cast<UINT64>(m_vertices.size() * sizeof(Vertex)));
 			m_d3dIndexDefaultBuffer = CreateBuffer(pDevice, pCommandList, m_d3dIndexUploadBuffer, m_indices.data(), static_cast<UINT64>(m_indices.size() * sizeof(UINT)));
-		
+			
 			UINT VertexByteSize{ static_cast<UINT>(m_vertices.size() * sizeof(Vertex)) };
 			UINT IndexByteSize{ static_cast<UINT>(m_indices.size() * sizeof(UINT)) };
 
@@ -128,14 +123,13 @@ namespace EngineFramework {
 			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 			UpdateSubresources<1>(pCommandList->GetCommandList().Get(), DefaultBuffer.Get(), d3dUploadBuffer.Get(), 0, 0, 1, &ResourceData);
 
-			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
+			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
 			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
 		
 
 			return DefaultBuffer;
 		}
-
 
 	}
 }

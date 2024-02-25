@@ -21,7 +21,7 @@ namespace EngineFramework {
 	}
 
 	void Scene::Initialize(const IDevice* pDevice, const ICommandList* pCommandList){
-
+		//----------------------------------------이니셜라이징 
 		m_shader = std::make_unique<Shader>();
 		m_rootSignature = std::make_unique<RootSignature>();
 		m_pso = std::make_unique<PipelineStateObject>();
@@ -34,7 +34,9 @@ namespace EngineFramework {
 		m_pso->Initialize();
 		m_pso->SetShader(m_shader.get());
 		m_descriptortable->Initalize(pDevice, 10, 0);
-		
+		//----------------------------------------이니셜라이징
+
+		//----------------------------------------오브젝트 생성 
 		testtex = std::make_unique<Resource::Texture>();
 		testtex->Initialize(pDevice, pCommandList, _T("..\\Resources\\veigar.jpg"));
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
@@ -69,6 +71,12 @@ namespace EngineFramework {
 
 		testmesh = m_meshManager->CreateMesh(_T("Testmesh"), vec, indexVec);
 
+
+		m_descriptortable->SetDescriptor(pDevice, testtex->GetDescriptorHandle(), 0);
+		//----------------------------------------오브젝트 생성 
+		m_meshManager->Upload(pDevice, pCommandList);
+
+		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
 		CD3DX12_DESCRIPTOR_RANGE DescRange[] = { CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV,1,0) };
 		CD3DX12_ROOT_PARAMETER RootParam{};
 		RootParam.InitAsDescriptorTable(_countof(DescRange), DescRange);
@@ -80,16 +88,18 @@ namespace EngineFramework {
 		m_pso->SetRootSignature(m_rootSignature.get());
 		m_pso->Create(pDevice);
 
-		m_meshManager->Upload(pDevice, pCommandList);
+		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
+
 	}
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
 		
 		m_pso->SetPipelineState(pCommandList);
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
+
 		ID3D12DescriptorHeap* DescriptorHeap = m_descriptortable->GetDescriptorHeap().Get();
 		pCommandList->GetCommandList()->SetDescriptorHeaps(1, &DescriptorHeap);
-		m_descriptortable->SetDescriptor(pDevice, testtex->GetDescriptorHandle(), 0);
+
 		m_descriptortable->CommitTable(pCommandList);
 		m_meshManager->BindBuffer(pCommandList, D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		testmesh->Render(pCommandList);
