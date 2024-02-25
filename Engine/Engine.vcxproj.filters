@@ -102,19 +102,10 @@
     <ClInclude Include="Graphics\Shader.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\RootSignature.h">
-      <Filter>헤더 파일\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\PipeLineStateObject.h">
-      <Filter>헤더 파일\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Scene.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Camera.h">
-      <Filter>헤더 파일\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ConstantBuffer.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Resources\Texture.h">
@@ -129,8 +120,17 @@
     <ClInclude Include="EngineCore\CommandList.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\DescriptorTable.h">
-      <Filter>헤더 파일\Graphics</Filter>
+    <ClInclude Include="EngineCore\ConstantBuffer.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCore\DescriptorTable.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCore\PipeLineStateObject.h">
+      <Filter>헤더 파일\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCore\RootSignature.h">
+      <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,19 +176,10 @@
     <ClCompile Include="Graphics\Shader.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\RootSignature.cpp">
-      <Filter>소스 파일\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\PipeLineStateObject.cpp">
-      <Filter>소스 파일\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Scene.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Camera.cpp">
-      <Filter>소스 파일\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ConstantBuffer.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Resources\Texture.cpp">
@@ -197,8 +188,17 @@
     <ClCompile Include="EngineCore\CommandList.cpp">
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\DescriptorTable.cpp">
-      <Filter>소스 파일\Graphics</Filter>
+    <ClCompile Include="EngineCore\ConstantBuffer.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\PipeLineStateObject.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\RootSignature.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\DescriptorTable.cpp">
+      <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

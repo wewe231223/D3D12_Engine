@@ -2,10 +2,10 @@
 #include "Scene.h"
 #include "Resources/Mesh.h"
 #include "Resources/Texture.h"
-#include "PipeLineStateObject.h"
-#include "RootSignature.h"
+#include "EngineCore/PipeLineStateObject.h"
+#include "EngineCore/RootSignature.h"
 #include "Shader.h"
-#include "DescriptorTable.h"
+#include "EngineCore/DescriptorTable.h"
 
 namespace EngineFramework {
 	Scene::Scene(){
