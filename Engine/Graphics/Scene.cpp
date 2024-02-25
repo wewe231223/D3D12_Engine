@@ -1,9 +1,11 @@
 #include "EnginePch.h"
 #include "Scene.h"
 #include "Resources/Mesh.h"
+#include "Resources/Texture.h"
 #include "PipeLineStateObject.h"
 #include "RootSignature.h"
 #include "Shader.h"
+#include "DescriptorTable.h"
 
 namespace EngineFramework {
 	Scene::Scene(){
@@ -24,14 +26,17 @@ namespace EngineFramework {
 		m_rootSignature = std::make_unique<RootSignature>();
 		m_pso = std::make_unique<PipelineStateObject>();
 		m_meshManager = std::make_unique<Resource::MeshManager>();
+		m_descriptortable = std::make_unique<DescriptorTable>();
 
 		m_shader->Initialize(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"));
 		m_shader->CompileShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
 		m_shader->CompileShader(PixelShader, nullptr, "PS_Main", "ps_5_1");
-		m_rootSignature->Initialize(pDevice);
 		m_pso->Initialize();
 		m_pso->SetShader(m_shader.get());
-
+		m_descriptortable->Initalize(pDevice, 10, 0);
+		
+		testtex = std::make_unique<Resource::Texture>();
+		testtex->Initialize(pDevice, pCommandList, _T("..\\Resources\\veigar.jpg"));
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
 		std::vector<Vertex> vec(4);
 		vec[0].Position = DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f);
@@ -64,6 +69,12 @@ namespace EngineFramework {
 
 		testmesh = m_meshManager->CreateMesh(_T("Testmesh"), vec, indexVec);
 
+		CD3DX12_DESCRIPTOR_RANGE DescRange[] = { CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV,1,0) };
+		CD3DX12_ROOT_PARAMETER RootParam{};
+		RootParam.InitAsDescriptorTable(_countof(DescRange), DescRange);
+
+		m_rootSignature->NewParameter(RootParam);
+		m_rootSignature->NewSampler(0);
 
 		m_rootSignature->Create(pDevice);
 		m_pso->SetRootSignature(m_rootSignature.get());
@@ -72,9 +83,14 @@ namespace EngineFramework {
 		m_meshManager->Upload(pDevice, pCommandList);
 	}
 
-	void Scene::Render(const ICommandList* pCommandList){
+	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
+		
 		m_pso->SetPipelineState(pCommandList);
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
+		ID3D12DescriptorHeap* DescriptorHeap = m_descriptortable->GetDescriptorHeap().Get();
+		pCommandList->GetCommandList()->SetDescriptorHeaps(1, &DescriptorHeap);
+		m_descriptortable->SetDescriptor(pDevice, testtex->GetDescriptorHandle(), 0);
+		m_descriptortable->CommitTable(pCommandList);
 		m_meshManager->BindBuffer(pCommandList, D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		testmesh->Render(pCommandList);
 	}

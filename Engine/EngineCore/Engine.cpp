@@ -39,20 +39,18 @@ namespace EngineFramework {
 
 		Resize();
 
-		// 이부분은 좀 손봐야할듯
-		// Default - Upload 버퍼를 사용하면 이를 CommandList에 업로드해야하는데 이때 커맨드리스트를 열고, 
-		// 정점을 제출한뒤 닫는 과정이 필요함
-		// ==> 그렇게 할정도로 효율적인가? 
-		// 하지만 여기서 커맨드 리스트를 열었기 때문에 텍스쳐를 별도 커맨드 리스트 없이 삽입 가능
-		// 1. 닫혀있는 ( 커맨드리스트를 생성할때 바로 닫는다 - 원치않는 명령입력을 피하기 위해) 
+		// 1. 리소스를 업로드할 커맨드리스트를 연다 
 		m_pResourceCommandList->Open();
-		// 2. Scene 을 Init 한다. ( 이때 정점, 인덱스를 업로드 버퍼에 제출하고 업로드한다 )
+		// 2. Scene Initialize 를 통해 리소스들( 정점, 텍스쳐 등 ) 을 업로드한다 
 		m_scene->Initialize(m_pDevice.get(),m_pResourceCommandList.get());
-		// 3. 앞 과정에서 업로드 했으므로, 다시 닫아줘야 한다.( 닫고 업로드한 정점 제출 )
+		// 3. 리소스를 모두 업로드 했으면 커맨드 리스트를 닫는다.
 		m_pResourceCommandList->Close();
+		// 4. 업로드한 리소스를 제출한다.
 		m_pResourceCommandList->Execute(m_pCommandQueue.get());
+		// 5. GPU와 싱크를 맞춘다 ( GPU 에 업로드한다 )
 		m_pCommandQueue->Sync();
-		m_pResourceCommandList->Open();
+
+
 	}
 
 	void DirectXEngine::Render(){
@@ -63,7 +61,7 @@ namespace EngineFramework {
 		m_pMainCommandList->ClearBackBuffer(m_pSwapChain.get(), DirectX::Colors::LightSteelBlue);
 
 
-		m_scene->Render(m_pMainCommandList.get());
+		m_scene->Render(m_pDevice.get(), m_pMainCommandList.get());
 
 		
 		m_pMainCommandList->TransformState(m_pSwapChain->GetCurrentBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);

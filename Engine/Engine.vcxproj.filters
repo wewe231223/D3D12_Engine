@@ -129,6 +129,9 @@
     <ClInclude Include="EngineCore\CommandList.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DescriptorTable.h">
+      <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -193,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="EngineCore\CommandList.cpp">
       <Filter>소스 파일\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DescriptorTable.cpp">
+      <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

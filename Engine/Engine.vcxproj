@@ -33,6 +33,7 @@
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\ConstantBuffer.h" />
+    <ClInclude Include="Graphics\DescriptorTable.h" />
     <ClInclude Include="Graphics\PipeLineStateObject.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
     <ClInclude Include="Graphics\Resources\Texture.h" />
@@ -57,6 +58,7 @@
     <ClCompile Include="EngineCore\SwapChain.cpp" />
     <ClCompile Include="Graphics\Camera.cpp" />
     <ClCompile Include="Graphics\ConstantBuffer.cpp" />
+    <ClCompile Include="Graphics\DescriptorTable.cpp" />
     <ClCompile Include="Graphics\PipeLineStateObject.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
     <ClCompile Include="Graphics\Resources\Texture.cpp" />

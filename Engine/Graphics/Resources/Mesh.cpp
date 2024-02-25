@@ -86,7 +86,7 @@ namespace EngineFramework {
 			m_d3dIndexBufferView.SizeInBytes = IndexByteSize;
 		}
 
-		void MeshManager::BindBuffer(const ICommandList* pCommandList,D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology){
+		void MeshManager::BindBuffer(const ICommandList* pCommandList,D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology) const{
 			pCommandList->GetCommandList()->IASetVertexBuffers(0, 1, &m_d3dVertexBufferView);
 			pCommandList->GetCommandList()->IASetIndexBuffer(&m_d3dIndexBufferView);
 			pCommandList->GetCommandList()->IASetPrimitiveTopology(d3dMeshTopology);
@@ -131,7 +131,7 @@ namespace EngineFramework {
 			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
 			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
-			//m_d3dVertexUploadBuffer = nullptr;
+		
 
 			return DefaultBuffer;
 		}
