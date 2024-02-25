@@ -4,8 +4,8 @@
 #include "Resources/Texture.h"
 #include "EngineCore/PipeLineStateObject.h"
 #include "EngineCore/RootSignature.h"
-#include "Shader.h"
 #include "EngineCore/DescriptorTable.h"
+#include "Shader.h"
 
 namespace EngineFramework {
 	Scene::Scene(){
