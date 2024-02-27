@@ -1,5 +1,6 @@
 #include "EnginePch.h"
 #include "Mesh.h"
+#include "ResourceManager.h"
 
 namespace EngineFramework {
 	namespace Resource {
@@ -9,6 +10,11 @@ namespace EngineFramework {
 
 		Mesh::~Mesh(){
 
+		}
+
+		Mesh::Mesh(const std::tstring& ctsMeshName, UINT nVertexStart, UINT nIndexStart, UINT nIndexCount)
+			: m_tsMeshName(ctsMeshName),m_nVertexStartLocation(nVertexStart),m_nIndexStartLocation(nIndexStart),m_nIndexCount(nIndexCount)
+		{
 		}
 
 		Mesh::Mesh(const Mesh& other){
@@ -40,7 +46,7 @@ namespace EngineFramework {
 			if (m_d3dIndexUploadBuffer) m_d3dIndexUploadBuffer = nullptr;
 		}
 
-		std::unique_ptr<Mesh>MeshManager::CreateMesh(const std::tstring& tcsMeshName, const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) {
+		std::unique_ptr<Mesh>MeshManager::Create(const std::tstring& tcsMeshName, const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) {
 			if (m_meshMap.find(tcsMeshName) != m_meshMap.end()) {
 				return std::make_unique<Mesh>(m_meshMap[tcsMeshName]);
 			}

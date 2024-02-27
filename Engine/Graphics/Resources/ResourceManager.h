@@ -28,10 +28,11 @@ namespace EngineFramework {
 
 				std::vector<Vertex> m_vertices{};
 				std::vector<UINT> m_indices{};
+				std::unordered_map<std::tstring, class Mesh> m_meshMap{};
 			public:
-				void Create(const std::tstring& ctsMeshName, const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices);
+				void CreateMesh(const std::tstring& ctsMeshName, const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices);
 				void Upload(const IDevice* pDevice, const ICommandList* pCommandList);
-				void BindBuffer(const ICommandQueue* pCommandQueue, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology);
+				void BindBuffer(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology);
 				std::unique_ptr<class Mesh> GetMesh(const std::tstring& ctsMeshName);
 			private:
 				ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize);
@@ -43,11 +44,12 @@ namespace EngineFramework {
 				TextureManager();
 				~TextureManager();
 			private:
-
+				std::unordered_map<std::tstring, class Texture> m_textureMap{};
+			public:
+				void CreateTexture(const IDevice* pDevice, const std::tstring& ImagePath);
+				void Upload(const ICommandList* pCommandList);
 			};
 		private:
-			std::unordered_map<std::tstring, class Mesh> m_meshMap{};
-			std::unordered_map<std::tstring, class Texture> m_textureMap{};
 			MeshManager m_cMeshManager{};
 			TextureManager m_cTextureManager{};
 		};

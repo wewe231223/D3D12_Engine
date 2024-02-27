@@ -69,7 +69,7 @@ namespace EngineFramework {
 			indexVec.push_back(3);
 		}
 
-		testmesh = m_meshManager->CreateMesh(_T("Testmesh"), vec, indexVec);
+		testmesh = m_meshManager->Create(_T("Testmesh"), vec, indexVec);
 
 
 		m_descriptortable->SetDescriptor(pDevice, testtex->GetDescriptorHandle(), 0);

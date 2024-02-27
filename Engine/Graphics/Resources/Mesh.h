@@ -6,6 +6,7 @@ namespace EngineFramework {
 		public:
 			Mesh();
 			~Mesh();
+			Mesh(const std::tstring& ctsMeshName, UINT nVertexStart, UINT nIndexStart, UINT nIndexCount);
 			Mesh(const Mesh& other);
 			Mesh& operator=(const Mesh& other);
 		private:
@@ -44,7 +45,7 @@ namespace EngineFramework {
 			void Upload(const IDevice* pDevice,const ICommandList* pCommandList);
 			void BindBuffer(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology) const;
 		public:
-			 std::unique_ptr<Mesh> CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) ;
+			 std::unique_ptr<Mesh> Create(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) ;
 			 std::unique_ptr<Mesh> GetMesh(const std::tstring& tcsMeshName) ;
 		private:
 			ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize);
