@@ -21,7 +21,7 @@ namespace EngineFramework {
 		std::unique_ptr<class DescriptorTable> m_descriptortable{ nullptr };
 	private:
 		std::unique_ptr<Resource::MeshManager> m_meshManager{ nullptr };
-		std::shared_ptr<Resource::Mesh> testmesh{ nullptr };
+		std::unique_ptr<Resource::Mesh> testmesh{ nullptr };
 		std::unique_ptr<Resource::Texture> testtex{ nullptr };
 	public:
 		void Initialize(const IDevice* pDevice, const ICommandList* pCommandList);

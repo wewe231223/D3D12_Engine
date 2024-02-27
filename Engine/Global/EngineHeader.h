@@ -14,6 +14,8 @@
 #include <vector>
 #include <array>
 #include <filesystem>
+#include <map>
+#include <unordered_map>
 namespace fs = std::filesystem;
 
 // DirectX 런타임 헤더 파일입니다.

@@ -12,7 +12,7 @@ namespace EngineFramework {
 
 	__interface ICommandList {
 		virtual void Open() const PURE;
-		virtual void Execute(const ICommandQueue* pCommandQueue) const PURE;
+		virtual void Execute(const ICommandQueue*) const PURE;
 		virtual void Close() const PURE;
 		virtual ComPtr< ID3D12GraphicsCommandList> GetCommandList() const PURE;
 	};
@@ -29,7 +29,7 @@ namespace EngineFramework {
 	};
 
 	__interface IShader {
-		virtual D3D12_SHADER_BYTECODE GetShaderByteCode(ShaderType ShaderType) const PURE;
+		virtual D3D12_SHADER_BYTECODE GetShaderByteCode(ShaderType) const PURE;
 	};
 
 	__interface IRootSignature {
@@ -40,4 +40,5 @@ namespace EngineFramework {
 	__interface IDescriptorTable {
 
 	};
+
 }

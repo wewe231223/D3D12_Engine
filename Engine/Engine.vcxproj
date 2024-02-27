@@ -38,6 +38,9 @@
     <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\GraphicObject.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
+    <ClInclude Include="Graphics\Resources\ResourceManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Graphics\Scene.h" />
     <ClInclude Include="Graphics\Shader.h" />
@@ -64,6 +67,9 @@
     <ClCompile Include="Graphics\Camera.cpp" />
     <ClCompile Include="Graphics\GraphicObject.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
+    <ClCompile Include="Graphics\Resources\ResourceManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
     <ClCompile Include="Graphics\Scene.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />

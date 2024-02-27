@@ -40,29 +40,39 @@ namespace EngineFramework {
 			if (m_d3dIndexUploadBuffer) m_d3dIndexUploadBuffer = nullptr;
 		}
 
-		std::shared_ptr<Mesh>MeshManager::CreateMesh(const std::tstring& tcsMeshName, const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) {
-			std::shared_ptr<Mesh> Result = std::make_shared<Mesh>();
-			Result->m_tsMeshName = tcsMeshName;
-			Result->m_nIndexCount = static_cast<UINT>(indices.size());
+		std::unique_ptr<Mesh>MeshManager::CreateMesh(const std::tstring& tcsMeshName, const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) {
+			if (m_meshMap.find(tcsMeshName) != m_meshMap.end()) {
+				return std::make_unique<Mesh>(m_meshMap[tcsMeshName]);
+			}
+			
+			Mesh Result{};
+			Result.m_tsMeshName = tcsMeshName;
+			Result.m_nIndexCount = static_cast<UINT>(indices.size());
 
 			if (m_vertices.size() == 0) {
-				Result->m_nVertexStartLocation = 0;
+				Result.m_nVertexStartLocation = 0;
 			}
 			else {
-				Result->m_nVertexStartLocation = static_cast<UINT>(m_vertices.size() - 1);
+				Result.m_nVertexStartLocation = static_cast<UINT>(m_vertices.size() - 1);
 			}
 
 			if (m_indices.size() == 0) {
-				Result->m_nIndexStartLocation = 0;
+				Result.m_nIndexStartLocation = 0;
 			}
 			else {
-				Result->m_nIndexStartLocation = static_cast<UINT>(m_indices.size() - 1);
+				Result.m_nIndexStartLocation = static_cast<UINT>(m_indices.size() - 1);
 			}
 
 			m_vertices.insert(m_vertices.begin(), vertices.begin(), vertices.end());
 			m_indices.insert(m_indices.begin(), indices.begin(), indices.end());
 
-			return Result;
+			m_meshMap.insert(std::pair<std::tstring, Mesh>(tcsMeshName,Result));
+															
+			return std::make_unique<Mesh>(Result);
+		}
+
+		std::unique_ptr<Mesh> MeshManager::GetMesh(const std::tstring& tcsMeshName) {
+			return std::make_unique<Mesh>(m_meshMap[tcsMeshName]);
 		}
 
 		void MeshManager::Upload(const IDevice* pDevice, const ICommandList* pCommandList){
@@ -97,7 +107,7 @@ namespace EngineFramework {
 				&HeapProperties,
 				D3D12_HEAP_FLAG_NONE,
 				&BufferDesc,
-				D3D12_RESOURCE_STATE_COMMON,
+				D3D12_RESOURCE_STATE_COPY_DEST,
 				nullptr,
 				IID_PPV_ARGS(DefaultBuffer.GetAddressOf())
 			));
@@ -118,15 +128,7 @@ namespace EngineFramework {
 			ResourceData.RowPitch = nByteSize;
 			ResourceData.SlicePitch = nByteSize;
 
-			CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(),D3D12_RESOURCE_STATE_COMMON,D3D12_RESOURCE_STATE_COPY_DEST) };
-
-			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 			UpdateSubresources<1>(pCommandList->GetCommandList().Get(), DefaultBuffer.Get(), d3dUploadBuffer.Get(), 0, 0, 1, &ResourceData);
-
-			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
-			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
-
-		
 
 			return DefaultBuffer;
 		}

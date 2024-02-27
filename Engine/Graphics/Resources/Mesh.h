@@ -17,7 +17,7 @@ namespace EngineFramework {
 			void Render(const ICommandList* pCommandList) const;
 		};
 
-		class MeshManager {
+		class MeshManager{
 		public:
 			MeshManager();
 			~MeshManager();
@@ -38,10 +38,14 @@ namespace EngineFramework {
 
 			std::vector<Vertex> m_vertices{};
 			std::vector<UINT> m_indices{};
+		
+			std::unordered_map<std::tstring, Mesh> m_meshMap{};
 		public:
-			std::shared_ptr<Mesh> CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices);
 			void Upload(const IDevice* pDevice,const ICommandList* pCommandList);
 			void BindBuffer(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology) const;
+		public:
+			 std::unique_ptr<Mesh> CreateMesh(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) ;
+			 std::unique_ptr<Mesh> GetMesh(const std::tstring& tcsMeshName) ;
 		private:
 			ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize);
 		};

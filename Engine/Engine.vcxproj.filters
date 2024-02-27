@@ -135,6 +135,9 @@
     <ClInclude Include="Graphics\GraphicObject.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\Resources\ResourceManager.h">
+      <Filter>헤더 파일\Graphics\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="System\Application.cpp">
@@ -205,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="Graphics\GraphicObject.cpp">
       <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Resources\ResourceManager.cpp">
+      <Filter>소스 파일\Graphics\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

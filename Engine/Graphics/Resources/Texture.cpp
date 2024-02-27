@@ -11,7 +11,7 @@ namespace EngineFramework {
 
 		}
 
-		void Texture::Initialize(const IDevice* pDevice, const ICommandList* pCommandList, const std::tstring& ImagePath) {
+		void Texture::Initialize(const IDevice* pDevice, const std::tstring& ImagePath) {
 			std::tstring ext = fs::path(ImagePath).extension();
 
 			if (ext == _T(".dds") or ext == _T(".DDS")) {
@@ -28,16 +28,15 @@ namespace EngineFramework {
 			CheckFailed(DirectX::CreateTexture(pDevice->GetDevice().Get(), m_image.GetMetadata(), m_d3dTex2D.GetAddressOf())); // <-- 만들어질때 적절한 상태로 생성되나?
 
 
-			std::vector<D3D12_SUBRESOURCE_DATA> SubResources{};
 
 			CheckFailed(DirectX::PrepareUpload(
 				pDevice->GetDevice().Get(),
 				m_image.GetImages(),
 				m_image.GetImageCount(),
 				m_image.GetMetadata(),
-				SubResources));
+				m_subresources));
 
-			const UINT64 BufferSize = ::GetRequiredIntermediateSize(m_d3dTex2D.Get(), 0, static_cast<UINT32>(SubResources.size()));
+			const UINT64 BufferSize = ::GetRequiredIntermediateSize(m_d3dTex2D.Get(), 0, static_cast<UINT32>(m_subresources.size()));
 			CD3DX12_HEAP_PROPERTIES HeapProperty = CD3DX12_HEAP_PROPERTIES{ D3D12_HEAP_TYPE_UPLOAD };
 			CD3DX12_RESOURCE_DESC ResourceDesc = CD3DX12_RESOURCE_DESC::Buffer(BufferSize);
 			CheckFailed(
@@ -50,14 +49,6 @@ namespace EngineFramework {
 					IID_PPV_ARGS(m_d3dTexUploadHeap.GetAddressOf())
 				)
 			);
-
-			::UpdateSubresources(
-				pCommandList->GetCommandList().Get(),
-				m_d3dTex2D.Get(),
-				m_d3dTexUploadHeap.Get(),
-				0, 0, static_cast<UINT>(SubResources.size()),
-				SubResources.data());
-
 
 			D3D12_DESCRIPTOR_HEAP_DESC SRVHeapDesc{};
 			SRVHeapDesc.NumDescriptors = 1;
@@ -75,6 +66,15 @@ namespace EngineFramework {
 			SRVDesc.Texture2D.MipLevels = 1;
 			pDevice->GetDevice()->CreateShaderResourceView(m_d3dTex2D.Get(), &SRVDesc, m_d3dSRVHandle);
 
+		}
+
+		void Texture::Upload(const ICommandList* pCommandList) {
+			::UpdateSubresources(
+				pCommandList->GetCommandList().Get(),
+				m_d3dTex2D.Get(),
+				m_d3dTexUploadHeap.Get(),
+				0, 0, static_cast<UINT>(m_subresources.size()),
+				m_subresources.data());
 		}
 
 	}
