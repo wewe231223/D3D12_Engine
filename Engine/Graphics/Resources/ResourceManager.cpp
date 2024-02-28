@@ -145,5 +145,13 @@ namespace EngineFramework {
 			m_pTextureManager->CreateTexture(pDevice, m_pCommandList.get(), TextureName, TexturePath);
 		}
 
+		Mesh ResourceManager::GetMesh(const std::tstring& ctsMeshName) const {
+			return m_pMeshManager->GetMesh(ctsMeshName);
+		}
+
+		Texture ResourceManager::GetTexture(const std::tstring& ctsTextureName) const {
+			return m_pTextureManager->GetTexture(ctsTextureName);
+		}
+
 }
 }

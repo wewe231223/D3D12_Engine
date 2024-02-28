@@ -4,6 +4,7 @@ namespace EngineFramework {
 	namespace Resource {
 		class Mesh;
 		class Texture;
+		__interface IResourceManager;
 	}
 	/// <summary>
 	/// Graphic Object is Primitive "Object" it contains Mesh = (Vertex) and Texture
@@ -16,8 +17,6 @@ namespace EngineFramework {
 		std::unique_ptr<Resource::Mesh> m_mesh{ nullptr };
 		std::unique_ptr<Resource::Texture> m_texture{ nullptr };
 	public:
-		virtual void SetMesh(std::unique_ptr<Resource::Mesh> pMesh);
-		virtual void SetTexture(std::unique_ptr<Resource::Texture> pTexture);
-
+		void Initialize(const Resource::IResourceManager* pResourceManager,const std::tstring& ctsMeshName,const std::tstring& ctsTextureName);
 	};
 }

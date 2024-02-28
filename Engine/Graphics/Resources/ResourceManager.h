@@ -6,7 +6,13 @@ namespace EngineFramework {
 		class Mesh;
 		class Texture;
 
-		class ResourceManager {
+		__interface IResourceManager {
+			Mesh GetMesh(const std::tstring&) const PURE;
+			Texture GetTexture(const std::tstring&) const PURE;
+		};
+
+
+		class ResourceManager : public IResourceManager{
 		public:
 			ResourceManager();
 			~ResourceManager();
@@ -67,6 +73,10 @@ namespace EngineFramework {
 		public:
 			void NewResource(const std::tstring& MeshName,const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices);
 			void NewResource(const IDevice* pDevice,const std::tstring& TextureName,const std::tstring& TexturePath);
+		public: // Interface 
+			virtual Mesh GetMesh(const std::tstring& ctsMeshName) const override;
+			virtual Texture GetTexture(const std::tstring& ctsTextureName) const override;
+			
 
 		};
 	}
