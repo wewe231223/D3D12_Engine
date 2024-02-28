@@ -1,5 +1,6 @@
 #include "EnginePch.h"
 #include "ResourceManager.h"
+#include "EngineCore/CommandList.h"
 #include "Mesh.h"
 #include "Texture.h"
 
@@ -85,15 +86,64 @@ namespace EngineFramework {
 			return DefaultBuffer;
 		}
 
-
-
+		Mesh ResourceManager::MeshManager::GetMesh(const std::tstring& ctsMeshName) {
+			return m_meshMap[ctsMeshName];
+		}
 
 		ResourceManager::TextureManager::TextureManager(){
-		
-
 		}
-		ResourceManager::TextureManager::~TextureManager()
+		ResourceManager::TextureManager::~TextureManager(){
+		}
+
+		void ResourceManager::TextureManager::CreateTexture(const IDevice* pDevice, const ICommandList* pCommandList, const std::tstring& ctsTextureName, const std::tstring& ctsImagePath){
+			Texture Tex{};
+			Tex.Initialize(pDevice, pCommandList, ctsImagePath);
+			m_textureMap.insert(std::pair<std::tstring, Texture>(ctsTextureName, Tex));
+		}
+
+		Texture ResourceManager::TextureManager::GetTexture(const std::tstring& ctsTextureName)
+		{
+			return m_textureMap[ctsTextureName];
+		}
+
+		ResourceManager::ResourceManager(){
+			m_pCommandList = std::make_unique<CommandList>();
+			m_pMeshManager = std::make_unique<MeshManager>();
+			m_pTextureManager = std::make_unique<TextureManager>();
+		}
+
+		ResourceManager::~ResourceManager()
 		{
 		}
-	}
+
+		void ResourceManager::Initialize(const IDevice* pDevice){
+			m_pCommandList->Initialize(pDevice);
+		}
+
+		void ResourceManager::OpenCommandList(){
+			m_pCommandList->Open();
+		}
+
+		void ResourceManager::CloseCommandList(){
+			m_pCommandList->Close();
+		}
+
+		void ResourceManager::UploadResource(const IDevice* pDevice){
+			m_pMeshManager->Upload(pDevice, m_pCommandList.get());
+		}
+
+		void ResourceManager::ExecuteList(const ICommandQueue* pCommandQueue){
+			m_pCommandList->Execute(pCommandQueue);
+			pCommandQueue->Sync();
+		}
+
+		void ResourceManager::NewResource(const std::tstring& MeshName, const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices){
+			m_pMeshManager->CreateMesh(MeshName, Vertices, Indices);
+		}
+
+		void ResourceManager::NewResource(const IDevice* pDevice,const std::tstring& TextureName, const std::tstring& TexturePath){
+			m_pTextureManager->CreateTexture(pDevice, m_pCommandList.get(), TextureName, TexturePath);
+		}
+
+}
 }

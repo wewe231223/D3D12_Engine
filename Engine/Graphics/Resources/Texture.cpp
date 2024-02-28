@@ -7,36 +7,48 @@ namespace EngineFramework {
 
 		}
 
-		Texture::~Texture() {
 
+		Texture::Texture(const Texture& other){
+			m_d3dTex2D = other.m_d3dTex2D;
+			m_d3dTexUploadHeap = other.m_d3dTexUploadHeap;
+			m_d3dSRVHeap = other.m_d3dSRVHeap;
+			m_d3dSRVHandle = other.m_d3dSRVHandle;
 		}
 
-		void Texture::Initialize(const IDevice* pDevice, const std::tstring& ImagePath) {
+		Texture::~Texture() {
+			
+		}
+
+		void Texture::Initialize(const IDevice* pDevice,const ICommandList* pCommandList,const std::tstring& ImagePath) {
+
+			DirectX::ScratchImage Image{};
+			std::vector<D3D12_SUBRESOURCE_DATA> SubresourceData{};
+
 			std::tstring ext = fs::path(ImagePath).extension();
 
 			if (ext == _T(".dds") or ext == _T(".DDS")) {
-				DirectX::LoadFromDDSFile(ImagePath.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, m_image);
+				DirectX::LoadFromDDSFile(ImagePath.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, Image);
 			}
 			else if (ext == _T(".tga") or ext == _T(".TGA")) {
-				DirectX::LoadFromTGAFile(ImagePath.c_str(), nullptr, m_image);
+				DirectX::LoadFromTGAFile(ImagePath.c_str(), nullptr, Image);
 			}
 			else {
-				DirectX::LoadFromWICFile(ImagePath.c_str(), DirectX::WIC_FLAGS_NONE, nullptr, m_image);
+				DirectX::LoadFromWICFile(ImagePath.c_str(), DirectX::WIC_FLAGS_NONE, nullptr, Image);
 			}
 
 
-			CheckFailed(DirectX::CreateTexture(pDevice->GetDevice().Get(), m_image.GetMetadata(), m_d3dTex2D.GetAddressOf())); // <-- 만들어질때 적절한 상태로 생성되나?
+			CheckFailed(DirectX::CreateTexture(pDevice->GetDevice().Get(), Image.GetMetadata(), m_d3dTex2D.GetAddressOf())); // <-- 만들어질때 적절한 상태로 생성되나?
 
 
 
 			CheckFailed(DirectX::PrepareUpload(
 				pDevice->GetDevice().Get(),
-				m_image.GetImages(),
-				m_image.GetImageCount(),
-				m_image.GetMetadata(),
-				m_subresources));
+				Image.GetImages(),
+				Image.GetImageCount(),
+				Image.GetMetadata(),
+				SubresourceData));
 
-			const UINT64 BufferSize = ::GetRequiredIntermediateSize(m_d3dTex2D.Get(), 0, static_cast<UINT32>(m_subresources.size()));
+			const UINT64 BufferSize = ::GetRequiredIntermediateSize(m_d3dTex2D.Get(), 0, static_cast<UINT32>(SubresourceData.size()));
 			CD3DX12_HEAP_PROPERTIES HeapProperty = CD3DX12_HEAP_PROPERTIES{ D3D12_HEAP_TYPE_UPLOAD };
 			CD3DX12_RESOURCE_DESC ResourceDesc = CD3DX12_RESOURCE_DESC::Buffer(BufferSize);
 			CheckFailed(
@@ -60,22 +72,19 @@ namespace EngineFramework {
 			m_d3dSRVHandle = m_d3dSRVHeap->GetCPUDescriptorHandleForHeapStart();
 
 			D3D12_SHADER_RESOURCE_VIEW_DESC SRVDesc{};
-			SRVDesc.Format = m_image.GetMetadata().format;
+			SRVDesc.Format = Image.GetMetadata().format;
 			SRVDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 			SRVDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 			SRVDesc.Texture2D.MipLevels = 1;
 			pDevice->GetDevice()->CreateShaderResourceView(m_d3dTex2D.Get(), &SRVDesc, m_d3dSRVHandle);
 
-		}
 
-		void Texture::Upload(const ICommandList* pCommandList) {
 			::UpdateSubresources(
 				pCommandList->GetCommandList().Get(),
 				m_d3dTex2D.Get(),
 				m_d3dTexUploadHeap.Get(),
-				0, 0, static_cast<UINT>(m_subresources.size()),
-				m_subresources.data());
+				0, 0, static_cast<UINT>(SubresourceData.size()),
+				SubresourceData.data());
 		}
-
 	}
 }
