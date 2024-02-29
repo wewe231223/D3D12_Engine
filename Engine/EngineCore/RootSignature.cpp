@@ -12,7 +12,7 @@ namespace EngineFramework {
 
 	}
 
-	void RootSignature::NewParameter(CD3DX12_ROOT_PARAMETER& d3dRootParam) {
+	void RootSignature::NewParameter(CD3DX12_ROOT_PARAMETER d3dRootParam) {
 		m_d3dRootParameter.emplace_back(d3dRootParam);
 	}
 

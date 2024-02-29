@@ -14,7 +14,7 @@ namespace EngineFramework {
 			D3D12_CPU_DESCRIPTOR_HANDLE m_d3dSRVHandle{};
 			
 		public:
-			void Initialize(const IDevice* pDevice,const ICommandList* pCommandList,const std::tstring& ImagePath);
+			void Initialize(const IDevice* pDevice,const ICommandList* pCommandList,IDescriptorTable* pDescriptorTable,const std::tstring& ImagePath);
 			D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptorHandle() const { return m_d3dSRVHandle; }
 		};
 	}

@@ -9,4 +9,6 @@ namespace EngineFramework {
 		m_mesh = std::make_unique<Resource::Mesh>(pResourceManager->GetMesh(ctsMeshName));
 		m_texture = std::make_unique<Resource::Texture>(pResourceManager->GetTexture(ctsTextureName));
 	}
+
+
 }

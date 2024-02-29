@@ -38,7 +38,7 @@ namespace EngineFramework {
 	};
 
 	__interface IDescriptorTable {
-
+		virtual void SetDescriptor(const IDevice*, D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_DESCRIPTOR_RANGE_TYPE) PURE;
 	};
 
 }

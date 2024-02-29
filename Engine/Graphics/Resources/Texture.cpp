@@ -19,7 +19,7 @@ namespace EngineFramework {
 			
 		}
 
-		void Texture::Initialize(const IDevice* pDevice,const ICommandList* pCommandList,const std::tstring& ImagePath) {
+		void Texture::Initialize(const IDevice* pDevice,const ICommandList* pCommandList,IDescriptorTable* pDescriptorTable,const std::tstring& ImagePath) {
 
 			DirectX::ScratchImage Image{};
 			std::vector<D3D12_SUBRESOURCE_DATA> SubresourceData{};
@@ -85,6 +85,8 @@ namespace EngineFramework {
 				m_d3dTexUploadHeap.Get(),
 				0, 0, static_cast<UINT>(SubresourceData.size()),
 				SubresourceData.data());
+
+			pDescriptorTable->SetDescriptor(pDevice, m_d3dSRVHandle, D3D12_DESCRIPTOR_RANGE_TYPE_SRV);
 		}
 	}
 }

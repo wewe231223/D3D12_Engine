@@ -11,7 +11,7 @@ namespace EngineFramework {
 		mutable UINT m_nCBuffer{ 0 };
 	public:
 		void Initialize();
-		void NewParameter(CD3DX12_ROOT_PARAMETER& d3dRootParam);
+		void NewParameter(CD3DX12_ROOT_PARAMETER d3dRootParam);
 		void NewSampler(UINT nShaderRegister);
 		void NewSampler(CD3DX12_STATIC_SAMPLER_DESC d3dSamplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0));
 		void Create(const IDevice* pDevice);

@@ -23,6 +23,7 @@ namespace EngineFramework {
 		std::unique_ptr<Resource::MeshManager> m_meshManager{ nullptr };
 		std::unique_ptr<Resource::Mesh> testmesh{ nullptr };
 		std::unique_ptr<Resource::Texture> testtex{ nullptr };
+		std::unique_ptr<Resource::Texture> testtex2{ nullptr };
 	public:
 		void Initialize(const IDevice* pDevice, const ICommandList* pCommandList);
 		void Render(const IDevice* pDevice,const ICommandList* pCommandList);

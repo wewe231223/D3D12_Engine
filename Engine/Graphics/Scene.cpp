@@ -38,7 +38,11 @@ namespace EngineFramework {
 
 		//----------------------------------------오브젝트 생성 
 		testtex = std::make_unique<Resource::Texture>();
-		testtex->Initialize(pDevice,pCommandList,_T("..\\Resources\\veigar.jpg"));
+		testtex->Initialize(pDevice,pCommandList,m_descriptortable.get(), _T("..\\Resources\\veigar.jpg"));
+
+		testtex2 = std::make_unique<Resource::Texture>();
+		testtex2->Initialize(pDevice, pCommandList, m_descriptortable.get(), _T("..\\Resources\\LeeSin.jpg"));
+
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
 		std::vector<Vertex> vec(4);
 		vec[0].Position = DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f);
@@ -70,17 +74,10 @@ namespace EngineFramework {
 		}
 
 		testmesh = m_meshManager->Create(_T("Testmesh"), vec, indexVec);
-
-
-		m_descriptortable->SetDescriptor(pDevice, testtex->GetDescriptorHandle(), 0);
 		//----------------------------------------오브젝트 생성 
 		m_meshManager->Upload(pDevice, pCommandList);
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
-		CD3DX12_DESCRIPTOR_RANGE DescRange[] = { CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV,1,0) };
-		CD3DX12_ROOT_PARAMETER RootParam{};
-		RootParam.InitAsDescriptorTable(_countof(DescRange), DescRange);
-
-		m_rootSignature->NewParameter(RootParam);
+		m_rootSignature->NewParameter(m_descriptortable->GetRootParameter());
 		m_rootSignature->NewSampler(0);
 
 		m_rootSignature->Create(pDevice);
