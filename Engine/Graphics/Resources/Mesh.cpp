@@ -113,7 +113,7 @@ namespace EngineFramework {
 				&HeapProperties,
 				D3D12_HEAP_FLAG_NONE,
 				&BufferDesc,
-				D3D12_RESOURCE_STATE_COPY_DEST,
+				D3D12_RESOURCE_STATE_COMMON,
 				nullptr,
 				IID_PPV_ARGS(DefaultBuffer.GetAddressOf())
 			));
@@ -133,6 +133,10 @@ namespace EngineFramework {
 			ResourceData.pData = pvData;
 			ResourceData.RowPitch = nByteSize;
 			ResourceData.SlicePitch = nByteSize;
+
+
+			CD3DX12_RESOURCE_BARRIER ResourceBarrier{ CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(),D3D12_RESOURCE_STATE_COMMON,D3D12_RESOURCE_STATE_COPY_DEST) };
+			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
 			UpdateSubresources<1>(pCommandList->GetCommandList().Get(), DefaultBuffer.Get(), d3dUploadBuffer.Get(), 0, 0, 1, &ResourceData);
 

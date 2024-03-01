@@ -18,6 +18,7 @@ namespace EngineFramework {
 		ComPtr<ID3D12DescriptorHeap> GetDescriptorHeap() { return m_d3dDescriptorHeap; }
 		CD3DX12_ROOT_PARAMETER GetRootParameter();
 	public:
-		virtual void SetDescriptor(const IDevice* pDevice,D3D12_CPU_DESCRIPTOR_HANDLE d3dDescriptorHandle, D3D12_DESCRIPTOR_RANGE_TYPE d3dDescriptorType) override;
+		virtual DescriptorID CreateDescriptor(D3D12_DESCRIPTOR_RANGE_TYPE d3dDescriptorType, UINT nShaderRegister) override;
+		virtual void SetDescriptor(const IDevice* pDevice,DescriptorID nDescId,D3D12_CPU_DESCRIPTOR_HANDLE d3dDescriptorHandle) const override;
 	};
 }

@@ -7,9 +7,11 @@ namespace EngineFramework {
 		class Texture;
 
 		__interface IResourceManager {
-			Mesh GetMesh(const std::tstring&) const PURE;
-			Texture GetTexture(const std::tstring&) const PURE;
+			virtual Mesh GetMesh(const std::tstring&) PURE;
+			virtual Texture GetTexture(const std::tstring&) PURE;
 		};
+
+
 
 
 		class ResourceManager : public IResourceManager{
@@ -27,7 +29,7 @@ namespace EngineFramework {
 
 				ComPtr<ID3D12Resource> m_d3dVertexUploadBuffer{ nullptr };
 				ComPtr<ID3D12Resource> m_d3dIndexUploadBuffer{ nullptr };
-
+				
 				UINT m_nVertexByteStride{ 0 };
 				UINT m_nVertexByteSize{ 0 };
 				UINT m_nIndexBufferByteSize{ 0 };
@@ -73,11 +75,9 @@ namespace EngineFramework {
 		public:
 			void NewResource(const std::tstring& MeshName,const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices);
 			void NewResource(const IDevice* pDevice,const std::tstring& TextureName,const std::tstring& TexturePath);
-		public: // Interface 
-			virtual Mesh GetMesh(const std::tstring& ctsMeshName) const override;
-			virtual Texture GetTexture(const std::tstring& ctsTextureName) const override;
-			
-
+		public:
+			virtual Mesh GetMesh(const std::tstring& ctsMeshName) override;
+			virtual Texture GetTexture(const std::tstring& ctsTextureName) override;
 		};
 	}
 }

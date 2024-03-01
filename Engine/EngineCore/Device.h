@@ -7,6 +7,8 @@ namespace EngineFramework {
 		// Device and Factory
 		ComPtr<ID3D12Device> m_d3dDevice{ nullptr };
 		ComPtr<IDXGIFactory4> m_dxgiFactory{ nullptr };
+		ComPtr<IDXGIAdapter> m_dxgiOoutputAdapter{ nullptr };
+		SIZE_T m_nOutputAdapterDedicatedMemorySize{ 0 };
 #if defined(DEBUG) || defined(_DEBUG)
 		ComPtr<ID3D12Debug> m_d3dDebugController{ nullptr };
 #endif // !defined(DEBUG) || defined(_DEBUG)

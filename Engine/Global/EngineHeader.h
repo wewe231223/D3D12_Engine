@@ -83,6 +83,8 @@ namespace EngineFramework {
 		GeometryShader,
 		PixelShader,
 	};
+
+	using DescriptorID = int;
 }
 
 struct Vertex {

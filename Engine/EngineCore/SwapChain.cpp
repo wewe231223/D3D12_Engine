@@ -28,8 +28,8 @@ namespace EngineFramework {
 
 		SwapChainDesc.BufferDesc.Width = static_cast<UINT>(m_cpWindowInfo->Width);
 		SwapChainDesc.BufferDesc.Height = static_cast<UINT>(m_cpWindowInfo->Height);
-        SwapChainDesc.BufferDesc.RefreshRate.Numerator = 1;
-        SwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+        SwapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+        SwapChainDesc.BufferDesc.RefreshRate.Denominator = 0;
         SwapChainDesc.BufferDesc.Format = m_dxgiBackBufferFormat;
         SwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
         SwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;

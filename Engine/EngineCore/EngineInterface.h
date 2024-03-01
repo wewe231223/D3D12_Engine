@@ -14,7 +14,7 @@ namespace EngineFramework {
 		virtual void Open() const PURE;
 		virtual void Execute(const ICommandQueue*) const PURE;
 		virtual void Close() const PURE;
-		virtual ComPtr< ID3D12GraphicsCommandList> GetCommandList() const PURE;
+		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const PURE;
 	};
 
 	__interface ISwapChain {
@@ -38,7 +38,9 @@ namespace EngineFramework {
 	};
 
 	__interface IDescriptorTable {
-		virtual void SetDescriptor(const IDevice*, D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_DESCRIPTOR_RANGE_TYPE) PURE;
+		virtual DescriptorID CreateDescriptor(D3D12_DESCRIPTOR_RANGE_TYPE,UINT) PURE;
+		virtual void SetDescriptor(const IDevice*,DescriptorID,D3D12_CPU_DESCRIPTOR_HANDLE) const PURE;
 	};
+
 
 }

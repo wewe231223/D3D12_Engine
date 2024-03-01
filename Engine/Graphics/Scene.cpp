@@ -90,15 +90,23 @@ namespace EngineFramework {
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
 		
+
 		m_pso->SetPipelineState(pCommandList);
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
 
 		ID3D12DescriptorHeap* DescriptorHeap = m_descriptortable->GetDescriptorHeap().Get();
 		pCommandList->GetCommandList()->SetDescriptorHeaps(1, &DescriptorHeap);
-
 		m_descriptortable->CommitTable(pCommandList);
+
+		testtex->BindTexture(pDevice, m_descriptortable.get());
+		testtex2->BindTexture(pDevice, m_descriptortable.get());
+
+
+
 		m_meshManager->BindBuffer(pCommandList, D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		testmesh->Render(pCommandList);
+		
+
 	}
 
 
