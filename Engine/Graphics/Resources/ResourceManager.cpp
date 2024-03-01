@@ -144,14 +144,11 @@ namespace EngineFramework {
 		void ResourceManager::NewResource(const IDevice* pDevice,const std::tstring& TextureName, const std::tstring& TexturePath){
 			m_pTextureManager->CreateTexture(pDevice, m_pCommandList.get(), TextureName, TexturePath);
 		}
-
-		Mesh ResourceManager::GetMesh(const std::tstring& ctsMeshName) const {
+		Mesh ResourceManager::GetMesh(const std::tstring& ctsMeshName){
 			return m_pMeshManager->GetMesh(ctsMeshName);
 		}
-
-		Texture ResourceManager::GetTexture(const std::tstring& ctsTextureName) const {
+		Texture ResourceManager::GetTexture(const std::tstring& ctsTextureName){
 			return m_pTextureManager->GetTexture(ctsTextureName);
 		}
-
-}
+	}
 }

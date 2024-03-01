@@ -7,8 +7,9 @@ struct VS_IN
 };
 
 Texture2D Tex : register(t0);
-Texture2D Tex2 : register(t1);
+
 SamplerState Sampler : register(s0);
+
 
 struct VS_OUT
 {
@@ -32,6 +33,6 @@ VS_OUT VS_Main(VS_IN Input)
 
 float4 PS_Main(VS_OUT Input) : SV_Target
 {
-    float4 Color = Tex2.Sample(Sampler, Input.Tex);
+    float4 Color = Tex.Sample(Sampler, Input.Tex);
     return Color;
 }

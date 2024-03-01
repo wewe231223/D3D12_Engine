@@ -17,11 +17,22 @@ namespace EngineFramework {
         while (m_dxgiFactory->EnumAdapters(i, &Adapter) != DXGI_ERROR_NOT_FOUND) {
             DXGI_ADAPTER_DESC Desc{};
             Adapter->GetDesc(&Desc);
+
+            if (m_nOutputAdapterDedicatedMemorySize < Desc.DedicatedVideoMemory) {
+                m_dxgiOoutputAdapter = Adapter;
+                m_nOutputAdapterDedicatedMemorySize = Desc.DedicatedVideoMemory;
+            }
+
+
             std::tstring Text{ L"***Adaptor***" };
             Text += Desc.Description;
             Text += L"\n";
             OutputDebugString(Text.c_str());
 
+            OutputDebugString(_T("Adapter LUID : "));
+            OutputDebugString(std::to_wstring(Desc.AdapterLuid.HighPart).c_str());
+            OutputDebugString(std::to_wstring(Desc.AdapterLuid.LowPart).c_str());
+            OutputDebugString(_T("\n\n"));
             UINT j = 0;
             IDXGIOutput* Output{ nullptr };
 
@@ -70,20 +81,31 @@ namespace EngineFramework {
             OutputDebugString(_T("DebugLayer Enabled\n"));
         }
 #endif // !defined(DEBUG) || defined(_DEBUG)
-		CheckFailed(::CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG,IID_PPV_ARGS(m_dxgiFactory.GetAddressOf())));
-		HRESULT HardwareResult = ::D3D12CreateDevice(nullptr, m_d3dDirectXFeatureLevel, IID_PPV_ARGS(m_d3dDevice.GetAddressOf()));
+        CheckFailed(::CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG,IID_PPV_ARGS(m_dxgiFactory.GetAddressOf())));
+#if defined(DEBUG) || defined(_DEBUG)
+        LogAdapters();
+#endif // !defined(DEBUG) || defined(_DEBUG)
+        // 여기서 첫번째 인자로 nullptr 을 전달하면 enumadapter 하여 가장 먼저 나오는 어댑터를 출력 어댑터로 설정한다.
+
+        
+
+		HRESULT HardwareResult = ::D3D12CreateDevice(m_dxgiOoutputAdapter.Get(), m_d3dDirectXFeatureLevel, IID_PPV_ARGS(m_d3dDevice.GetAddressOf()));
 
 		if (FAILED(HardwareResult)) {
 			ComPtr<IDXGIAdapter> WarpAdapter{};
 			CheckFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&WarpAdapter)));
 			CheckFailed(::D3D12CreateDevice(WarpAdapter.Get(), m_d3dDirectXFeatureLevel, IID_PPV_ARGS(m_d3dDevice.GetAddressOf())));
 		}
-#if defined(DEBUG) || defined(_DEBUG)
-        LogAdapters();
-#endif // !defined(DEBUG) || defined(_DEBUG)
+
+
+        LUID CurrentAdapterLuid{ m_d3dDevice->GetAdapterLuid() };
+        OutputDebugString(_T("\n==============================================================\nCurrent Adapter LUID : "));
+        OutputDebugString(std::to_wstring(CurrentAdapterLuid.HighPart).c_str());
+        OutputDebugString(std::to_wstring(CurrentAdapterLuid.LowPart).c_str());
+        OutputDebugString(_T("\n==============================================================\n"));
+
 	}
 	
-
 
 
 }

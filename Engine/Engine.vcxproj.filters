@@ -132,7 +132,7 @@
     <ClInclude Include="EngineCore\RootSignature.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\GraphicObject.h">
+    <ClInclude Include="Graphics\Object.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Resources\ResourceManager.h">
@@ -206,7 +206,7 @@
     <ClCompile Include="EngineCore\DescriptorTable.cpp">
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\GraphicObject.cpp">
+    <ClCompile Include="Graphics\Object.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Resources\ResourceManager.cpp">
