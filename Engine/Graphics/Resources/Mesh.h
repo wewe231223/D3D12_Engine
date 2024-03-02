@@ -5,7 +5,7 @@ namespace EngineFramework {
 			friend class Mesh;
 		public:
 			MeshContainer();
-			MeshContainer(const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices);
+			MeshContainer(const IDevice* pDevice,const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices);
 			~MeshContainer();
 			MeshContainer(const MeshContainer& other);
 			MeshContainer& operator=(const MeshContainer& other);
@@ -22,7 +22,7 @@ namespace EngineFramework {
 			std::vector<Vertex> m_vertices{};
 			std::vector<UINT> m_indices{};
 		private:
-			ComPtr<ID3D12Resource> CreateBuffer(ID3D12Device* pDevice,const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize);
+			ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice,const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize);
 
 		};
 

@@ -77,7 +77,7 @@ namespace EngineFramework {
 
 
 		//----------------------------------------오브젝트 생성 
-		testcontainer = std::make_unique<Resource::MeshContainer>(pCommandList, vec, indexVec);
+		testcontainer = std::make_unique<Resource::MeshContainer>(pDevice,pCommandList, vec, indexVec);
 		testmesh = std::make_unique<Resource::Mesh>(testcontainer.get());
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
 		//m_rootSignature->NewParameter(m_descriptortable->GetRootParameter());
