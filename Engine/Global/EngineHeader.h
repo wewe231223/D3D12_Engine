@@ -107,6 +107,12 @@ struct Vertex {
 #define malloc(s) _malloc_dbg(s,_NORMAL_BLOCK,__FILE__,LINE__)
 #endif // !defined(_DEBUG) || defined(DEBUG)
 
+// static headers
 #include "System/Exeption.h"
 #include "EngineCore/EngineInterface.h"
+#include "Graphics/GraphicsInterface.h"
+
+// static using 
+
+
 

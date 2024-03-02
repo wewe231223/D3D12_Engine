@@ -1,11 +1,17 @@
 #include "EnginePch.h"
-#include "ResourceManager.h"
 #include "EngineCore/CommandList.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "ResourceManager.h"
 
 namespace EngineFramework {
 	namespace Resource {
+		ResourceManager::MeshManager::MeshManager()
+		{
+		}
+		ResourceManager::MeshManager::~MeshManager()
+		{
+		}
 		void ResourceManager::MeshManager::CreateMesh(const std::tstring& ctsMeshName, const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices) {
 			if (m_meshMap.find(ctsMeshName) != m_meshMap.end()) return;
 
@@ -14,6 +20,7 @@ namespace EngineFramework {
 
 			if (m_vertices.size() != 0) {
 				VertexStart = static_cast<UINT>(m_vertices.size() - 1);
+				
 			}
 			
 			if (m_indices.size() != 0) {
@@ -24,7 +31,7 @@ namespace EngineFramework {
 			m_vertices.insert(m_vertices.begin(), Vertices.begin(), Vertices.end());
 			m_indices.insert(m_indices.begin(), Indices.begin(), Indices.end());
 
-			m_meshMap.insert(std::pair<std::tstring, Mesh>(ctsMeshName, Mesh{ctsMeshName,VertexStart,IndexStart,Indices.size()}));
+			m_meshMap.insert(std::pair<std::tstring, Mesh>(ctsMeshName, Mesh{ctsMeshName,VertexStart,IndexStart,static_cast<UINT>(Indices.size())}));
 		}
 
 		void ResourceManager::MeshManager::Upload(const IDevice* pDevice, const ICommandList* pCommandList) {
@@ -48,7 +55,7 @@ namespace EngineFramework {
 			pCommandList->GetCommandList()->IASetIndexBuffer(&m_d3dIndexBufferView);
 			pCommandList->GetCommandList()->IASetPrimitiveTopology(d3dMeshTopology);
 		}
-
+			
 
 		ComPtr<ID3D12Resource> ResourceManager::MeshManager::CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList, ComPtr<ID3D12Resource>& d3dUploadBuffer, void* pvData, UINT64 nByteSize) {
 			CD3DX12_HEAP_PROPERTIES DefaultHeapProperties{ D3D12_HEAP_TYPE_DEFAULT };
@@ -95,9 +102,9 @@ namespace EngineFramework {
 		ResourceManager::TextureManager::~TextureManager(){
 		}
 
-		void ResourceManager::TextureManager::CreateTexture(const IDevice* pDevice, const ICommandList* pCommandList, const std::tstring& ctsTextureName, const std::tstring& ctsImagePath){
+		void ResourceManager::TextureManager::CreateTexture(const IDevice* pDevice, const ICommandList* pCommandList,IDescriptorTable* pDescriptorTable,const std::tstring& ctsTextureName, const std::tstring& ctsImagePath){
 			Texture Tex{};
-			Tex.Initialize(pDevice, pCommandList, ctsImagePath);
+			Tex.Initialize(pDevice, pCommandList,pDescriptorTable,ctsImagePath);
 			m_textureMap.insert(std::pair<std::tstring, Texture>(ctsTextureName, Tex));
 		}
 
@@ -118,6 +125,7 @@ namespace EngineFramework {
 
 		void ResourceManager::Initialize(const IDevice* pDevice){
 			m_pCommandList->Initialize(pDevice);
+			m_pCommandList->Open();
 		}
 
 		void ResourceManager::OpenCommandList(){
@@ -130,6 +138,7 @@ namespace EngineFramework {
 
 		void ResourceManager::UploadResource(const IDevice* pDevice){
 			m_pMeshManager->Upload(pDevice, m_pCommandList.get());
+			
 		}
 
 		void ResourceManager::ExecuteList(const ICommandQueue* pCommandQueue){
@@ -141,8 +150,8 @@ namespace EngineFramework {
 			m_pMeshManager->CreateMesh(MeshName, Vertices, Indices);
 		}
 
-		void ResourceManager::NewResource(const IDevice* pDevice,const std::tstring& TextureName, const std::tstring& TexturePath){
-			m_pTextureManager->CreateTexture(pDevice, m_pCommandList.get(), TextureName, TexturePath);
+		void ResourceManager::NewResource(const IDevice* pDevice,IDescriptorTable* pDescriptorTable,const std::tstring& TextureName, const std::tstring& TexturePath){
+			m_pTextureManager->CreateTexture(pDevice, m_pCommandList.get(),pDescriptorTable,TextureName, TexturePath);
 		}
 		Mesh ResourceManager::GetMesh(const std::tstring& ctsMeshName){
 			return m_pMeshManager->GetMesh(ctsMeshName);

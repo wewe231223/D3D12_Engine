@@ -7,6 +7,9 @@ namespace EngineFramework {
 
 		}
 
+		Texture::~Texture() {
+			
+		}
 
 		Texture::Texture(const Texture& other){
 			m_d3dTex2D = other.m_d3dTex2D;
@@ -15,8 +18,12 @@ namespace EngineFramework {
 			m_d3dSRVHandle = other.m_d3dSRVHandle;
 		}
 
-		Texture::~Texture() {
-			
+		Texture& Texture::operator=(const Texture& other){
+			m_d3dTex2D = other.m_d3dTex2D;
+			m_d3dTexUploadHeap = other.m_d3dTexUploadHeap;
+			m_d3dSRVHeap = other.m_d3dSRVHeap;
+			m_d3dSRVHandle = other.m_d3dSRVHandle;
+			return *this;
 		}
 
 		void Texture::Initialize(const IDevice* pDevice, const ICommandList* pCommandList, IDescriptorTable* pDescriptorTable, const std::tstring& ImagePath,UINT nSRVRegister) {

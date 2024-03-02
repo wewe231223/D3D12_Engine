@@ -36,10 +36,12 @@
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\GraphicsInterface.h" />
     <ClInclude Include="Graphics\Object.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
     <ClInclude Include="Graphics\Resources\ResourceManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Graphics\Scene.h" />
@@ -65,10 +67,12 @@
     <ClCompile Include="EngineCore\RootSignature.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
     <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\GraphicsInterface.cpp" />
     <ClCompile Include="Graphics\Object.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
     <ClCompile Include="Graphics\Resources\ResourceManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
     <ClCompile Include="Graphics\Scene.cpp" />

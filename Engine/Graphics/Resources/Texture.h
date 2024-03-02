@@ -1,12 +1,13 @@
 #pragma once 
 
 namespace EngineFramework {
-	namespace Resource {
+	namespace Resource{
 		class Texture {
 		public:
 			Texture();
-			Texture(const Texture& other);
 			~Texture();
+			Texture(const Texture& other);
+			Texture& operator=(const Texture& other);
 		private:
 			ComPtr<ID3D12Resource> m_d3dTex2D{ nullptr };
 			ComPtr<ID3D12Resource> m_d3dTexUploadHeap{ nullptr };

@@ -6,15 +6,7 @@ namespace EngineFramework {
 		class Mesh;
 		class Texture;
 
-		__interface IResourceManager {
-			virtual Mesh GetMesh(const std::tstring&) PURE;
-			virtual Texture GetTexture(const std::tstring&) PURE;
-		};
-
-
-
-
-		class ResourceManager : public IResourceManager{
+		class ResourceManager {
 		public:
 			ResourceManager();
 			~ResourceManager();
@@ -58,7 +50,7 @@ namespace EngineFramework {
 			private:
 				std::unordered_map<std::tstring,Texture> m_textureMap{};
 			public:
-				void CreateTexture(const IDevice* pDevice,const ICommandList* pCommandList,const std::tstring& ctsTextureName,const std::tstring& ctsImagePath);
+				void CreateTexture(const IDevice* pDevice,const ICommandList* pCommandList,IDescriptorTable* pDescriptorTable,const std::tstring& ctsTextureName,const std::tstring& ctsImagePath);
 				Texture GetTexture(const std::tstring& ctsTextureName);
 			};
 
@@ -74,10 +66,10 @@ namespace EngineFramework {
 			void ExecuteList(const ICommandQueue* pCommandQueue);
 		public:
 			void NewResource(const std::tstring& MeshName,const std::vector<Vertex>& Vertices, const std::vector<UINT>& Indices);
-			void NewResource(const IDevice* pDevice,const std::tstring& TextureName,const std::tstring& TexturePath);
+			void NewResource(const IDevice* pDevice,IDescriptorTable* pDescriptorTable,const std::tstring& TextureName,const std::tstring& TexturePath);
 		public:
-			virtual Mesh GetMesh(const std::tstring& ctsMeshName) override;
-			virtual Texture GetTexture(const std::tstring& ctsTextureName) override;
+			 Mesh GetMesh(const std::tstring& ctsMeshName) ;
+			 Texture GetTexture(const std::tstring& ctsTextureName) ;
 		};
 	}
 }

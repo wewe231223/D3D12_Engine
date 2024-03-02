@@ -1,56 +1,42 @@
 #pragma once 
 namespace EngineFramework {
 	namespace Resource {
-		class Mesh {
-			friend class MeshManager;
+		class MeshContainer {
+			friend class Mesh;
 		public:
-			Mesh();
-			~Mesh();
-			Mesh(const std::tstring& ctsMeshName, UINT nVertexStart, UINT nIndexStart, UINT nIndexCount);
-			Mesh(const Mesh& other);
-			Mesh& operator=(const Mesh& other);
-		private:
-			std::tstring m_tsMeshName{};
-			UINT m_nVertexStartLocation{};
-			UINT m_nIndexStartLocation{};
-			UINT m_nIndexCount{};
-		public:
-			void Render(const ICommandList* pCommandList) const;
-		};
-
-		class MeshManager{
-		public:
-			MeshManager();
-			~MeshManager();
+			MeshContainer();
+			MeshContainer(const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices);
+			~MeshContainer();
+			MeshContainer(const MeshContainer& other);
+			MeshContainer& operator=(const MeshContainer& other);
 		private:
 			ComPtr<ID3D12Resource> m_d3dVertexDefaultBuffer{ nullptr };
 			ComPtr<ID3D12Resource> m_d3dIndexDefaultBuffer{ nullptr };
 
 			ComPtr<ID3D12Resource> m_d3dVertexUploadBuffer{ nullptr };
 			ComPtr<ID3D12Resource> m_d3dIndexUploadBuffer{ nullptr };
-
-			UINT m_nVertexByteStride{ 0 };
-			UINT m_nVertexByteSize{ 0 };
-			UINT m_nIndexBufferByteSize{ 0 };
-			DXGI_FORMAT m_dxgiIndexFormat{DXGI_FORMAT_R32_UINT};
-
+			
 			D3D12_VERTEX_BUFFER_VIEW m_d3dVertexBufferView{};
 			D3D12_INDEX_BUFFER_VIEW m_d3dIndexBufferView{};
 
 			std::vector<Vertex> m_vertices{};
 			std::vector<UINT> m_indices{};
-		
-			std::unordered_map<std::tstring, Mesh> m_meshMap{};
-		public:
-			void Upload(const IDevice* pDevice,const ICommandList* pCommandList);
-			void BindBuffer(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY d3dMeshTopology) const;
-		public:
-			 std::unique_ptr<Mesh> Create(const std::tstring& tcsMeshName,const std::vector<Vertex>& vertices, const std::vector<UINT>& indices) ;
-			 std::unique_ptr<Mesh> GetMesh(const std::tstring& tcsMeshName) ;
 		private:
-			ComPtr<ID3D12Resource> CreateBuffer(const IDevice* pDevice, const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nByteSize);
+			ComPtr<ID3D12Resource> CreateBuffer(ID3D12Device* pDevice,const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize);
+
 		};
 
+		class Mesh {
+		public:
+			Mesh();
+			Mesh(const MeshContainer* other);
+			~Mesh();
+		private:
+			D3D12_VERTEX_BUFFER_VIEW m_d3dVertexView{};
+			D3D12_INDEX_BUFFER_VIEW m_d3dIndexView{};
+		public:
+			void BindBuffer(const ICommandList* pCommandList,D3D_PRIMITIVE_TOPOLOGY PrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		};
 
 	}
 }

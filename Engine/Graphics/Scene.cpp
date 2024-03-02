@@ -1,48 +1,50 @@
 #include "EnginePch.h"
-#include "Scene.h"
-#include "Resources/Mesh.h"
-#include "Resources/Texture.h"
 #include "EngineCore/PipeLineStateObject.h"
 #include "EngineCore/RootSignature.h"
 #include "EngineCore/DescriptorTable.h"
-#include "Shader.h"
 
+#include "Graphics/Resources/Mesh.h"
+
+
+#include "Shader.h"
+#include "Scene.h"
+
+
+#include "EngineCore/CommandList.h"
 namespace EngineFramework {
 	Scene::Scene(){
-
+		m_shader = std::make_unique<Shader>();
+		m_rootSignature = std::make_unique<RootSignature>();
+		m_pso = std::make_unique<PipelineStateObject>();
+		m_descriptortable = std::make_unique<DescriptorTable>();
 	}
 
 	Scene::Scene(const std::tstring& ctsSceneName) : m_tsSceneName(ctsSceneName){
-
+		m_shader = std::make_unique<Shader>();
+		m_rootSignature = std::make_unique<RootSignature>();
+		m_pso = std::make_unique<PipelineStateObject>();
+		m_descriptortable = std::make_unique<DescriptorTable>();
 	}
 
 	Scene::~Scene(){
 
 	}
 
-	void Scene::Initialize(const IDevice* pDevice, const ICommandList* pCommandList){
-		//----------------------------------------이니셜라이징 
-		m_shader = std::make_unique<Shader>();
-		m_rootSignature = std::make_unique<RootSignature>();
-		m_pso = std::make_unique<PipelineStateObject>();
-		m_meshManager = std::make_unique<Resource::MeshManager>();
-		m_descriptortable = std::make_unique<DescriptorTable>();
+	void Scene::Initialize(const IDevice* pDevice,const ICommandList* pCommandList){
 
+		
+	
+	
+		//----------------------------------------이니셜라이징 
 		m_shader->Initialize(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"));
 		m_shader->CompileShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
 		m_shader->CompileShader(PixelShader, nullptr, "PS_Main", "ps_5_1");
 		m_pso->Initialize();
 		m_pso->SetShader(m_shader.get());
-		m_descriptortable->Initalize(pDevice, 10, 0);
+		//m_descriptortable->Initalize(pDevice, 10, 0);
 		//----------------------------------------이니셜라이징
-
+		
 		//----------------------------------------오브젝트 생성 
-		testtex = std::make_unique<Resource::Texture>();
-		testtex->Initialize(pDevice,pCommandList,m_descriptortable.get(), _T("..\\Resources\\veigar.jpg"));
-
-		testtex2 = std::make_unique<Resource::Texture>();
-		testtex2->Initialize(pDevice, pCommandList, m_descriptortable.get(), _T("..\\Resources\\LeeSin.jpg"));
-
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
 		std::vector<Vertex> vec(4);
 		vec[0].Position = DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f);
@@ -73,19 +75,19 @@ namespace EngineFramework {
 			indexVec.push_back(3);
 		}
 
-		testmesh = m_meshManager->Create(_T("Testmesh"), vec, indexVec);
+
 		//----------------------------------------오브젝트 생성 
-		m_meshManager->Upload(pDevice, pCommandList);
+		testcontainer = std::make_unique<Resource::MeshContainer>(pCommandList, vec, indexVec);
+		testmesh = std::make_unique<Resource::Mesh>(testcontainer.get());
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
-		m_rootSignature->NewParameter(m_descriptortable->GetRootParameter());
-		m_rootSignature->NewSampler(0);
+		//m_rootSignature->NewParameter(m_descriptortable->GetRootParameter());
+		//m_rootSignature->NewSampler(0);
 
 		m_rootSignature->Create(pDevice);
 		m_pso->SetRootSignature(m_rootSignature.get());
 		m_pso->Create(pDevice);
 
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
-
 	}
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
@@ -94,17 +96,12 @@ namespace EngineFramework {
 		m_pso->SetPipelineState(pCommandList);
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
 
-		ID3D12DescriptorHeap* DescriptorHeap = m_descriptortable->GetDescriptorHeap().Get();
-		pCommandList->GetCommandList()->SetDescriptorHeaps(1, &DescriptorHeap);
-		m_descriptortable->CommitTable(pCommandList);
+		//ID3D12DescriptorHeap* DescriptorHeap[]{ m_descriptortable->GetDescriptorHeap().Get() };
+		//pCommandList->GetCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
+		//m_descriptortable->CommitTable(pCommandList);
 
-		testtex->BindTexture(pDevice, m_descriptortable.get());
-		testtex2->BindTexture(pDevice, m_descriptortable.get());
-
-
-
-		m_meshManager->BindBuffer(pCommandList, D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		testmesh->Render(pCommandList);
+		testmesh->BindBuffer(pCommandList);
+		pCommandList->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 		
 
 	}
