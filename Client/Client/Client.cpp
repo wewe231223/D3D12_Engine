@@ -15,16 +15,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // !defined(DEBUG) | defined(_DEBUG)
     
-
     m_app = std::make_unique<App::Application>(hInstance,_T("Client"));
     App::SetMainApplication(m_app.get());
     std::shared_ptr<EngineFramework::DirectXEngine> DxEngine = std::make_shared<EngineFramework::DirectXEngine>(m_app->GetWindowInfo(),false);
     m_app->Init(DxEngine);
-    
-    
-
-    
-    
     m_app->Loop();
 
     m_app = nullptr;

@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <map>
 #include <unordered_map>
+#include <variant>
 namespace fs = std::filesystem;
 
 // DirectX 런타임 헤더 파일입니다.
@@ -33,6 +34,7 @@ namespace fs = std::filesystem;
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include "comdef.h"
+#include <pix3.h>
 
 using Microsoft::WRL::ComPtr;
 
@@ -47,6 +49,7 @@ using Microsoft::WRL::ComPtr;
 #else 
 #pragma comment(lib, "External/Lib/DirectXTex.lib")
 #endif // !defined(DEBUG) || defined(_DEBUG)
+
 
 namespace std {
 #if defined(UNICODE)

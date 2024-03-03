@@ -2,22 +2,30 @@
 
 namespace EngineFramework {
 	namespace Resource{
+		class TextureContainer {
+			friend class Texture;
+		public:
+			TextureContainer();
+			TextureContainer(const ICommandList* pCommandList, const std::tstring& ctsPath);
+			~TextureContainer();
+		private:
+			ComPtr<ID3D12Resource> m_d3dTextureDefaultHeap{ nullptr };
+			ComPtr<ID3D12Resource> m_d3dTextureUploadHeap{ nullptr };
+			ComPtr<ID3D12DescriptorHeap> m_d3dSRVHeap{ nullptr };
+			D3D12_CPU_DESCRIPTOR_HANDLE m_d3dSRVHandle{};
+		};
+
 		class Texture {
 		public:
 			Texture();
+			Texture(const TextureContainer* other);
 			~Texture();
-			Texture(const Texture& other);
-			Texture& operator=(const Texture& other);
 		private:
-			ComPtr<ID3D12Resource> m_d3dTex2D{ nullptr };
-			ComPtr<ID3D12Resource> m_d3dTexUploadHeap{ nullptr };
-			ComPtr<ID3D12DescriptorHeap> m_d3dSRVHeap{ nullptr };
 			D3D12_CPU_DESCRIPTOR_HANDLE m_d3dSRVHandle{};
-			DescriptorID m_descriptorID{};
 		public:
-			void Initialize(const IDevice* pDevice,const ICommandList* pCommandList,IDescriptorTable* pDescriptorTable,const std::tstring& ImagePath,UINT nSRVRegister = 0U);
-			D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptorHandle() const { return m_d3dSRVHandle; }
-			void BindTexture(const IDevice* pDevice,const IDescriptorTable* pDescriptorTable);
+			void BindResource(IDescriptorTable* pDescriptorTable);
 		};
+
+
 	}
 }

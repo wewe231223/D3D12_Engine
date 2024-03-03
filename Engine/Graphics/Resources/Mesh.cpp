@@ -10,14 +10,15 @@ namespace EngineFramework {
 		MeshContainer::MeshContainer(){
 
 		}
-		MeshContainer::MeshContainer(const IDevice* pDevice,const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices){
+		MeshContainer::MeshContainer(const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices){
 			m_vertices = std::vector<Vertex>(Vertices);
 			m_indices = std::vector<UINT>(Indices);
 
-
-			m_d3dVertexDefaultBuffer = CreateBuffer(pDevice,pCommandList,m_d3dVertexUploadBuffer,m_vertices.data(), static_cast<UINT64>(m_vertices.size() * sizeof(Vertex)));
-			m_d3dIndexDefaultBuffer = CreateBuffer(pDevice,pCommandList,m_d3dIndexUploadBuffer,m_indices.data(), static_cast<UINT64>(m_indices.size() * sizeof(UINT)));
+			m_d3dVertexDefaultBuffer = CreateBuffer(pCommandList,m_d3dVertexUploadBuffer,m_vertices.data(), static_cast<UINT64>(m_vertices.size() * sizeof(Vertex)));
+			m_d3dIndexDefaultBuffer = CreateBuffer(pCommandList,m_d3dIndexUploadBuffer,m_indices.data(), static_cast<UINT64>(m_indices.size() * sizeof(UINT)));
 			
+
+
 			m_d3dVertexBufferView.BufferLocation = m_d3dVertexDefaultBuffer->GetGPUVirtualAddress();
 			m_d3dVertexBufferView.SizeInBytes = static_cast<UINT>(sizeof(Vertex) * m_vertices.size());
 			m_d3dVertexBufferView.StrideInBytes = static_cast<UINT>(sizeof(Vertex));
@@ -40,7 +41,7 @@ namespace EngineFramework {
 			return *this;
 		}
 
-		ComPtr<ID3D12Resource> MeshContainer::CreateBuffer(const IDevice* pDevice,const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize){
+		ComPtr<ID3D12Resource> MeshContainer::CreateBuffer(const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize){
 			CD3DX12_HEAP_PROPERTIES DefaultHeapProperties{ D3D12_HEAP_TYPE_DEFAULT };
 			CD3DX12_HEAP_PROPERTIES UploadHeapProperties{ D3D12_HEAP_TYPE_UPLOAD };
 
@@ -49,7 +50,10 @@ namespace EngineFramework {
 			ComPtr<ID3D12Resource> DefaultBuffer{ nullptr };
 
 
-			CheckFailed(pDevice->GetDevice()->CreateCommittedResource(
+			ID3D12Device* Device{};
+			pCommandList->GetCommandList()->GetDevice(IID_PPV_ARGS(&Device));
+
+			CheckFailed(Device->CreateCommittedResource(
 				&DefaultHeapProperties,
 				D3D12_HEAP_FLAG_NONE,
 				&BufferDesc,
@@ -58,7 +62,7 @@ namespace EngineFramework {
 				IID_PPV_ARGS(DefaultBuffer.GetAddressOf())
 			));
 
-			CheckFailed(pDevice->GetDevice()->CreateCommittedResource(
+			CheckFailed(Device->CreateCommittedResource(
 				&UploadHeapProperties,
 				D3D12_HEAP_FLAG_NONE,
 				&BufferDesc,
@@ -80,6 +84,8 @@ namespace EngineFramework {
 			ResourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(DefaultBuffer.Get(),D3D12_RESOURCE_STATE_COPY_DEST,D3D12_RESOURCE_STATE_GENERIC_READ) ;
 			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
+			Device->Release();
+
 			return DefaultBuffer;
 		}
 
@@ -97,7 +103,7 @@ namespace EngineFramework {
 
 		}
 
-		void Mesh::BindBuffer(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY PrimitiveTopology){
+		void Mesh::BindResource(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY PrimitiveTopology){
 			pCommandList->GetCommandList()->IASetVertexBuffers(0, 1, &m_d3dVertexView);
 			pCommandList->GetCommandList()->IASetIndexBuffer(&m_d3dIndexView);
 			pCommandList->GetCommandList()->IASetPrimitiveTopology(PrimitiveTopology);

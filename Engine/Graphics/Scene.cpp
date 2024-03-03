@@ -11,6 +11,8 @@
 
 
 #include "EngineCore/CommandList.h"
+#include "Graphics/Resources/Container.h"
+
 namespace EngineFramework {
 	Scene::Scene(){
 		m_shader = std::make_unique<Shader>();
@@ -30,11 +32,11 @@ namespace EngineFramework {
 
 	}
 
-	void Scene::Initialize(const IDevice* pDevice,const ICommandList* pCommandList){
+	void Scene::Initialize(const IDevice* pDevice, const ICommandList* pCommandList) {
 
-		
-	
-	
+
+
+
 		//----------------------------------------이니셜라이징 
 		m_shader->Initialize(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"));
 		m_shader->CompileShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
@@ -43,7 +45,7 @@ namespace EngineFramework {
 		m_pso->SetShader(m_shader.get());
 		//m_descriptortable->Initalize(pDevice, 10, 0);
 		//----------------------------------------이니셜라이징
-		
+
 		//----------------------------------------오브젝트 생성 
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
 		std::vector<Vertex> vec(4);
@@ -54,11 +56,11 @@ namespace EngineFramework {
 		vec[1].Position = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 		vec[1].Color = DirectX::XMFLOAT4(0.f, 1.f, 0.f, 1.f);
 		vec[1].TexCoord = DirectX::XMFLOAT2(1.f, 0.f);
-		
+
 		vec[2].Position = DirectX::XMFLOAT3(0.5f, -0.5f, 0.5f);
 		vec[2].Color = DirectX::XMFLOAT4(0.f, 0.f, 1.f, 1.f);
 		vec[2].TexCoord = DirectX::XMFLOAT2(1.f, 1.f);
-		
+
 		vec[3].Position = DirectX::XMFLOAT3(-0.5f, -0.5f, 0.5f);
 		vec[3].Color = DirectX::XMFLOAT4(0.f, 1.f, 0.f, 1.f);
 		vec[3].TexCoord = DirectX::XMFLOAT2(0.f, 1.f);
@@ -77,7 +79,7 @@ namespace EngineFramework {
 
 
 		//----------------------------------------오브젝트 생성 
-		testcontainer = std::make_unique<Resource::MeshContainer>(pDevice,pCommandList, vec, indexVec);
+		testcontainer = std::make_unique<Resource::MeshContainer>(pCommandList, vec, indexVec);
 		testmesh = std::make_unique<Resource::Mesh>(testcontainer.get());
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
 		//m_rootSignature->NewParameter(m_descriptortable->GetRootParameter());
@@ -87,12 +89,23 @@ namespace EngineFramework {
 		m_pso->SetRootSignature(m_rootSignature.get());
 		m_pso->Create(pDevice);
 
+
+
+
+
+
+		Resource::ResourceContainer<MeshValue,Resource::MeshFactory> TestContainer(pCommandList, MeshParam(vec, indexVec));
+
+
+
+
+
+
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
 	}
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
 		
-
 		m_pso->SetPipelineState(pCommandList);
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
 
@@ -100,10 +113,10 @@ namespace EngineFramework {
 		//pCommandList->GetCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
 		//m_descriptortable->CommitTable(pCommandList);
 
-		testmesh->BindBuffer(pCommandList);
+		testmesh->BindResource(pCommandList);
 		pCommandList->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 		
-
+		
 	}
 
 

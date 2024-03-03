@@ -1,11 +1,25 @@
 #pragma once 
 
 namespace EngineFramework {
-	__interface GameObject {
+	
+	namespace Resource {
+		__interface IMeshContainer {
 
-	};
+		};
 
-	__interface GameResource {
-		virtual void Create() PURE;
-	};
+
+		__interface IMesh {
+
+		};
+
+
+		__interface IDescriptorObject {
+
+		};
+
+
+		__interface IDescriptorObjectContainer {
+
+		};
+	}	
 }
