@@ -11,7 +11,6 @@
 
 
 #include "EngineCore/CommandList.h"
-#include "Graphics/Resources/Container.h"
 
 namespace EngineFramework {
 	Scene::Scene(){
@@ -94,8 +93,7 @@ namespace EngineFramework {
 
 
 
-		Resource::ResourceContainer<MeshValue,Resource::MeshFactory> TestContainer(pCommandList, MeshParam(vec, indexVec));
-
+		testResourceContainer = std::make_unique<Resource::ResourceContainer<MeshValue, Resource::MeshFactory>>(pCommandList,MeshParam(vec, indexVec));
 
 
 
@@ -113,7 +111,17 @@ namespace EngineFramework {
 		//pCommandList->GetCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
 		//m_descriptortable->CommitTable(pCommandList);
 
-		testmesh->BindResource(pCommandList);
+
+		
+		D3D12_VERTEX_BUFFER_VIEW Vb = testResourceContainer->GetValue().first;
+		D3D12_INDEX_BUFFER_VIEW Ib = testResourceContainer->GetValue().second;
+
+
+		pCommandList->GetCommandList()->IASetVertexBuffers(0, 1, &Vb);
+		pCommandList->GetCommandList()->IASetIndexBuffer(&Ib);
+		pCommandList->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		//testmesh->BindResource(pCommandList);
 		pCommandList->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 		
 		

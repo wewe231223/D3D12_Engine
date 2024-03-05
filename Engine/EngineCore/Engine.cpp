@@ -6,6 +6,7 @@
 #include "SwapChain.h"
 #include "Graphics/Scene.h"
 
+
 namespace EngineFramework {
 
 	Engine::~Engine(){
@@ -26,10 +27,12 @@ namespace EngineFramework {
 	}
 
 	DirectXEngine::~DirectXEngine(){
-
+		
 	}
 
+
 	void DirectXEngine::Initialize(){		
+
 		m_pDevice->Initialize();
 		m_pCommandQueue->Initialize(m_pDevice.get());
 		m_pMainCommandList->Initialize(m_pDevice.get());
@@ -46,11 +49,14 @@ namespace EngineFramework {
 		// 3. 리소스를 모두 업로드 했으면 커맨드 리스트를 닫는다.
 		m_pResourceCommandList->Close();
 		// 4. 업로드한 리소스를 제출한다.
-		m_pResourceCommandList->Execute(m_pCommandQueue.get());
+		m_pCommandQueue->Execute(m_pResourceCommandList.get());
 		// 5. GPU와 싱크를 맞춘다 ( GPU 에 업로드한다 )
 		m_pCommandQueue->Sync();
 
 
+
+		
+		
 	}
 
 	void DirectXEngine::Render(){
@@ -66,7 +72,7 @@ namespace EngineFramework {
 		
 		m_pMainCommandList->TransformState(m_pSwapChain->GetCurrentBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 		m_pMainCommandList->Close();
-		m_pMainCommandList->Execute(m_pCommandQueue.get());
+		m_pCommandQueue->Execute(m_pMainCommandList.get());
 		m_pSwapChain->Present();
 		m_pCommandQueue->Sync();
 	}
@@ -79,7 +85,7 @@ namespace EngineFramework {
 		m_pMainCommandList->Open();
 		m_pSwapChain->Resize(m_pDevice.get(), m_pMainCommandList.get());
 		m_pMainCommandList->Close();
-		m_pMainCommandList->Execute(m_pCommandQueue.get());
+		m_pCommandQueue->Execute(m_pMainCommandList.get());
 		m_pCommandQueue->Sync();
 	}
 

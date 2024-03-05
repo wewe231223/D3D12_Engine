@@ -16,7 +16,6 @@ namespace EngineFramework {
 		void TransformState(ComPtr<ID3D12Resource> d3dResource,D3D12_RESOURCE_STATES d3dPrevState, D3D12_RESOURCE_STATES d3dTarState);
 	public: // Interface 
 		virtual void Open() const override;
-		virtual void Execute(const ICommandQueue* pCommandQueue) const override;
 		virtual void Close() const override;
 		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const override;
 	};

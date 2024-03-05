@@ -6,7 +6,7 @@ namespace EngineFramework {
 
     }
     Device::~Device(){
-
+        
 	}
 
 	void Device::LogAdapters(){

@@ -35,6 +35,7 @@ namespace fs = std::filesystem;
 #include <dinput.h>
 #include "comdef.h"
 #include <pix3.h>
+#include "dxgidebug.h"
 
 using Microsoft::WRL::ComPtr;
 

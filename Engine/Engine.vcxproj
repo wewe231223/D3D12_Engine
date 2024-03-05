@@ -200,7 +200,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>Enginepch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalOptions>/Ylsymbol %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>

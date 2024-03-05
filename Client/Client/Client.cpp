@@ -5,6 +5,7 @@
 #include "System/Application.h"
 #include "EngineCore/Engine.h"
 
+
 std::unique_ptr<App::Application> m_app{};
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -25,6 +26,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     DxEngine = nullptr;
 
     _CrtDumpMemoryLeaks();
+    
+   
     return 0xff;
 }
 

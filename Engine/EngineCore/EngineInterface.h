@@ -7,12 +7,13 @@ namespace EngineFramework {
 
 	__interface ICommandQueue {
 		virtual ComPtr<ID3D12CommandQueue> GetCommandQueue() const PURE;
+		virtual void Execute(const __interface ICommandList*) const PURE;
+		virtual void Execute(ID3D12CommandList*,UINT) const PURE;
 		virtual void Sync() const PURE;
 	};
 
 	__interface ICommandList {
 		virtual void Open() const PURE;
-		virtual void Execute(const ICommandQueue*) const PURE;
 		virtual void Close() const PURE;
 		virtual ComPtr<ID3D12GraphicsCommandList> GetCommandList() const PURE;
 	};

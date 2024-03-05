@@ -44,11 +44,6 @@ namespace EngineFramework {
 		CheckFailed(m_d3dGraphicsCommandList->Reset(m_d3dCommandAllocator.Get(), nullptr));
 	}
 
-	void CommandList::Execute(const ICommandQueue* pCommandQueue) const {
-		ID3D12CommandList* CommandLists[] = { m_d3dGraphicsCommandList.Get() };
-		pCommandQueue->GetCommandQueue()->ExecuteCommandLists(_countof(CommandLists), CommandLists);
-	}
-
 	void CommandList::Close() const {
 		CheckFailed(m_d3dGraphicsCommandList->Close());
 		

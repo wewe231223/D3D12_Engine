@@ -1,6 +1,6 @@
 #include "EnginePch.h"
 #include "Mesh.h"
-#include "ResourceManager.h"
+#include "Container.h"
 
 namespace EngineFramework {
 	namespace Resource {
@@ -27,6 +27,8 @@ namespace EngineFramework {
 			m_d3dIndexBufferView.BufferLocation = m_d3dIndexDefaultBuffer->GetGPUVirtualAddress();
 			m_d3dIndexBufferView.Format = DXGI_FORMAT_R32_UINT;
 			m_d3dIndexBufferView.SizeInBytes = static_cast<UINT>(m_indices.size() * sizeof(UINT));
+
+			
 		
 		}
 		MeshContainer::~MeshContainer(){
@@ -85,7 +87,7 @@ namespace EngineFramework {
 			pCommandList->GetCommandList()->ResourceBarrier(1, &ResourceBarrier);
 
 			Device->Release();
-
+			
 			return DefaultBuffer;
 		}
 

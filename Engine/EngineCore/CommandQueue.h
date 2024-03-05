@@ -14,6 +14,8 @@ namespace EngineFramework {
 		void Initialize(const IDevice* pDevice);
 	public: // Interface 
 		virtual ComPtr<ID3D12CommandQueue> GetCommandQueue() const override { return m_d3dCommandQueue; }
+		virtual void Execute(const ICommandList* pCommandLists) const override;
+		virtual void Execute(ID3D12CommandList* pCommandLists,UINT nCommandLists) const override;
 		virtual void Sync() const override;
 	};
 }

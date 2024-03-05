@@ -5,12 +5,14 @@ namespace System {
 	public:
 		Exeption() = default;
 		Exeption(HRESULT hErrorCode, const std::tstring& ctsFuctionName, const std::tstring& ctsFileName, const int nLineNumber);
+		Exeption(const std::tstring& ctsMessage);
 
 	private:
 		HRESULT m_hrErrorCode{ S_OK };
 		std::tstring m_tsFuctionName{};
 		std::tstring m_tsFileName{};
-		int m_nLineNumber{};
+		std::tstring m_tsMessage{};
+		int m_nLineNumber{ -1 };
 	public:
 		std::tstring ToString() const;
 	};
