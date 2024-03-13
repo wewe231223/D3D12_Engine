@@ -35,7 +35,7 @@ App::Application::~Application(){
 
 }
 
-void App::Application::Init(std::shared_ptr<EngineFramework::Engine> pEngine) {
+bool App::Application::Init(std::shared_ptr<EngineFramework::Engine> pEngine) {
 	try{
 		RegisterClassExW(&m_wcex);
 
@@ -56,8 +56,10 @@ void App::Application::Init(std::shared_ptr<EngineFramework::Engine> pEngine) {
 
 	} catch (const System::Exeption& e){
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
+		INPUT->Terminate();
+		return false;
 	}
-
+	return true;
 }
 
 LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam){
@@ -88,7 +90,7 @@ LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPA
 	return 0;
 }
 
-void App::Application::Loop(){
+bool App::Application::Loop(){
 	HACCEL hAccelTable = LoadAccelerators(m_hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 	MSG msg{};
 	m_timer->Start();
@@ -109,9 +111,12 @@ void App::Application::Loop(){
 	}
 	catch (const System::Exeption& e) {
 		::MessageBox(m_windowInfo.hWnd, e.ToString().c_str(), 0, 0);
+		INPUT->Terminate();
+		return false;
 	}
 
-	return INPUT->Terminate();
+	INPUT->Terminate();
+	return true;
 }
 
 LRESULT App::MainProcedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam){

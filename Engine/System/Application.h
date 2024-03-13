@@ -32,8 +32,8 @@ namespace App {
 	public:
 		 LRESULT Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPARAM lParam);
 	public:
-		virtual void Init(std::shared_ptr<EngineFramework::Engine> pEngine);
-		virtual void Loop();
+		virtual bool Init(std::shared_ptr<EngineFramework::Engine> pEngine);
+		virtual bool Loop();
 	public: 
 		const WindowInfo* GetWindowInfo() const { return &m_windowInfo; }
 	};

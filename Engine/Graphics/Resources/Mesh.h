@@ -19,16 +19,6 @@ namespace EngineFramework {
 			ComPtr<ID3D12Resource> m_d3dIndexUploadBuffer{ nullptr };		// 업로드 힙 
 			std::vector<UINT> m_indices{};									// 실제 데이터
 			D3D12_INDEX_BUFFER_VIEW m_d3dIndexBufferView{};					// 리턴 값 ( clone 을 위한 )
-			
-			/*
-			ComPtr<ID3D12Resource> m_d3dTextureDefaultHeap{ nullptr };		// 디폴트 힙
-			ComPtr<ID3D12Resource> m_d3dTextureUploadHeap{ nullptr };		// 업로드 힙 
-			ComPtr<ID3D12DescriptorHeap> m_d3dSRVHeap{ nullptr };			// 실제 데이터 
-			D3D12_CPU_DESCRIPTOR_HANDLE m_d3dSRVHandle{};					// 리턴 값  ( clone 을 위한 )
-			*/
-
-			// -> 컨테이너를 이렇게 일반화 하고 생성하는 부분은 팩토리객체로 분리해서 작성. ( 전략 패턴? 팩토리패턴? 추상화 팩토리? ) 
-
 		private:
 			ComPtr<ID3D12Resource> CreateBuffer(const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize);
 

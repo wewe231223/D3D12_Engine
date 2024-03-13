@@ -131,8 +131,10 @@ namespace System {
 	/// 싱글톤 객체는 항상 Terminate 를 호출할것
 	/// </summary>
 	void Input::Terminate() {
-		if (m_keyboardState) delete[] m_keyboardState;
-		m_keyboardState = nullptr;
+		if (m_keyboardState) {
+			delete[] m_keyboardState;
+			m_keyboardState = nullptr;
+		}
 
 		if (m_mouseState) delete[] m_mouseState;
 		m_mouseState = nullptr;

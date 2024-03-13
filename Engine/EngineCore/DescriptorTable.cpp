@@ -28,6 +28,7 @@ namespace EngineFramework {
 		static bool UAVRegister[256]{ false, };
 
 
+
 		switch (d3dDescriptorType){
 		case D3D12_DESCRIPTOR_RANGE_TYPE_SRV:
 		{

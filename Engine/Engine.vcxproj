@@ -30,21 +30,16 @@
     <ClInclude Include="EngineCore\PipeLineStateObject.h" />
     <ClInclude Include="EngineCore\RenderTarget.h" />
     <ClInclude Include="EngineCore\RootSignature.h" />
+    <ClInclude Include="EngineCore\ShaderRegisterBlock.h" />
     <ClInclude Include="EngineCore\SwapChain.h" />
     <ClInclude Include="External\Include\d3dx12.h" />
     <ClInclude Include="External\Include\DirectXTex.h" />
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Graphics\Camera.h" />
-    <ClInclude Include="Graphics\GraphicsInterface.h" />
     <ClInclude Include="Graphics\Object.h" />
+    <ClInclude Include="Graphics\Resources\Material.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
-    <ClInclude Include="Graphics\Resources\Container.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Graphics\Resources\ResourceDefine.h" />
-    <ClInclude Include="Graphics\Resources\ResourceFactory.h" />
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Graphics\Scene.h" />
     <ClInclude Include="Graphics\Shader.h" />
@@ -67,17 +62,12 @@
     <ClCompile Include="EngineCore\PipeLineStateObject.cpp" />
     <ClCompile Include="EngineCore\RenderTarget.cpp" />
     <ClCompile Include="EngineCore\RootSignature.cpp" />
+    <ClCompile Include="EngineCore\ShaderRegisterBlock.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
     <ClCompile Include="Graphics\Camera.cpp" />
-    <ClCompile Include="Graphics\GraphicsInterface.cpp" />
     <ClCompile Include="Graphics\Object.cpp" />
+    <ClCompile Include="Graphics\Resources\Material.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
-    <ClCompile Include="Graphics\Resources\Container.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Graphics\Resources\ResourceDefine.cpp" />
-    <ClCompile Include="Graphics\Resources\ResourceFactory.cpp" />
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
     <ClCompile Include="Graphics\Scene.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />

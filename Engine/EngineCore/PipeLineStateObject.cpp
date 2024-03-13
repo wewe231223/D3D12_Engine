@@ -10,6 +10,8 @@ namespace EngineFramework{
 	}
 	void PipelineStateObject::Initialize(){
 		::ZeroMemory(&m_d3dPipelineStateDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+	// 애는 넣고자 하는 정보가 셰이더에서 요구하는 것과 일치하는지 확인하는 작업.
+	// 근데 이걸 셰이더르 읽어서 생성하면 무슨의미?
 		m_d3dInputLayout = {
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
 		{"NORMAL",0,DXGI_FORMAT_R32G32B32_FLOAT,0,12,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
@@ -17,6 +19,8 @@ namespace EngineFramework{
 		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,32,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0}
 		};
 
+
+	
 		CD3DX12_RASTERIZER_DESC RasterizerDesc{ D3D12_DEFAULT };
 		CD3DX12_BLEND_DESC BlendDesc{ D3D12_DEFAULT };
 		CD3DX12_DEPTH_STENCIL_DESC DepthStencilDesc{ D3D12_DEFAULT };
@@ -39,8 +43,8 @@ namespace EngineFramework{
 		m_d3dPipelineStateDesc.VS = pShader->GetShaderByteCode(VertexShader);
 		m_d3dPipelineStateDesc.PS = pShader->GetShaderByteCode(PixelShader);
 		m_d3dPipelineStateDesc.HS = pShader->GetShaderByteCode(HullShader);
-		m_d3dPipelineStateDesc.GS = pShader->GetShaderByteCode(GeometryShader);
 		m_d3dPipelineStateDesc.DS = pShader->GetShaderByteCode(DomainShader);
+		m_d3dPipelineStateDesc.GS = pShader->GetShaderByteCode(GeometryShader);
 	}
 	void PipelineStateObject::SetRootSignature(const IRootSignature* pRootSignature){
 		m_d3dPipelineStateDesc.pRootSignature = pRootSignature->GetRootSignature().Get();
@@ -50,6 +54,7 @@ namespace EngineFramework{
 	}
 	void PipelineStateObject::SetPipelineState(const ICommandList* pCommandList){
 		pCommandList->GetCommandList()->SetPipelineState(m_d3dPipelineState.Get());
+		
 	}
 }
 

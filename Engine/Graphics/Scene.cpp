@@ -2,14 +2,10 @@
 #include "EngineCore/PipeLineStateObject.h"
 #include "EngineCore/RootSignature.h"
 #include "EngineCore/DescriptorTable.h"
-
 #include "Graphics/Resources/Mesh.h"
-
-
+#include "Graphics/Resources/Texture.h"
 #include "Shader.h"
 #include "Scene.h"
-
-
 #include "EngineCore/CommandList.h"
 
 namespace EngineFramework {
@@ -32,10 +28,6 @@ namespace EngineFramework {
 	}
 
 	void Scene::Initialize(const IDevice* pDevice, const ICommandList* pCommandList) {
-
-
-
-
 		//----------------------------------------이니셜라이징 
 		m_shader->Initialize(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"));
 		m_shader->CompileShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
@@ -78,53 +70,29 @@ namespace EngineFramework {
 
 
 		//----------------------------------------오브젝트 생성 
-		testcontainer = std::make_unique<Resource::MeshContainer>(pCommandList, vec, indexVec);
-		testmesh = std::make_unique<Resource::Mesh>(testcontainer.get());
+
+
+		TestShader = new TestBed::RegisterLibrary{ "..\\Engine\\Graphics" };
+
+		RegisterProfile Rf{ TestShader->GetRegister("Sam0") };
+
+		std::cout << Rf.RegType << " " << Rf.RegNum << std::endl;
+
+		delete TestShader;
+
+
+		// Root signature 의 일반화에 대하여... 
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
-		//m_rootSignature->NewParameter(m_descriptortable->GetRootParameter());
-		//m_rootSignature->NewSampler(0);
 
 		m_rootSignature->Create(pDevice);
 		m_pso->SetRootSignature(m_rootSignature.get());
 		m_pso->Create(pDevice);
-
-
-
-
-
-
-		testResourceContainer = std::make_unique<Resource::ResourceContainer<MeshValue, Resource::MeshFactory>>(pCommandList,MeshParam(vec, indexVec));
-
-
-
-
-
 		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
 	}
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
-		
 		m_pso->SetPipelineState(pCommandList);
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
-
-		//ID3D12DescriptorHeap* DescriptorHeap[]{ m_descriptortable->GetDescriptorHeap().Get() };
-		//pCommandList->GetCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
-		//m_descriptortable->CommitTable(pCommandList);
-
-
-		
-		D3D12_VERTEX_BUFFER_VIEW Vb = testResourceContainer->GetValue().first;
-		D3D12_INDEX_BUFFER_VIEW Ib = testResourceContainer->GetValue().second;
-
-
-		pCommandList->GetCommandList()->IASetVertexBuffers(0, 1, &Vb);
-		pCommandList->GetCommandList()->IASetIndexBuffer(&Ib);
-		pCommandList->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		//testmesh->BindResource(pCommandList);
-		pCommandList->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
-		
-		
 	}
 
 

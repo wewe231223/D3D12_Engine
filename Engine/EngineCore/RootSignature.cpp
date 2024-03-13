@@ -42,4 +42,7 @@ namespace EngineFramework {
 	UINT RootSignature::GetBufferIndex() const {
 		return ++m_nCBuffer;
 	}
+	void ShaderResourceManager::NewSampler(D3D12_STATIC_SAMPLER_DESC&& SamplerDesc){
+		
+	}
 }

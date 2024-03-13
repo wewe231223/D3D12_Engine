@@ -32,7 +32,6 @@ namespace EngineFramework {
 
 
 	void DirectXEngine::Initialize(){		
-
 		m_pDevice->Initialize();
 		m_pCommandQueue->Initialize(m_pDevice.get());
 		m_pMainCommandList->Initialize(m_pDevice.get());
@@ -52,11 +51,7 @@ namespace EngineFramework {
 		m_pCommandQueue->Execute(m_pResourceCommandList.get());
 		// 5. GPU와 싱크를 맞춘다 ( GPU 에 업로드한다 )
 		m_pCommandQueue->Sync();
-
-
-
-		
-		
+				
 	}
 
 	void DirectXEngine::Render(){
