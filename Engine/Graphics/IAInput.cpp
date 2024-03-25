@@ -1,9 +1,6 @@
 #include "EnginePch.h"
-#include "Resources/Texture.h"
-#include "Object.h"
+#include "IAInput.h"
 
 namespace EngineFramework {
-
-
 
 }

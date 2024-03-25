@@ -1,5 +1,6 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
+#define _CRT_SECURE_NO_WARNINGS
 // Windows 헤더 파일
 #include <windows.h>
 // C 런타임 헤더 파일입니다.
@@ -56,9 +57,14 @@ using Microsoft::WRL::ComPtr;
 #endif // !defined(DEBUG) || defined(_DEBUG)
 
 #include <iostream>
-#if defined(DEBUG) || defined(_DEBUG)
-#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
-#endif // !defined(DEBUG) || defined(_DEBUG
+
+#ifdef max 
+#undef max 
+#endif
+
+#ifdef min 
+#undef min 
+#endif
 
 
 namespace std {
@@ -107,6 +113,13 @@ struct Vertex {
 	DirectX::XMFLOAT4 Color{};
 };
 
+class DelPtr {
+public:
+	DelPtr() = default;
+	virtual ~DelPtr() {};
+};
+
+
 #define ReleaseCom(x)	\
 	if(x){				\
 		x->Release();	\
@@ -114,11 +127,8 @@ struct Vertex {
 	}
 
 
-#if defined(_DEBUG) || defined(DEBUG)
 #include <crtdbg.h>
-#define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
-#define malloc(s) _malloc_dbg(s,_NORMAL_BLOCK,__FILE__,LINE__)
-#endif // !defined(_DEBUG) || defined(DEBUG)
+
 
 // static headers
 #include "System/Exeption.h"

@@ -28,7 +28,8 @@ namespace EngineFramework {
 
 
 
-
+			CD3DX12_ROOT_PARAMETER RootParam{};
+			
 		}
 
 

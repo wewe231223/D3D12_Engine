@@ -23,7 +23,7 @@ namespace EngineFramework {
 		m_pMainCommandList = std::make_unique<CommandList>();
 		m_pResourceCommandList = std::make_unique<CommandList>();
 		m_pSwapChain = std::make_unique<SwapChain>();
-		m_scene = std::make_unique<Scene>();
+		m_scene = std::make_unique<Scene>("MyScene1");
 	}
 
 	DirectXEngine::~DirectXEngine(){

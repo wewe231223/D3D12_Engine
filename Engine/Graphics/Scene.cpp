@@ -2,25 +2,43 @@
 #include "EngineCore/PipeLineStateObject.h"
 #include "EngineCore/RootSignature.h"
 #include "EngineCore/DescriptorTable.h"
-#include "Graphics/Resources/Mesh.h"
-#include "Graphics/Resources/Texture.h"
+
 #include "Shader.h"
 #include "Scene.h"
 #include "EngineCore/CommandList.h"
 
+#include "Graphics/Resources/Mesh.h"
+#include "Graphics/IAInput.h"
+
 namespace EngineFramework {
-	Scene::Scene(){
-		m_shader = std::make_unique<Shader>();
-		m_rootSignature = std::make_unique<RootSignature>();
-		m_pso = std::make_unique<PipelineStateObject>();
-		m_descriptortable = std::make_unique<DescriptorTable>();
+
+	ID3D12RootSignature* SceneSystem::GetRootSignature(){
+		if (m_d3dRootSignature.Get() == nullptr) throw System::Exeption(_T("\n[Scene System] : Any Root Signature Exist!\n"));
+		return m_d3dRootSignature.Get();
 	}
 
-	Scene::Scene(const std::tstring& ctsSceneName) : m_tsSceneName(ctsSceneName){
-		m_shader = std::make_unique<Shader>();
-		m_rootSignature = std::make_unique<RootSignature>();
-		m_pso = std::make_unique<PipelineStateObject>();
-		m_descriptortable = std::make_unique<DescriptorTable>();
+	ID3D12RootSignature* SceneSystem::GetRootSignature(const IDevice* pDevice) {
+		if (m_d3dRootSignature.Get() == nullptr) {
+			// 나중에 샘플러 지원도 추가해야된다. 
+			CD3DX12_ROOT_SIGNATURE_DESC RootSignatureDesc{ static_cast<UINT>(m_d3dRootParameter.size()),m_d3dRootParameter.data(),NULL,nullptr,D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT };
+
+			ComPtr<ID3D10Blob> ErrorBlob{ nullptr };
+			CheckFailed(D3D12SerializeRootSignature(&RootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, m_d3dSerializedRootSignature.GetAddressOf(), ErrorBlob.GetAddressOf()));
+			CheckFailed(pDevice->GetDevice()->CreateRootSignature(0, m_d3dSerializedRootSignature->GetBufferPointer(), m_d3dSerializedRootSignature->GetBufferSize(), IID_PPV_ARGS(m_d3dRootSignature.GetAddressOf())));
+		}
+		return m_d3dRootSignature.Get();
+	}
+
+
+
+	Scene::Scene(){
+
+	}
+
+	Scene::Scene(const std::string& ctsSceneName) : m_sSceneName(ctsSceneName){
+		m_shader = std::make_unique<Shader>(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"), IAInputLayout::GetInputLayout<Vertex>());
+		m_shader->CreateShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
+		m_shader->CreateShader(PixelShader, nullptr, "PS_Main", "ps_5_1");
 	}
 
 	Scene::~Scene(){
@@ -28,14 +46,6 @@ namespace EngineFramework {
 	}
 
 	void Scene::Initialize(const IDevice* pDevice, const ICommandList* pCommandList) {
-		//----------------------------------------이니셜라이징 
-		m_shader->Initialize(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"));
-		m_shader->CompileShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
-		m_shader->CompileShader(PixelShader, nullptr, "PS_Main", "ps_5_1");
-		m_pso->Initialize();
-		m_pso->SetShader(m_shader.get());
-		//m_descriptortable->Initalize(pDevice, 10, 0);
-		//----------------------------------------이니셜라이징
 
 		//----------------------------------------오브젝트 생성 
 		// 이 사이에서 RootSignature 을 통한 상수 버퍼 생성을 진행 
@@ -68,32 +78,26 @@ namespace EngineFramework {
 			indexVec.push_back(3);
 		}
 
+		
+		NewResource<Resource::Mesh>("Test",pCommandList, vec, indexVec);
 
-		//----------------------------------------오브젝트 생성 
-
-
-		TestShader = new TestBed::RegisterLibrary{ "..\\Engine\\Graphics" };
-
-		RegisterProfile Rf{ TestShader->GetRegister("Sam0") };
-
-		std::cout << Rf.RegType << " " << Rf.RegNum << std::endl;
-
-		delete TestShader;
-
-
-		// Root signature 의 일반화에 대하여... 
-		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
-
-		m_rootSignature->Create(pDevice);
-		m_pso->SetRootSignature(m_rootSignature.get());
-		m_pso->Create(pDevice);
-		//----------------------------------------루트 시그니쳐 등록 및 PSO 생성 
+		m_shader->BuildShader(pDevice, GetRootSignature(pDevice));
 	}
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
-		m_pso->SetPipelineState(pCommandList);
-		pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
+		m_shader->BindPipeLine(pCommandList);
+		//pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
+		pCommandList->GetCommandList()->SetGraphicsRootSignature(GetRootSignature());
+
+		Resource::MeshClone C{ GetResourceClone<Resource::Mesh>("Test") };
+		C.BindResource(pCommandList);
+
+		pCommandList->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
+
 	}
+
+
+
 
 
 

@@ -34,9 +34,18 @@
     <ClInclude Include="EngineCore\SwapChain.h" />
     <ClInclude Include="External\Include\d3dx12.h" />
     <ClInclude Include="External\Include\DirectXTex.h" />
+    <ClInclude Include="External\Include\ImGUI\imconfig.h" />
+    <ClInclude Include="External\Include\ImGUI\imgui.h" />
+    <ClInclude Include="External\Include\ImGUI\imgui_impl_dx12.h" />
+    <ClInclude Include="External\Include\ImGUI\imgui_impl_win32.h" />
+    <ClInclude Include="External\Include\ImGUI\imgui_internal.h" />
+    <ClInclude Include="External\Include\ImGUI\imstb_rectpack.h" />
+    <ClInclude Include="External\Include\ImGUI\imstb_textedit.h" />
+    <ClInclude Include="External\Include\ImGUI\imstb_truetype.h" />
     <ClInclude Include="Global\EngineHeader.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\IAInput.h" />
     <ClInclude Include="Graphics\Object.h" />
     <ClInclude Include="Graphics\Resources\Material.h" />
     <ClInclude Include="Graphics\Resources\Mesh.h" />
@@ -64,7 +73,13 @@
     <ClCompile Include="EngineCore\RootSignature.cpp" />
     <ClCompile Include="EngineCore\ShaderRegisterBlock.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
+    <ClCompile Include="External\Include\ImGUI\imgui.cpp" />
+    <ClCompile Include="External\Include\ImGUI\imgui_demo.cpp" />
+    <ClCompile Include="External\Include\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="External\Include\ImGUI\imgui_impl_dx12.cpp" />
+    <ClCompile Include="External\Include\ImGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\IAInput.cpp" />
     <ClCompile Include="Graphics\Object.cpp" />
     <ClCompile Include="Graphics\Resources\Material.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
@@ -148,11 +163,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(IncludePath);$(ProjectDir)External\Include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
     <TargetExt>.lib</TargetExt>
+    <IncludePath>$(ProjectDir);$(IncludePath);$(ProjectDir)External\Include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

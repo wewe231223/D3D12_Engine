@@ -46,10 +46,6 @@ namespace EngineFramework {
 		END
 	};
 
-	struct RegisterProfile {
-		CHAR RegType{};
-		UINT RegNum{};
-	};
 
 	enum class ResourceType {
 		Root32BitConstants = 100U,

@@ -35,10 +35,18 @@ App::Application::~Application(){
 
 }
 
+
 bool App::Application::Init(std::shared_ptr<EngineFramework::Engine> pEngine) {
 	try{
 		RegisterClassExW(&m_wcex);
+		AllocConsole();
+		freopen("CONIN$", "rb", stdin);
+		freopen("CONOUT$", "wb", stdout);
+		freopen("CONOUT$","wb", stderr);
+		std::ios::sync_with_stdio();
 
+
+		std::cout << "Console Alloced ! " << std::endl;
 		m_windowInfo.hWnd = CreateWindowW(_T("APPLICATION"), m_tsWindowName.c_str(), WS_OVERLAPPEDWINDOW,
 			m_windowPosition.x, m_windowPosition.y, m_windowInfo.Width, m_windowInfo.Height, nullptr, nullptr, m_hInstance, nullptr);
 
@@ -70,13 +78,17 @@ LRESULT App::Application::Prodedure(HWND hWnd, UINT nMessage, WPARAM wParam, LPA
 			int wmId = LOWORD(wParam);
 			switch (wmId) {
 			case IDM_EXIT:
-				DestroyWindow(hWnd);
+				PostQuitMessage(0);
 				break;
 			default:
 				return DefWindowProc(hWnd, nMessage, wParam, lParam);
 			}
 		}
 		break;
+		case WM_CLOSE:
+			OutputDebugString(_T("Console Closed\n"));
+			PostQuitMessage(0);
+			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
@@ -104,9 +116,12 @@ bool App::Application::Loop(){
 					DispatchMessage(&msg);
 				}
 			}
+
 			INPUT->Update();
 			m_timer->Update();
+			
 			m_engine->Render();
+
 		}
 	}
 	catch (const System::Exeption& e) {
@@ -114,7 +129,6 @@ bool App::Application::Loop(){
 		INPUT->Terminate();
 		return false;
 	}
-
 	INPUT->Terminate();
 	return true;
 }

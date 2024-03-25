@@ -3,13 +3,10 @@
 
 namespace EngineFramework {
 	namespace Resource {
-
-
-
-		MeshContainer::MeshContainer(){
+		Mesh::Mesh(){
 
 		}
-		MeshContainer::MeshContainer(const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices){
+		Mesh::Mesh(const ICommandList* pCommandList,std::vector<Vertex>& Vertices, std::vector<UINT>& Indices){
 			m_vertices = std::vector<Vertex>(Vertices);
 			m_indices = std::vector<UINT>(Indices);
 
@@ -26,23 +23,24 @@ namespace EngineFramework {
 			m_d3dIndexBufferView.BufferLocation = m_d3dIndexDefaultBuffer->GetGPUVirtualAddress();
 			m_d3dIndexBufferView.Format = DXGI_FORMAT_R32_UINT;
 			m_d3dIndexBufferView.SizeInBytes = static_cast<UINT>(m_indices.size() * sizeof(UINT));
-
-			
-		
 		}
-		MeshContainer::~MeshContainer(){
+		Mesh::~Mesh(){
 
 		}
-		MeshContainer::MeshContainer(const MeshContainer& other){
+		Mesh::Mesh(const Mesh& other){
 
 		}
-		MeshContainer& MeshContainer::operator=(const MeshContainer& other){
+		Mesh& Mesh::operator=(const Mesh& other){
 			m_d3dVertexBufferView = other.m_d3dVertexBufferView;
 			m_d3dIndexBufferView = other.m_d3dIndexBufferView;
 			return *this;
 		}
 
-		ComPtr<ID3D12Resource> MeshContainer::CreateBuffer(const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize){
+		MeshClone Mesh::Clone() const {
+			return MeshClone{ m_d3dVertexBufferView,m_d3dIndexBufferView };
+		}
+
+		ComPtr<ID3D12Resource> Mesh::CreateBuffer(const ICommandList* pCommandList,ComPtr<ID3D12Resource>& d3dUploadBuffer,void* pvData,UINT64 nSize){
 			CD3DX12_HEAP_PROPERTIES DefaultHeapProperties{ D3D12_HEAP_TYPE_DEFAULT };
 			CD3DX12_HEAP_PROPERTIES UploadHeapProperties{ D3D12_HEAP_TYPE_UPLOAD };
 
@@ -91,20 +89,20 @@ namespace EngineFramework {
 		}
 
 
-		Mesh::Mesh(){
+		MeshClone::MeshClone(){
+
+		}
+
+		MeshClone::MeshClone(const D3D12_VERTEX_BUFFER_VIEW& VertexView,const D3D12_INDEX_BUFFER_VIEW& IndexView) : m_d3dVertexView(VertexView) , m_d3dIndexView(IndexView){
 
 		}
 		
-		Mesh::Mesh(const MeshContainer* other){
-			m_d3dVertexView = other->m_d3dVertexBufferView;
-			m_d3dIndexView = other->m_d3dIndexBufferView;
-		}
 
-		Mesh::~Mesh(){
+		MeshClone::~MeshClone(){
 
 		}
 
-		void Mesh::BindResource(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY PrimitiveTopology){
+		void MeshClone::BindResource(const ICommandList* pCommandList, D3D_PRIMITIVE_TOPOLOGY PrimitiveTopology){
 			pCommandList->GetCommandList()->IASetVertexBuffers(0, 1, &m_d3dVertexView);
 			pCommandList->GetCommandList()->IASetIndexBuffer(&m_d3dIndexView);
 			pCommandList->GetCommandList()->IASetPrimitiveTopology(PrimitiveTopology);

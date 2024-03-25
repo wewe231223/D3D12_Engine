@@ -2,184 +2,75 @@
 #include "Shader.h"
 
 namespace EngineFramework {
+	Shader::Shader(const std::tstring& TargetShaderPath, D3D12_INPUT_LAYOUT_DESC ShaderInputLayout) : m_path(TargetShaderPath){
+		m_d3dPipelineDesc.InputLayout = ShaderInputLayout;
 
-	Shader::Shader(){
-
-	}
-	Shader::~Shader(){
-
-	}
-
-	void Shader::Initialize(const std::tstring& ctsShaderPath){
-		m_tsPath = ctsShaderPath;
-		//GetRegister(m_tsPath);
-		std::ifstream in{ m_tsPath,std::ios::app };
-
+		CD3DX12_RASTERIZER_DESC RasterizerDesc{ D3D12_DEFAULT };
+		CD3DX12_BLEND_DESC BlendDesc{ D3D12_DEFAULT };
+		CD3DX12_DEPTH_STENCIL_DESC DepthStencilDesc{ D3D12_DEFAULT };
 		
+			
+		m_d3dPipelineDesc.RasterizerState = RasterizerDesc;
+		m_d3dPipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+		m_d3dPipelineDesc.BlendState = BlendDesc;
+		m_d3dPipelineDesc.DepthStencilState = DepthStencilDesc;
+		m_d3dPipelineDesc.SampleMask = UINT_MAX;
+		m_d3dPipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		m_d3dPipelineDesc.NumRenderTargets = 1;
+		m_d3dPipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		// 일단 임시로 꺼두기로 한다 
+		m_d3dPipelineDesc.SampleDesc.Count = 1;
+		m_d3dPipelineDesc.SampleDesc.Quality = 0;
+		m_d3dPipelineDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	}
 
-
-
-
-
-
-
-
-
-
+	Shader::~Shader() {
 
 	}
 
-	void Shader::CompileShader(ShaderType ShaderType, const D3D_SHADER_MACRO* d3dShaderDefines, const std::string& csEntryPoint, const std::string& csShaderTarget){
+
+	void Shader::BuildShader(const IDevice* pDevice,ID3D12RootSignature* pRootSignature){
+		m_d3dPipelineDesc.pRootSignature = pRootSignature;
+		pDevice->GetDevice()->CreateGraphicsPipelineState(&m_d3dPipelineDesc, IID_PPV_ARGS(m_d3dPipeLine.GetAddressOf()));
+	}
+
+	void Shader::CreateShader(ShaderType ShaderType_, const D3D_SHADER_MACRO* d3dShaderDefines, const std::string& ShaderEntry, const std::string& ShaderTarget){
 		UINT CompileFlags{ 0 };
 #if defined(DEBUG) || defined(_DEBUG)
 		CompileFlags = D3DCOMPILE_DEBUG bitor D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif // !defined(DEBUG) || defined(_DEBUG)
-		
 
-		ComPtr<ID3D10Blob> ByteCode{ nullptr };
+
 		ComPtr<ID3D10Blob> ErrorBlob{ nullptr };
 
 		HRESULT hr = S_OK;
-
-		hr = ::D3DCompileFromFile(m_tsPath.c_str(), d3dShaderDefines, D3D_COMPILE_STANDARD_FILE_INCLUDE, csEntryPoint.c_str(), csShaderTarget.c_str(), CompileFlags, 0, ByteCode.GetAddressOf(), ErrorBlob.GetAddressOf());
+			
+		hr = ::D3DCompileFromFile(m_path.c_str(), d3dShaderDefines, D3D_COMPILE_STANDARD_FILE_INCLUDE, ShaderEntry.c_str(), ShaderTarget.c_str(), CompileFlags, 0, m_shaderBytecodes[static_cast<UINT>(ShaderType_)].GetAddressOf(), ErrorBlob.GetAddressOf());
 		if (ErrorBlob != nullptr) ::OutputDebugStringA((char*)ErrorBlob->GetBufferPointer());
 		if (FAILED(hr)) throw System::Exeption(hr, _T("D3DCompileFromFile"), _T("Shader.cpp"), 0);
-
-		switch (ShaderType){
-		case EngineFramework::VertexShader:
-			m_d3dVertexShaderBlob = ByteCode;
-			break;
-		case EngineFramework::PixelShader:
-			m_d3dPixelShaderBlob = ByteCode;
-			break;
-		default:
-			break;
-		}
-	}
-
-	D3D12_SHADER_BYTECODE Shader::GetShaderByteCode(ShaderType ShaderType) const{
-		switch (ShaderType) {
+			
+		switch (ShaderType_){
 		case VertexShader:
-			return GetByteCode(m_d3dVertexShaderBlob);
-		case PixelShader:
-			return GetByteCode(m_d3dPixelShaderBlob);
+			m_d3dPipelineDesc.VS = D3D12_SHADER_BYTECODE{ m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferPointer(),m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferSize() };
+			break;
 		case HullShader:
-			return GetByteCode(m_d3dHullShaderBlob);
+			m_d3dPipelineDesc.HS = D3D12_SHADER_BYTECODE{ m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferPointer(),m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferSize() };
+			break;
 		case DomainShader:
-			return GetByteCode(m_d3dDomainShaderBlob);
+			m_d3dPipelineDesc.DS = D3D12_SHADER_BYTECODE{ m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferPointer(),m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferSize() };
+			break;
 		case GeometryShader:
-			return GetByteCode(m_d3dGeometryShaderBlob);
+			m_d3dPipelineDesc.GS = D3D12_SHADER_BYTECODE{ m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferPointer(),m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferSize() };
+			break;
+		case PixelShader:
+			m_d3dPipelineDesc.PS = D3D12_SHADER_BYTECODE{ m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferPointer(),m_shaderBytecodes[static_cast<UINT>(ShaderType_)]->GetBufferSize() };
+			break;
 		default:
-			return D3D12_SHADER_BYTECODE{ nullptr,0 };
+			break;
 		}
 	}
 
-	D3D12_SHADER_BYTECODE Shader::GetByteCode(ComPtr<ID3D10Blob> d3dBlob) const{
-		if (d3dBlob != nullptr) {
-			return D3D12_SHADER_BYTECODE{ reinterpret_cast<BYTE*>(d3dBlob->GetBufferPointer()), d3dBlob->GetBufferSize() };
-		}
-		else {
-			return D3D12_SHADER_BYTECODE{};
-		}
-		
+	void Shader::BindPipeLine(const ICommandList* pCommandList){
+		pCommandList->GetCommandList()->SetPipelineState(m_d3dPipeLine.Get());
 	}
-
-	void Shader::GetRegister(std::tstring path){
-
-		std::ifstream file{ path }; // "example.txt" 파일을 열습니다.
-		if (!file) {
-			OutputDebugString(_T("\nCan't Open the file\n"));
-			return;
-		}
-
-		std::string wordToFind = "register( s"; // 찾을 문구
-		std::string line;
-		int count = 0;
-
-		while (std::getline(file, line)) { // 파일의 각 줄을 읽습니다.
-			std::string::size_type pos = 0;
-			while ((pos = line.find(wordToFind, pos)) != std::string::npos) {
-				++count;
-				pos += wordToFind.length();
-			}
-		}
-
-		OutputDebugString(_T("\nFind : "));
-		OutputDebugString(std::to_wstring(count).c_str());
-		OutputDebugString(_T("\n"));
-
-	}
-
-
-
-	namespace TestBed {
-	
-		RegisterLibrary::RegisterLibrary(const std::string& ShaderFolderPath){
-			for (const auto& entry : fs::directory_iterator(ShaderFolderPath)) {
-				std::string RegisterWord{};
-				if (entry.is_regular_file() and entry.path().extension() == ".hlsl") {
-					FindRegisterInFile(entry.path().string());
-				}
-			}
-
-			for (auto iter = m_Lib.begin(); iter != m_Lib.end(); iter++) {
-				std::cout << iter->first << " " << iter->second.RegType << " " << iter->second.RegNum << std::endl;
-			}
-
-
-			m_Lib["test"];
-		}
-
-		RegisterLibrary::~RegisterLibrary(){}
-
-		void RegisterLibrary::FindRegisterInFile(const std::string& File){
-			std::ifstream in{ File, std::ios::app };
-			std::regex RegNoOneDigit("\\s*(\\w+)\\s*:\\s*register\\((.)(.)\\);");
-			std::regex RegNoTwoDigit("\\s*(\\w+)\\s*:\\s*register\\((.)(..)\\);");
-			std::string Line{};
-
-
-			while (std::getline(in, Line)) {
-
-				std::smatch match;
-
-				if (std::regex_search(Line, match, RegNoOneDigit) and match.size() > 3) {
-					std::string RegisterName = match.str(1);
-					CHAR RegisterType = match.str(2).at(0);
-					UINT RegisterNum = std::stoi(match.str(3));
-
-					m_Lib.insert(std::pair<std::string_view, RegisterProfile>(RegisterName, RegisterProfile{ RegisterType,RegisterNum }));
-				}
-				else if (std::regex_search(Line, match, RegNoTwoDigit) and match.size() > 3) {
-					std::string RegisterName = match.str(1);
-					CHAR RegisterType = match.str(2).at(0);
-					UINT RegisterNum = std::stoi(match.str(3));
-
-					m_Lib.insert(std::pair<std::string_view, RegisterProfile>(RegisterName, RegisterProfile{ RegisterType,RegisterNum }));
-				}
-				else {
-
-				}
-
-			}
-		}
-
-		RegisterProfile RegisterLibrary::GetRegister(const std::string& RegName){
-			if (!m_Lib.contains(RegName)) {
-				throw System::Exeption{ _T("RegisterProfile  :  Invalid RegName!") };
-			}
-			return m_Lib[RegName];
-		}
-
-
-
-
-
-
-	}
-
-
-	
-
-
 }
