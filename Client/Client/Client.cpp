@@ -16,13 +16,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #if defined(DEBUG) | defined(_DEBUG)
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     std::atexit([]() {
-        OutputDebugString(_T("\nMemory Dumped\n"));
         _CrtDumpMemoryLeaks();
         });
 #endif // !defined(DEBUG) | defined(_DEBUG)
-   // _CrtDbgReport(_CRT_ASSERT, __FILE__, __LINE__, "Client", NULL);
     
     m_app = std::make_unique<App::Application>(hInstance,_T("Client"));
+
     App::SetMainApplication(m_app.get());
     std::shared_ptr<EngineFramework::DirectXEngine> DxEngine = std::make_shared<EngineFramework::DirectXEngine>(m_app->GetWindowInfo(),false);
     

@@ -2,7 +2,18 @@
 
 namespace EngineFramework {
 	namespace Resource{
-		class TextureContainer : public DescriptorResourceContainer{
+		class TextureClone {
+		public:
+			TextureClone(ID3D12Resource* pResource, D3D12_SHADER_RESOURCE_VIEW_DESC SRVDesc) : m_pResource(pResource), m_SRVDesc(SRVDesc) {}
+		private:
+			ID3D12Resource* m_pResource{ nullptr };
+			D3D12_SHADER_RESOURCE_VIEW_DESC m_SRVDesc{};
+		public:
+			void MakeSRV(IDevice* pDevice,ID3D12DescriptorHeap* pDescriptorHeap,UINT nDescIndex);
+		};
+
+
+		class TextureContainer {
 		public:
 			TextureContainer();
 			TextureContainer(const ICommandList* pCommandList, const std::tstring& ctsPath);
@@ -10,16 +21,9 @@ namespace EngineFramework {
 		private:
 			ComPtr<ID3D12Resource> m_d3dTextureDefaultHeap{ nullptr };
 			ComPtr<ID3D12Resource> m_d3dTextureUploadHeap{ nullptr };
-			ComPtr<ID3D12DescriptorHeap> m_d3dSRVHeap{ nullptr };
-			D3D12_CPU_DESCRIPTOR_HANDLE m_d3dSRVHandle{};
-			const D3D12_DESCRIPTOR_RANGE_TYPE m_d3dResourceType{ D3D12_DESCRIPTOR_RANGE_TYPE_SRV };
-			DescriptorID m_nDescriptorID{ -1 };
+			D3D12_SHADER_RESOURCE_VIEW_DESC m_SRVDesc{};
 		public:
-			virtual DescriptorObject Clone() const override;
-			virtual void GetDescriptorID(IDescriptorTable* pDescriptorTable,UINT nShaderRegister) override;
+			TextureClone Clone() const noexcept;
 		};
-
-
-
 	}
 }

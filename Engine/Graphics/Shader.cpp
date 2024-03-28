@@ -25,7 +25,7 @@ namespace EngineFramework {
 	}
 
 	Shader::~Shader() {
-
+		
 	}
 
 
@@ -40,6 +40,7 @@ namespace EngineFramework {
 		CompileFlags = D3DCOMPILE_DEBUG bitor D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif // !defined(DEBUG) || defined(_DEBUG)
 
+		 
 
 		ComPtr<ID3D10Blob> ErrorBlob{ nullptr };
 

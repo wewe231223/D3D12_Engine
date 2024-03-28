@@ -84,4 +84,9 @@ namespace EngineFramework {
 		m_pCommandQueue->Sync();
 	}
 
+	HRESULT DirectXEngine::ProcessMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam){
+
+		return E_NOTIMPL;
+	}
+
 }

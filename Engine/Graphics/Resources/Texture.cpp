@@ -50,16 +50,13 @@ namespace EngineFramework {
 					IID_PPV_ARGS(m_d3dTextureUploadHeap.GetAddressOf())
 				)
 			);
-
-
-			D3D12_SHADER_RESOURCE_VIEW_DESC SRVDesc{};
-			SRVDesc.Format = Image.GetMetadata().format;
-			SRVDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-			SRVDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-			SRVDesc.Texture2D.MipLevels = 1;
-			Device->CreateShaderResourceView(m_d3dTextureDefaultHeap.Get(), &SRVDesc, m_d3dSRVHandle);
-
-
+			        
+		
+			m_SRVDesc.Format = Image.GetMetadata().format;
+			m_SRVDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+			m_SRVDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+			m_SRVDesc.Texture2D.MipLevels = 1;
+			
 			::UpdateSubresources(
 				pCommandList->GetCommandList().Get(),
 				m_d3dTextureDefaultHeap.Get(),
@@ -67,25 +64,23 @@ namespace EngineFramework {
 				0, 0, static_cast<UINT>(SubresourceData.size()),
 				SubresourceData.data());
 
-		
-
 			Device->Release();
-
-			
 		}
 
 		TextureContainer::~TextureContainer(){
 
 		}
 
-		DescriptorObject TextureContainer::Clone() const {
-			return DescriptorObject{ m_d3dSRVHandle,m_nDescriptorID };
+		TextureClone TextureContainer::Clone() const noexcept {
+			return TextureClone(m_d3dTextureDefaultHeap.Get(),m_SRVDesc);
 		}
 
-		void TextureContainer::GetDescriptorID(IDescriptorTable* pDescriptorTable,UINT nShaderRegister){
-			m_nDescriptorID = pDescriptorTable->CreateDescriptor(m_d3dResourceType, nShaderRegister);
-		}
 
+		void TextureClone::MakeSRV(IDevice* pDevice, ID3D12DescriptorHeap* pDescriptorHeap,UINT nDescIndex){
+			D3D12_CPU_DESCRIPTOR_HANDLE Handle{ pDescriptorHeap->GetCPUDescriptorHandleForHeapStart() };
+			Handle.ptr += pDevice->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * nDescIndex;
+			pDevice->GetDevice()->CreateShaderResourceView(m_pResource, &m_SRVDesc, Handle);
+		}
 
 	}
 }

@@ -49,12 +49,6 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{59906dba-ed94-4903-a71b-cd1e00419b86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\EngineCore\PipeLine">
-      <UniqueIdentifier>{5f8282ca-32a3-4a7f-a0be-2bf001dc833f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\EngineCore\PipeLine">
-      <UniqueIdentifier>{6b443d3d-b9b4-4812-9c78-21444b7d0ee9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\External\GUI">
       <UniqueIdentifier>{4572f7f8-c3dd-48e2-a82c-ce1397c5ee97}</UniqueIdentifier>
     </Filter>
@@ -63,6 +57,12 @@
     </Filter>
     <Filter Include="소스 파일\External\GUI">
       <UniqueIdentifier>{79b22be5-5617-4b07-bb04-544444a446dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\UI">
+      <UniqueIdentifier>{8ae4c0f1-8ca2-4ce7-8dc1-e2347cb926b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Graphics\UI">
+      <UniqueIdentifier>{f252daea-533a-4d62-be1c-8af6d819eb95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,26 +135,11 @@
     <ClInclude Include="EngineCore\ConstantBuffer.h">
       <Filter>헤더 파일\EngineCore</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\DescriptorTable.h">
-      <Filter>헤더 파일\EngineCore</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Object.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\PipeLineStateObject.h">
-      <Filter>헤더 파일\EngineCore\PipeLine</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineCore\RootSignature.h">
-      <Filter>헤더 파일\EngineCore\PipeLine</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Shader.h">
-      <Filter>헤더 파일\EngineCore\PipeLine</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Resources\Material.h">
       <Filter>헤더 파일\Graphics\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineCore\ShaderRegisterBlock.h">
-      <Filter>헤더 파일\EngineCore\PipeLine</Filter>
     </ClInclude>
     <ClInclude Include="External\Include\ImGUI\imconfig.h">
       <Filter>헤더 파일\External\GUI</Filter>
@@ -182,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="Graphics\IAInput.h">
       <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Shader.h">
+      <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\UI\MainUI.h">
+      <Filter>헤더 파일\Graphics\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,26 +230,11 @@
     <ClCompile Include="EngineCore\ConstantBuffer.cpp">
       <Filter>소스 파일\EngineCore</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\DescriptorTable.cpp">
-      <Filter>소스 파일\EngineCore</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Object.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\PipeLineStateObject.cpp">
-      <Filter>소스 파일\EngineCore\PipeLine</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCore\RootSignature.cpp">
-      <Filter>소스 파일\EngineCore\PipeLine</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Shader.cpp">
-      <Filter>소스 파일\EngineCore\PipeLine</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Resources\Material.cpp">
       <Filter>소스 파일\Graphics\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCore\ShaderRegisterBlock.cpp">
-      <Filter>소스 파일\EngineCore\PipeLine</Filter>
     </ClCompile>
     <ClCompile Include="External\Include\ImGUI\imgui.cpp">
       <Filter>소스 파일\External\GUI</Filter>
@@ -277,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="Graphics\IAInput.cpp">
       <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Shader.cpp">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\UI\MainUI.cpp">
+      <Filter>소스 파일\Graphics\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

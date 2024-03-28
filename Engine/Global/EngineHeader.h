@@ -106,12 +106,21 @@ namespace EngineFramework {
 	using DescriptorID = int;
 }
 
+
+#include <boost/hana/define_struct.hpp>
 struct Vertex {
-	DirectX::XMFLOAT3 Position{};
-	DirectX::XMFLOAT3 Normal{};
-	DirectX::XMFLOAT2 TexCoord{};
-	DirectX::XMFLOAT4 Color{};
+	BOOST_HANA_DEFINE_STRUCT(Vertex,
+		(DirectX::XMFLOAT3, Position),
+		(DirectX::XMFLOAT3, Normal),
+		(DirectX::XMFLOAT2, TexCoord),
+		(DirectX::XMFLOAT4, Color)
+	);
 };
+
+
+
+
+
 
 class DelPtr {
 public:

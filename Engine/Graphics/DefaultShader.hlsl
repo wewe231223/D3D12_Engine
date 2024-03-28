@@ -10,7 +10,7 @@ struct VS_IN
 Texture2D Tex1 : register(t0);
 Texture2D Tex2 : register(t1);
 SamplerState Sam1 : register(s0);
-  
+ 
 
 
 struct VS_OUT

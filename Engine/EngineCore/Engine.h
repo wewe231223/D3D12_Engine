@@ -9,6 +9,7 @@ namespace EngineFramework {
 		virtual void Render() PURE;
 		virtual void Update() PURE;
 		virtual void Resize() PURE;
+		virtual HRESULT ProcessMessage(HWND,UINT,WPARAM,LPARAM) PURE;
 	};
 
 	class DirectXEngine : public Engine {
@@ -31,5 +32,6 @@ namespace EngineFramework {
 		virtual void Render() override;
 		virtual void Update() override;
 		virtual void Resize() override;
+		virtual HRESULT ProcessMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	};
 }

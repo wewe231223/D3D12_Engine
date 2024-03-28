@@ -1,5 +1,4 @@
-#pragma once
-
+#pragma once 
 namespace EngineFramework {
     template <typename T, typename... Args>	
     concept ConstructibleFrom = requires(Args... args) {
@@ -12,17 +11,15 @@ namespace EngineFramework {
 	};
 
 	template<typename T>
-	concept SupportGetResourceType = requires(T ty) {
-		{ ty.GetResourceType() } -> std::same_as<D3D12_ROOT_PARAMETER>;
+	concept SupportRootSignature = requires(T ty) {
+		{ ty.GetRootSignature() } -> std::same_as<D3D12_ROOT_PARAMETER>;
 	};
 
 	template<typename T>
-	concept ValidResourceContainer = std::derived_from<T, DelPtr> and SupportClone<T> and SupportGetResourceType<T>;
+	concept SignatureContainer = std::derived_from<T, DelPtr> and SupportClone<T> and SupportRootSignature<T>;
 
 	template<typename T>
-	concept MeshContainer = std::derived_from<T, DelPtr> and SupportClone<T>;
-
-
+	concept ResourceContainer = std::derived_from<T, DelPtr> and SupportClone<T>;
 
 	class SceneSystem {
 	public:
@@ -34,11 +31,11 @@ namespace EngineFramework {
 		ComPtr<ID3D12RootSignature> m_d3dRootSignature{ nullptr };
 		std::unordered_map<std::string, std::unique_ptr<DelPtr>> m_resources{};
 	protected:
-		template<ValidResourceContainer T, typename... Args>
+		template<SignatureContainer T, typename... Args>
 		requires ConstructibleFrom<T,Args...>
 		void NewResource(std::string name, Args... args);
 
-		template<MeshContainer T,typename... Args>
+		template<ResourceContainer T,typename... Args>
 		requires ConstructibleFrom<T,Args...>
 		void NewResource(std::string name,Args... args);
 	private:
@@ -52,8 +49,10 @@ namespace EngineFramework {
 		ID3D12RootSignature* GetRootSignature();
 		ID3D12RootSignature* GetRootSignature(const IDevice* pDevice);
 	};
+
 	
-	template<ValidResourceContainer T, typename...Args>
+	
+	template<SignatureContainer T, typename...Args>
 		requires ConstructibleFrom<T, Args...>
 	inline void SceneSystem::NewResource(std::string name,Args ...args){
 		std::unique_ptr<T> Temp = std::make_unique<T>(args...);
@@ -64,7 +63,7 @@ namespace EngineFramework {
 		// TEMP is Dangling Pointer After Here 
 	}
 
-	template<MeshContainer T, typename...Args>
+	template<ResourceContainer T, typename...Args>
 		requires ConstructibleFrom<T, Args...>
 	inline void SceneSystem::NewResource(std::string name, Args ...args) {
 		std::unique_ptr<T> Temp = std::make_unique<T>(args...);
@@ -85,6 +84,8 @@ namespace EngineFramework {
 	* Material 을 
 	*/
 
+
+
 	// Scene 의 기본 토대만 작성해주고 나머지는 Client 에서 작성할수있도록 하자
 	class Scene : public SceneSystem{
 	public:
@@ -94,6 +95,8 @@ namespace EngineFramework {
 	private:
 		std::string m_sSceneName{};
 		std::unique_ptr<class Shader> m_shader{ nullptr };
+		std::unique_ptr<class Interface> m_inputLayout{ nullptr };
+		
 	public:
 		void Initialize(const IDevice* pDevice,const ICommandList* pCommandList);
 		void Render(const IDevice* pDevice,const ICommandList* pCommandList);

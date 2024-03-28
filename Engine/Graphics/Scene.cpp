@@ -1,12 +1,7 @@
 #include "EnginePch.h"
-#include "EngineCore/PipeLineStateObject.h"
-#include "EngineCore/RootSignature.h"
-#include "EngineCore/DescriptorTable.h"
-
 #include "Shader.h"
 #include "Scene.h"
 #include "EngineCore/CommandList.h"
-
 #include "Graphics/Resources/Mesh.h"
 #include "Graphics/IAInput.h"
 
@@ -15,6 +10,7 @@ namespace EngineFramework {
 	ID3D12RootSignature* SceneSystem::GetRootSignature(){
 		if (m_d3dRootSignature.Get() == nullptr) throw System::Exeption(_T("\n[Scene System] : Any Root Signature Exist!\n"));
 		return m_d3dRootSignature.Get();
+
 	}
 
 	ID3D12RootSignature* SceneSystem::GetRootSignature(const IDevice* pDevice) {
@@ -36,7 +32,9 @@ namespace EngineFramework {
 	}
 
 	Scene::Scene(const std::string& ctsSceneName) : m_sSceneName(ctsSceneName){
-		m_shader = std::make_unique<Shader>(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"), IAInputLayout::GetInputLayout<Vertex>());
+		m_inputLayout = std::make_unique<InputLayout<Vertex>>();
+		
+		m_shader = std::make_unique<Shader>(_T("..\\Engine\\Graphics\\DefaultShader.hlsl"),m_inputLayout->GetLayout());
 		m_shader->CreateShader(VertexShader, nullptr, "VS_Main", "vs_5_1");
 		m_shader->CreateShader(PixelShader, nullptr, "PS_Main", "ps_5_1");
 	}
@@ -82,11 +80,13 @@ namespace EngineFramework {
 		NewResource<Resource::Mesh>("Test",pCommandList, vec, indexVec);
 
 		m_shader->BuildShader(pDevice, GetRootSignature(pDevice));
+
+
 	}
+
 
 	void Scene::Render(const IDevice* pDevice,const ICommandList* pCommandList){
 		m_shader->BindPipeLine(pCommandList);
-		//pCommandList->GetCommandList()->SetGraphicsRootSignature(m_rootSignature->GetRootSignature().Get());
 		pCommandList->GetCommandList()->SetGraphicsRootSignature(GetRootSignature());
 
 		Resource::MeshClone C{ GetResourceClone<Resource::Mesh>("Test") };
@@ -94,6 +94,11 @@ namespace EngineFramework {
 
 		pCommandList->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
+
+		
+
+
+	
 	}
 
 
@@ -103,3 +108,4 @@ namespace EngineFramework {
 
 
 }
+

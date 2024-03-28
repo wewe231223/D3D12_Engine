@@ -23,14 +23,10 @@
     <ClInclude Include="EngineCore\CommandQueue.h" />
     <ClInclude Include="EngineCore\ConstantBuffer.h" />
     <ClInclude Include="EngineCore\DepthStencil.h" />
-    <ClInclude Include="EngineCore\DescriptorTable.h" />
     <ClInclude Include="EngineCore\Device.h" />
     <ClInclude Include="EngineCore\Engine.h" />
     <ClInclude Include="EngineCore\EngineInterface.h" />
-    <ClInclude Include="EngineCore\PipeLineStateObject.h" />
     <ClInclude Include="EngineCore\RenderTarget.h" />
-    <ClInclude Include="EngineCore\RootSignature.h" />
-    <ClInclude Include="EngineCore\ShaderRegisterBlock.h" />
     <ClInclude Include="EngineCore\SwapChain.h" />
     <ClInclude Include="External\Include\d3dx12.h" />
     <ClInclude Include="External\Include\DirectXTex.h" />
@@ -52,6 +48,7 @@
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Graphics\Scene.h" />
     <ClInclude Include="Graphics\Shader.h" />
+    <ClInclude Include="Graphics\UI\MainUI.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="System\Application.h" />
     <ClInclude Include="System\Exeption.h" />
@@ -64,14 +61,10 @@
     <ClCompile Include="EngineCore\CommandQueue.cpp" />
     <ClCompile Include="EngineCore\ConstantBuffer.cpp" />
     <ClCompile Include="EngineCore\DepthStencil.cpp" />
-    <ClCompile Include="EngineCore\DescriptorTable.cpp" />
     <ClCompile Include="EngineCore\Device.cpp" />
     <ClCompile Include="EngineCore\Engine.cpp" />
     <ClCompile Include="EngineCore\EngineInterface.cpp" />
-    <ClCompile Include="EngineCore\PipeLineStateObject.cpp" />
     <ClCompile Include="EngineCore\RenderTarget.cpp" />
-    <ClCompile Include="EngineCore\RootSignature.cpp" />
-    <ClCompile Include="EngineCore\ShaderRegisterBlock.cpp" />
     <ClCompile Include="EngineCore\SwapChain.cpp" />
     <ClCompile Include="External\Include\ImGUI\imgui.cpp" />
     <ClCompile Include="External\Include\ImGUI\imgui_demo.cpp" />
@@ -86,6 +79,7 @@
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
     <ClCompile Include="Graphics\Scene.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
+    <ClCompile Include="Graphics\UI\MainUI.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="System\Application.cpp" />
     <ClCompile Include="System\Exeption.cpp" />
@@ -163,7 +157,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir);$(IncludePath);$(ProjectDir)External\Include</IncludePath>
+    <IncludePath>$(ProjectDir);$(IncludePath);$(ProjectDir)External\Include;$(BoostDir)</IncludePath>
+    <LibraryPath>$(BoostDir)stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
@@ -210,6 +205,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalOptions>/Ylsymbol %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
